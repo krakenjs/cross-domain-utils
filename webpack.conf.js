@@ -1,7 +1,7 @@
 import webpack from 'webpack';
 
-export let FILE_NAME = 'mylibrary';
-export let MODULE_NAME = 'mylibrary';
+export let FILE_NAME = 'cross-domain-utils';
+export let MODULE_NAME = 'crossDomainUtils';
 
 function getWebpackConfig(filename) {
 

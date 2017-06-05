@@ -1,5 +1,5 @@
 {
-  "name": "grumbler",
+  "name": "cross-domain-utils",
   "version": "1.0.0",
   "description": "Javascript module template.",
   "main": "index.js",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/krakenjs/grumbler.git"
+    "url": "git://github.com/krakenjs/cross-domain-utils.git"
   },
   "keywords": [
     "template"
