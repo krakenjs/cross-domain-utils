@@ -45,16 +45,17 @@ module.exports = function(config) {
 
             resolve: {
                 modules: [
+                    __dirname,
                     'node_modules'
                 ]
             },
 
             module: {
-                loaders: [
+                rules: [
                     {
                         test: /\.js$/,
                         exclude: /(dist|chai)/,
-                        loader: 'babel',
+                        loader: 'babel-loader',
                         query: {
                             presets: ['es2015'],
                             plugins: [

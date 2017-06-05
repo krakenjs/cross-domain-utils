@@ -1,4 +1,5 @@
 import webpack from 'webpack';
+import UglifyJSPlugin from 'uglifyjs-webpack-plugin';
 
 export let FILE_NAME = 'cross-domain-utils';
 export let MODULE_NAME = 'crossDomainUtils';
@@ -6,8 +7,16 @@ export let MODULE_NAME = 'crossDomainUtils';
 function getWebpackConfig(filename) {
 
     return {
+
+      resolve: {
+        modules: [
+          __dirname,
+          'node_modules'
+        ]
+      },
+
       module: {
-        loaders: [
+        rules: [
           {
             test: /sinon\.js$/,
             loader: "imports?define=>false,require=>false"
@@ -15,7 +24,7 @@ function getWebpackConfig(filename) {
           {
             test: /\.js$/,
             exclude: /(dist)/,
-            loader: 'babel'
+            loader: 'babel-loader'
           },
           {
             test: /\.(html?|css|json)$/,
@@ -34,11 +43,15 @@ function getWebpackConfig(filename) {
       devtool: 'source-map',
       plugins: [
         new webpack.optimize.UglifyJsPlugin({
-          test: /\.js$/,
-          beautify: true,
-          minimize: false,
-          compress: false,
-          mangle: false
+            test: /\.js$/,
+            beautify: true,
+            minimize: false,
+            compress: {
+                warnings: false,
+                sequences: false
+            },
+            mangle: false,
+            sourceMap: true
         }),
         new webpack.DefinePlugin({
             __TEST__: false
@@ -53,9 +66,19 @@ function getWebpackConfigMin(filename) {
     let config = getWebpackConfig(filename);
 
     config.plugins = [
-        new webpack.optimize.UglifyJsPlugin({
+        new webpack.SourceMapDevToolPlugin({
+             filename: '[file].map'
+        }),
+        new UglifyJSPlugin({
             test: /\.js$/,
-            minimize: true
+            beautify: false,
+            minimize: true,
+            compress: {
+                warnings: false,
+                sequences: true
+            },
+            mangle: true,
+            sourceMap: true
         }),
         new webpack.DefinePlugin({
             __TEST__: false
