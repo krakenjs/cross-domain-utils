@@ -69,7 +69,11 @@ export function getDomain(win) {
 export function isActuallySameDomain(win) {
 
     if (global.domainMatches.has(win)) {
-        return global.domainMatches.get(win);
+        let match = global.domainMatches.get(win);
+
+        if (match) {
+            return true;
+        }
     }
 
     let match = false;
