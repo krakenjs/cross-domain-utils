@@ -73,5 +73,7 @@
     "webpack-stream": "^3.2.0",
     "yargs": "^8.0.1"
   },
-  "dependencies": {}
+  "dependencies": {
+    "cross-domain-safe-weakmap": "^1.0.9"
+  }
 }
