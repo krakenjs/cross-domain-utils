@@ -42,7 +42,14 @@ function getWebpackConfig(filename) {
       bail: true,
       devtool: 'source-map',
       plugins: [
-        new webpack.optimize.UglifyJsPlugin({
+        new webpack.SourceMapDevToolPlugin({
+            filename: '[file].map'
+        }),
+        new webpack.DefinePlugin({
+            __TEST__: false
+        }),
+        new webpack.NamedModulesPlugin(),
+        new UglifyJSPlugin({
             test: /\.js$/,
             beautify: true,
             minimize: false,
@@ -52,11 +59,7 @@ function getWebpackConfig(filename) {
             },
             mangle: false,
             sourceMap: true
-        }),
-        new webpack.DefinePlugin({
-            __TEST__: false
-        }),
-        new webpack.NamedModulesPlugin()
+        })
       ]
     };
 }
@@ -69,6 +72,10 @@ function getWebpackConfigMin(filename) {
         new webpack.SourceMapDevToolPlugin({
              filename: '[file].map'
         }),
+        new webpack.DefinePlugin({
+            __TEST__: false
+        }),
+        new webpack.NamedModulesPlugin(),
         new UglifyJSPlugin({
             test: /\.js$/,
             beautify: false,
@@ -79,9 +86,6 @@ function getWebpackConfigMin(filename) {
             },
             mangle: true,
             sourceMap: true
-        }),
-        new webpack.DefinePlugin({
-            __TEST__: false
         })
     ];
 
