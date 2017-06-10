@@ -400,33 +400,35 @@
                 return false;
             }
         };
-        export function matchDomain(domain, origin) {
-            if (typeof domain === "string") {
+        export function matchDomain(pattern, origin) {
+            if (typeof pattern === "string") {
+                if (typeof origin === "string") {
+                    return pattern === CONSTANTS.WILDCARD || origin === pattern;
+                }
                 if (isRegex(origin)) {
                     return false;
                 }
                 if (Array.isArray(origin)) {
                     return false;
                 }
-                return domain === CONSTANTS.WILDCARD || origin === domain;
             }
-            if (isRegex(domain)) {
+            if (isRegex(pattern)) {
                 if (isRegex(origin)) {
-                    return domain.toString() === origin.toString();
+                    return pattern.toString() === origin.toString();
                 }
                 if (Array.isArray(origin)) {
                     return false;
                 }
-                return origin.match(domain);
+                return Boolean(origin.match(pattern));
             }
-            if (Array.isArray(domain)) {
+            if (Array.isArray(pattern)) {
+                if (Array.isArray(origin)) {
+                    return JSON.stringify(pattern) === JSON.stringify(origin);
+                }
                 if (isRegex(origin)) {
                     return false;
                 }
-                if (Array.isArray(origin)) {
-                    return JSON.stringify(domain) === JSON.stringify(origin);
-                }
-                return domain.indexOf(origin) !== -1;
+                return pattern.some(subpattern => matchDomain(subpattern, origin));
             }
             return false;
         };
