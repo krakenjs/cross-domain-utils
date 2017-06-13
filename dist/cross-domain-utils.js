@@ -19,10 +19,7 @@
         __webpack_require__.p = "";
         return __webpack_require__(0);
     }([ function(module, exports) {
-        import { WeakMap } from "cross-domain-safe-weakmap/src";
         import { isRegex } from "./util";
-        let global = window.__crossDomainUtils__ = window.__crossDomainUtils__ || {};
-        global.domainMatches = global.domainMatches || new WeakMap();
         export function getActualDomain(win) {
             let location = win.location;
             if (!location) {
@@ -50,35 +47,29 @@
             return domain;
         };
         export function isActuallySameDomain(win) {
-            if (global.domainMatches.has(win)) {
-                let match = global.domainMatches.get(win);
-                if (match) {
-                    return true;
+            try {
+                let desc = Object.getOwnPropertyDescriptor(win, "location");
+                if (desc && desc.enumerable === false) {
+                    return false;
                 }
-            }
-            let match = false;
+            } catch (err) {}
             try {
                 if (getActualDomain(win) === getActualDomain(window)) {
-                    match = true;
+                    return true;
                 }
             } catch (err) {}
-            if (!match) {
-                setWindowMatch(win, match);
-            }
-            return match;
+            return false;
         };
         export function isSameDomain(win) {
-            if (global.domainMatches.has(win)) {
-                return global.domainMatches.get(win);
+            if (!isActuallySameDomain(win)) {
+                return false;
             }
-            let match = false;
             try {
                 if (getDomain(window) === getDomain(win)) {
-                    match = true;
+                    return true;
                 }
             } catch (err) {}
-            setWindowMatch(win, match);
-            return match;
+            return false;
         };
         export function getParent(win) {
             if (!win) {
