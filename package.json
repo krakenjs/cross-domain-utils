@@ -1,6 +1,6 @@
 {
   "name": "cross-domain-utils",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Javascript module template.",
   "main": "index.js",
   "scripts": {
@@ -73,7 +73,5 @@
     "webpack-stream": "^3.2.0",
     "yargs": "^8.0.1"
   },
-  "dependencies": {
-      
-  }
+  "dependencies": {}
 }
