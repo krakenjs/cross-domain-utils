@@ -74,6 +74,6 @@
     "yargs": "^8.0.1"
   },
   "dependencies": {
-    "cross-domain-safe-weakmap": "^1.0.9"
+      
   }
 }

@@ -12,9 +12,6 @@ if ! git diff-index --quiet --cached HEAD; then
     exit 1;
 fi;
 
-rm -rf node_modules/cross-domain-safe-weakmap
-npm install cross-domain-safe-weakmap
-
 gulp build;
 
 git add dist;

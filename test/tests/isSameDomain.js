@@ -106,94 +106,67 @@ describe('isSameDomain cases', () => {
         }
     });
 
-    it('should only get procotol and host for a given window once during a domain lookup', () => {
+    it('should give a negative result for isSameDomain when location is non-enumerable', () => {
 
-        let locationGet = 0;
-        let protocolGet = 0;
-        let hostGet = 0;
+        let win = {};
 
-        let win = {
-            get location() {
-                locationGet += 1;
-                return {
-                    get protocol() {
-                        protocolGet += 1;
-                        return 'https:';
-                    },
-                    get host() {
-                        hostGet += 1;
-                        return 'foobar.com:12345';
-                    }
-                };
-            }
-        };
+        Object.defineProperty(win, 'location', {
+            value: {
+                protocol: window.location.protocol,
+                host: window.location.host
+            },
+            enumerable: false
+        });
 
-        isSameDomain(win);
-        isSameDomain(win);
-        isSameDomain(win);
-        isSameDomain(win);
+        let result = isSameDomain(win);
+        let expectedResult = false;
 
-        if (locationGet !== 1) {
-            throw new Error(`Expected win.location to have been accessed 1 time, got ${locationGet} times`);
-        }
-
-        if (protocolGet !== 1) {
-            throw new Error(`Expected win.location.protocol to have been accessed 1 time, got ${protocolGet} times`);
-        }
-
-        if (hostGet !== 1) {
-            throw new Error(`Expected win.location.host to have been accessed 1 time, got ${hostGet} times`);
+        if (result !== expectedResult) {
+            throw new Error(`Expected isSameDomain result to be "${expectedResult.toString()}", got "${result.toString()}"`);
         }
     });
 
-    it('should  get procotol and host for a given window multiple times if looked up after a delay', (done) => {
+    it('should give a positive result for isSameDomain when mockDomain matches', () => {
 
-        let locationGet = 0;
-        let protocolGet = 0;
-        let hostGet = 0;
+        window.mockDomain = 'mock://foobar.com:12345';
 
         let win = {
-            get location() {
-                locationGet += 1;
-                return {
-                    get protocol() {
-                        protocolGet += 1;
-                        return 'https:';
-                    },
-                    get host() {
-                        hostGet += 1;
-                        return 'foobar.com:12345';
-                    }
-                };
-            }
+            location: {
+                protocol: window.location.protocol,
+                host: window.location.host
+            },
+            mockDomain: 'mock://foobar.com:12345'
         };
 
-        isSameDomain(win);
-        isSameDomain(win);
-        isSameDomain(win);
-        isSameDomain(win);
+        let result = isSameDomain(win);
+        let expectedResult = true;
 
-        setTimeout(() => {
+        if (result !== expectedResult) {
+            throw new Error(`Expected isSameDomain result to be "${expectedResult.toString()}", got "${result.toString()}"`);
+        }
 
-            isSameDomain(win);
-            isSameDomain(win);
-            isSameDomain(win);
-            isSameDomain(win);
+        delete window.mockDomain;
+    });
 
-            if (locationGet !== 2) {
-                return done(new Error(`Expected win.location to have been accessed 1 time, got ${locationGet} times`));
-            }
+    it('should give a negative result for isSameDomain when mockDomain does not match', () => {
 
-            if (protocolGet !== 2) {
-                return done(new Error(`Expected win.location.protocol to have been accessed 1 time, got ${protocolGet} times`));
-            }
+        window.mockDomain = 'mock://fizzbuzz.com:345';
 
-            if (hostGet !== 2) {
-                return done(new Error(`Expected win.location.host to have been accessed 1 time, got ${hostGet} times`));
-            }
+        let win = {
+            location: {
+                protocol: window.location.protocol,
+                host: window.location.host
+            },
+            mockDomain: 'mock://foobar.com:12345'
+        };
 
-            return done();
+        let result = isSameDomain(win);
+        let expectedResult = false;
 
-        }, 10);
+        if (result !== expectedResult) {
+            throw new Error(`Expected isSameDomain result to be "${expectedResult.toString()}", got "${result.toString()}"`);
+        }
+
+        delete window.mockDomain;
     });
 });

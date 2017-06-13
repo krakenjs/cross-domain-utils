@@ -1,24 +1,5 @@
 
-import { WeakMap } from 'cross-domain-safe-weakmap/src';
 import { isRegex } from './util';
-
-let global = window.__crossDomainUtils__ = window.__crossDomainUtils__ || {};
-global.domainMatches = global.domainMatches || new WeakMap();
-
-let domainMatchTimeout;
-
-function setWindowMatch(win, match) {
-
-    global.domainMatches = global.domainMatches || new WeakMap();
-    global.domainMatches.set(win, match);
-
-    if (!domainMatchTimeout) {
-        domainMatchTimeout = setTimeout(() => {
-            global.domainMatches = new WeakMap();
-            domainMatchTimeout = null;
-        }, 1);
-    }
-}
 
 const CONSTANTS = {
     MOCK_PROTOCOL: 'mock:',
@@ -68,50 +49,43 @@ export function getDomain(win) {
 
 export function isActuallySameDomain(win) {
 
-    if (global.domainMatches.has(win)) {
-        let match = global.domainMatches.get(win);
+    try {
+        let desc = Object.getOwnPropertyDescriptor(win, 'location');
 
-        if (match) {
-            return true;
+        if (desc && desc.enumerable === false) {
+            return false;
         }
-    }
 
-    let match = false;
+    } catch (err) {
+        // pass
+    }
 
     try {
         if (getActualDomain(win) === getActualDomain(window)) {
-            match = true;
+            return true;
         }
     } catch (err) {
         // pass
     }
 
-    if (!match) {
-        setWindowMatch(win, match);
-    }
-
-    return match;
+    return false;
 }
 
 export function isSameDomain(win) {
 
-    if (global.domainMatches.has(win)) {
-        return global.domainMatches.get(win);
+    if (!isActuallySameDomain(win)) {
+        return false;
     }
-
-    let match = false;
 
     try {
         if (getDomain(window) === getDomain(win)) {
-            match = true;
+            return true;
         }
     } catch (err) {
         // pass
     }
 
-    setWindowMatch(win, match);
-
-    return match;
+    return false;
 }
 
 export function getParent(win) {
