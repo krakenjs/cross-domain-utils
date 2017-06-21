@@ -623,3 +623,18 @@ export function matchDomain(pattern, origin) {
 
     return false;
 }
+
+export function getDomainFromUrl(url) {
+
+    let domain;
+
+    if (url.match(/^(https?|mock|file):\/\//)) {
+        domain = url;
+    } else {
+        return getDomain();
+    }
+
+    domain = domain.split('/').slice(0, 3).join('/');
+
+    return domain;
+}
