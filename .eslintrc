@@ -27,8 +27,7 @@
         "document": true,
         "Promise": false,
         "performance": true,
-        "assert": true,
-        "__TEST__": true
+        "assert": true
     },
 
     "fix": true,
@@ -286,7 +285,7 @@
             "never"
         ],
         "flowtype/no-primitive-constructor-types": 2,
-        "flowtype/no-weak-types": 2,
+        "flowtype/no-weak-types": 0,
         "flowtype/object-type-delimiter": [
             2,
             "comma"
