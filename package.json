@@ -18,6 +18,7 @@
     "flow:build:fornow": "./node_modules/.bin/flow-copy-source ./src ./dist/module",
     "clean": "rimraf dist coverage",
     "reinstall": "rimraf node_modules && npm install",
+    "release": "./publish.sh",
     "release:patch": "./publish.sh patch",
     "release:minor": "./publish.sh minor",
     "release:major": "./publish.sh major",
