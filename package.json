@@ -5,7 +5,6 @@
   "main": "dist/cross-domain-utils.js",
   "module": "dist/module/index.js",
   "scripts": {
-    "postinstall": "flow-typed install",
     "build": "npm run babel & npm run webpack && npm run flow:build:fornow",
     "webpack": "babel-node --presets es2015 ./node_modules/.bin/webpack --progress --output-path dist",
     "babel": "babel src/ --out-dir dist/module",
