@@ -12,7 +12,7 @@ if ! git diff-index --quiet --cached HEAD; then
     exit 1;
 fi;
 
-gulp build;
+npm run build;
 
 git add dist;
 git commit -m "Dist" || echo "Nothing to distribute";
