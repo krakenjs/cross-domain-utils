@@ -1,9 +1,22 @@
 {
-  "presets": ["es2015"],
   "plugins": [
-    "transform-flow-strip-types",
-    "transform-es3-property-literals",
-    "transform-es3-member-expression-literals",
-    ["transform-es2015-for-of", {"loose": true}]
-  ]
+      "transform-flow-strip-types",
+      "transform-es3-property-literals",
+      "transform-es3-member-expression-literals",
+      ["transform-es2015-for-of", {"loose": true}]
+    ],
+  "env": {
+    "production":{
+      "presets": [["es2015", {"modules": false}]]
+    },
+    "test": {
+      "presets": ["es2015"],
+      "plugins": [
+        ["flow-runtime", {
+            "assert": true,
+            "annotate": true
+        }]
+      ]
+    }
+  }
 }

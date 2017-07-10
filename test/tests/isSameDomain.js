@@ -1,6 +1,7 @@
 /* @flow */
 
 import { isSameDomain } from 'src/index';
+import { describe, it } from 'mocha';
 
 describe('isSameDomain cases', () => {
 

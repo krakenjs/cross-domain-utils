@@ -1,3 +1,4 @@
+// @flow
 
 import { isRegex } from './util';
 
@@ -7,7 +8,7 @@ const CONSTANTS = {
     WILDCARD: '*'
 };
 
-export function getActualDomain(win) {
+export function getActualDomain(win : any) {
 
     let location = win.location;
 
@@ -34,8 +35,8 @@ export function getActualDomain(win) {
     return `${protocol}//${host}`;
 }
 
-export function getDomain(win) {
-
+export function getDomain(win : any) {
+    
     win = win || window;
 
     let domain = getActualDomain(win);
@@ -47,7 +48,7 @@ export function getDomain(win) {
     return domain;
 }
 
-export function isActuallySameDomain(win) {
+export function isActuallySameDomain(win : any) {
 
     try {
         let desc = Object.getOwnPropertyDescriptor(win, 'location');
@@ -71,7 +72,7 @@ export function isActuallySameDomain(win) {
     return false;
 }
 
-export function isSameDomain(win) {
+export function isSameDomain(win : any) {
 
     if (!isActuallySameDomain(win)) {
         return false;
@@ -88,7 +89,7 @@ export function isSameDomain(win) {
     return false;
 }
 
-export function getParent(win) {
+export function getParent(win : any) {
 
     if (!win) {
         return;
@@ -103,7 +104,7 @@ export function getParent(win) {
     }
 }
 
-export function getOpener(win) {
+export function getOpener(win : any) {
 
     if (!win) {
         return;
@@ -123,7 +124,7 @@ export function getOpener(win) {
 
 
 
-export function getParents(win) {
+export function getParents(win : any) {
 
     let result = [];
 
@@ -141,8 +142,8 @@ export function getParents(win) {
     return result;
 }
 
-export function isAncestorParent(parent, child) {
-
+export function isAncestorParent(parent : any, child : any) {
+    
     if (!parent || !child) {
         return false;
     }
@@ -160,7 +161,7 @@ export function isAncestorParent(parent, child) {
     return false;
 }
 
-export function getFrames(win) {
+export function getFrames(win : any) {
 
     let result = [];
 
@@ -221,7 +222,7 @@ export function getFrames(win) {
 }
 
 
-export function getAllChildFrames(win) {
+export function getAllChildFrames(win : any) {
 
     let result = [];
 
@@ -236,7 +237,7 @@ export function getAllChildFrames(win) {
     return result;
 }
 
-export function getAllFramesInWindow(win) {
+export function getAllFramesInWindow(win : any) {
 
     let result = getAllChildFrames(win);
 
@@ -257,7 +258,7 @@ export function getAllFramesInWindow(win) {
     return result;
 }
 
-export function getTop(win) {
+export function getTop(win : any) {
 
     if (!win) {
         return;
@@ -307,7 +308,7 @@ export function getTop(win) {
 }
 
 
-export function isWindowClosed(win, allowMock = true) {
+export function isWindowClosed(win : any, allowMock : boolean = true) {
 
     try {
         if (win === window) {
@@ -368,13 +369,13 @@ export function isWindowClosed(win, allowMock = true) {
     return false;
 }
 
-export function getUserAgent(win) {
+export function getUserAgent(win : any) {
     win = win || window;
     return win.navigator.mockUserAgent || win.navigator.userAgent;
 }
 
 
-export function getFrameByName(win, name) {
+export function getFrameByName(win : any, name : string) {
 
     let winFrames = getFrames(win);
 
@@ -405,7 +406,7 @@ export function getFrameByName(win, name) {
     }
 }
 
-export function findChildFrameByName(win, name) {
+export function findChildFrameByName(win : any, name : string) {
 
     let frame = getFrameByName(win, name);
 
@@ -422,7 +423,7 @@ export function findChildFrameByName(win, name) {
     }
 }
 
-export function findFrameByName(win, name) {
+export function findFrameByName(win : any, name : string) {
 
     let frame;
 
@@ -435,7 +436,7 @@ export function findFrameByName(win, name) {
     return findChildFrameByName(getTop(win), name);
 }
 
-export function isParent(win, frame) {
+export function isParent(win : any, frame : any) {
 
     let frameParent = getParent(frame);
 
@@ -452,12 +453,12 @@ export function isParent(win, frame) {
     return false;
 }
 
-export function isOpener(parent, child) {
+export function isOpener(parent : any, child : any) {
 
     return parent === getOpener(child);
 }
 
-export function getAncestor(win) {
+export function getAncestor(win : any) {
     win = win || window;
 
     let opener = getOpener(win);
@@ -473,7 +474,7 @@ export function getAncestor(win) {
     }
 }
 
-export function getAncestors(win) {
+export function getAncestors(win : any) {
 
     let results = [];
 
@@ -490,7 +491,7 @@ export function getAncestors(win) {
 }
 
 
-export function isAncestor(parent, child) {
+export function isAncestor(parent : any, child : any) {
 
     let actualParent = getAncestor(child);
 
@@ -542,7 +543,7 @@ function anyMatch(collection1, collection2) {
     }
 }
 
-export function isSameTopWindow(win1, win2) {
+export function isSameTopWindow(win1 : any, win2 : any) {
 
     let top1 = getTop(win1);
     let top2 = getTop(win2);
@@ -578,7 +579,7 @@ export function isSameTopWindow(win1, win2) {
     }
 }
 
-export function matchDomain(pattern, origin) {
+export function matchDomain(pattern : any, origin : any) {
 
     if (typeof pattern === 'string') {
 
@@ -624,7 +625,7 @@ export function matchDomain(pattern, origin) {
     return false;
 }
 
-export function getDomainFromUrl(url) {
+export function getDomainFromUrl(url : string) {
 
     let domain;
 

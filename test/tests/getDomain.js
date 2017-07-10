@@ -1,6 +1,7 @@
 /* @flow */
 
 import { getDomain } from 'src/index';
+import { describe, it } from 'mocha';
 
 describe('getDomain cases', () => {
 

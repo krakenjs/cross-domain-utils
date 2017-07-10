@@ -2,6 +2,7 @@
 
 import { assert } from 'chai';
 import { matchDomain } from 'src/index';
+import { describe, it } from 'mocha';
 
 describe('match domain', () => {
     describe('returns true when', () => {
