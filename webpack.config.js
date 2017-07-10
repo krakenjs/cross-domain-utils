@@ -50,7 +50,7 @@ export let testConfig = Object.assign({}, defaultWebpackConfig, {
                     presets: ["es2015"]
                 }
             },
-            
+
             {
                 test: /\.js$/,
                 // enforce: 'post',
@@ -72,8 +72,10 @@ export let webConfig = Object.assign({}, defaultWebpackConfig, {
     devtool: 'source-map',
     output: {
         filename: FILE_NAME + '.js',
-        pathinfo: false,
-        library: MODULE_NAME
+        libraryTarget: 'umd',
+        umdNamedDefine: true,
+        library: MODULE_NAME,
+        pathinfo: false
     },
     plugins: [
         new webpack.optimize.ModuleConcatenationPlugin(),
