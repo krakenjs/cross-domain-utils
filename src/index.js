@@ -36,7 +36,7 @@ export function getActualDomain(win : any) {
 }
 
 export function getDomain(win : any) {
-    
+
     win = win || window;
 
     let domain = getActualDomain(win);
@@ -143,7 +143,7 @@ export function getParents(win : any) {
 }
 
 export function isAncestorParent(parent : any, child : any) {
-    
+
     if (!parent || !child) {
         return false;
     }
@@ -305,6 +305,10 @@ export function getTop(win : any) {
             return frame;
         }
     }
+}
+
+export function isTop(win : any) : boolean {
+    return win === getTop(win);
 }
 
 
@@ -541,6 +545,30 @@ function anyMatch(collection1, collection2) {
             }
         }
     }
+}
+
+export function getDistanceFromTop(win : any = window) {
+    let distance = 0;
+
+    while (win) {
+        win = getParent(win);
+        if (win) {
+            distance += 1;
+        }
+    }
+
+    return distance;
+}
+
+export function getNthParent(win : any, n : number = 1) {
+    for (let i = 0; i < n; i++) {
+        win = getParent(win);
+    }
+    return win;
+}
+
+export function getNthParentFromTop(win : any, n : number = 1) {
+    return getNthParent(win, getDistanceFromTop(win) - n);
 }
 
 export function isSameTopWindow(win1 : any, win2 : any) {
