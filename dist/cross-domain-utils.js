@@ -96,6 +96,7 @@ exports.getFrames = getFrames;
 exports.getAllChildFrames = getAllChildFrames;
 exports.getAllFramesInWindow = getAllFramesInWindow;
 exports.getTop = getTop;
+exports.isTop = isTop;
 exports.isWindowClosed = isWindowClosed;
 exports.getUserAgent = getUserAgent;
 exports.getFrameByName = getFrameByName;
@@ -109,6 +110,9 @@ exports.isAncestor = isAncestor;
 exports.isPopup = isPopup;
 exports.isIframe = isIframe;
 exports.isFullpage = isFullpage;
+exports.getDistanceFromTop = getDistanceFromTop;
+exports.getNthParent = getNthParent;
+exports.getNthParentFromTop = getNthParentFromTop;
 exports.isSameTopWindow = isSameTopWindow;
 exports.matchDomain = matchDomain;
 exports.getDomainFromUrl = getDomainFromUrl;
@@ -520,6 +524,10 @@ function getTop(win) {
     }
 }
 
+function isTop(win) {
+    return win === getTop(win);
+}
+
 function isWindowClosed(win) {
     var allowMock = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
 
@@ -873,6 +881,36 @@ function anyMatch(collection1, collection2) {
             }
         }
     }
+}
+
+function getDistanceFromTop() {
+    var win = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : window;
+
+    var distance = 0;
+
+    while (win) {
+        win = getParent(win);
+        if (win) {
+            distance += 1;
+        }
+    }
+
+    return distance;
+}
+
+function getNthParent(win) {
+    var n = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+
+    for (var i = 0; i < n; i++) {
+        win = getParent(win);
+    }
+    return win;
+}
+
+function getNthParentFromTop(win) {
+    var n = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+
+    return getNthParent(win, getDistanceFromTop(win) - n);
 }
 
 function isSameTopWindow(win1, win2) {

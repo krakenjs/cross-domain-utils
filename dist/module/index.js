@@ -1,6 +1,6 @@
 import { isRegex } from './util';
 
-const CONSTANTS = {
+var CONSTANTS = {
     MOCK_PROTOCOL: 'mock:',
     FILE_PROTOCOL: 'file:',
     WILDCARD: '*'
@@ -8,36 +8,36 @@ const CONSTANTS = {
 
 export function getActualDomain(win) {
 
-    let location = win.location;
+    var location = win.location;
 
     if (!location) {
-        throw new Error(`Can not read window location`);
+        throw new Error('Can not read window location');
     }
 
-    let protocol = location.protocol;
+    var protocol = location.protocol;
 
     if (!protocol) {
-        throw new Error(`Can not read window protocol`);
+        throw new Error('Can not read window protocol');
     }
 
     if (protocol === CONSTANTS.FILE_PROTOCOL) {
         return 'file://';
     }
 
-    let host = location.host;
+    var host = location.host;
 
     if (!host) {
-        throw new Error(`Can not read window host`);
+        throw new Error('Can not read window host');
     }
 
-    return `${protocol}//${host}`;
+    return protocol + '//' + host;
 }
 
 export function getDomain(win) {
 
     win = win || window;
 
-    let domain = getActualDomain(win);
+    var domain = getActualDomain(win);
 
     if (domain && win.mockDomain && win.mockDomain.indexOf(CONSTANTS.MOCK_PROTOCOL) === 0) {
         return win.mockDomain;
@@ -49,7 +49,7 @@ export function getDomain(win) {
 export function isActuallySameDomain(win) {
 
     try {
-        let desc = Object.getOwnPropertyDescriptor(win, 'location');
+        var desc = Object.getOwnPropertyDescriptor(win, 'location');
 
         if (desc && desc.enumerable === false) {
             return false;
@@ -121,7 +121,7 @@ export function getOpener(win) {
 
 export function getParents(win) {
 
-    let result = [];
+    var result = [];
 
     try {
 
@@ -142,7 +142,7 @@ export function isAncestorParent(parent, child) {
         return false;
     }
 
-    let childParent = getParent(child);
+    var childParent = getParent(child);
 
     if (childParent) {
         return childParent === parent;
@@ -157,9 +157,9 @@ export function isAncestorParent(parent, child) {
 
 export function getFrames(win) {
 
-    let result = [];
+    var result = [];
 
-    let frames;
+    var frames = void 0;
 
     try {
         frames = win.frames;
@@ -167,7 +167,7 @@ export function getFrames(win) {
         frames = win;
     }
 
-    let len;
+    var len = void 0;
 
     try {
         len = frames.length;
@@ -180,9 +180,9 @@ export function getFrames(win) {
     }
 
     if (len) {
-        for (let i = 0; i < len; i++) {
+        for (var i = 0; i < len; i++) {
 
-            let frame;
+            var frame = void 0;
 
             try {
                 frame = frames[i];
@@ -196,20 +196,20 @@ export function getFrames(win) {
         return result;
     }
 
-    for (let i = 0; i < 100; i++) {
-        let frame;
+    for (var _i = 0; _i < 100; _i++) {
+        var _frame = void 0;
 
         try {
-            frame = frames[i];
+            _frame = frames[_i];
         } catch (err) {
             return result;
         }
 
-        if (!frame) {
+        if (!_frame) {
             return result;
         }
 
-        result.push(frame);
+        result.push(_frame);
     }
 
     return result;
@@ -217,37 +217,37 @@ export function getFrames(win) {
 
 export function getAllChildFrames(win) {
 
-    let result = [];
+    var result = [];
 
-    for (var _iterator = getFrames(win), _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
+    for (var _iterator = getFrames(win), _isArray = Array.isArray(_iterator), _i2 = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
         var _ref;
 
         if (_isArray) {
-            if (_i >= _iterator.length) break;
-            _ref = _iterator[_i++];
+            if (_i2 >= _iterator.length) break;
+            _ref = _iterator[_i2++];
         } else {
-            _i = _iterator.next();
-            if (_i.done) break;
-            _ref = _i.value;
+            _i2 = _iterator.next();
+            if (_i2.done) break;
+            _ref = _i2.value;
         }
 
-        let frame = _ref;
+        var frame = _ref;
 
         result.push(frame);
 
-        for (var _iterator2 = getAllChildFrames(frame), _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _iterator2[Symbol.iterator]();;) {
+        for (var _iterator2 = getAllChildFrames(frame), _isArray2 = Array.isArray(_iterator2), _i3 = 0, _iterator2 = _isArray2 ? _iterator2 : _iterator2[Symbol.iterator]();;) {
             var _ref2;
 
             if (_isArray2) {
-                if (_i2 >= _iterator2.length) break;
-                _ref2 = _iterator2[_i2++];
+                if (_i3 >= _iterator2.length) break;
+                _ref2 = _iterator2[_i3++];
             } else {
-                _i2 = _iterator2.next();
-                if (_i2.done) break;
-                _ref2 = _i2.value;
+                _i3 = _iterator2.next();
+                if (_i3.done) break;
+                _ref2 = _i3.value;
             }
 
-            let childFrame = _ref2;
+            var childFrame = _ref2;
 
             result.push(childFrame);
         }
@@ -258,40 +258,40 @@ export function getAllChildFrames(win) {
 
 export function getAllFramesInWindow(win) {
 
-    let result = getAllChildFrames(win);
+    var result = getAllChildFrames(win);
 
     result.push(win);
 
-    for (var _iterator3 = getParents(win), _isArray3 = Array.isArray(_iterator3), _i3 = 0, _iterator3 = _isArray3 ? _iterator3 : _iterator3[Symbol.iterator]();;) {
+    for (var _iterator3 = getParents(win), _isArray3 = Array.isArray(_iterator3), _i4 = 0, _iterator3 = _isArray3 ? _iterator3 : _iterator3[Symbol.iterator]();;) {
         var _ref3;
 
         if (_isArray3) {
-            if (_i3 >= _iterator3.length) break;
-            _ref3 = _iterator3[_i3++];
+            if (_i4 >= _iterator3.length) break;
+            _ref3 = _iterator3[_i4++];
         } else {
-            _i3 = _iterator3.next();
-            if (_i3.done) break;
-            _ref3 = _i3.value;
+            _i4 = _iterator3.next();
+            if (_i4.done) break;
+            _ref3 = _i4.value;
         }
 
-        let parent = _ref3;
+        var parent = _ref3;
 
 
         result.push(parent);
 
-        for (var _iterator4 = getFrames(parent), _isArray4 = Array.isArray(_iterator4), _i4 = 0, _iterator4 = _isArray4 ? _iterator4 : _iterator4[Symbol.iterator]();;) {
+        for (var _iterator4 = getFrames(parent), _isArray4 = Array.isArray(_iterator4), _i5 = 0, _iterator4 = _isArray4 ? _iterator4 : _iterator4[Symbol.iterator]();;) {
             var _ref4;
 
             if (_isArray4) {
-                if (_i4 >= _iterator4.length) break;
-                _ref4 = _iterator4[_i4++];
+                if (_i5 >= _iterator4.length) break;
+                _ref4 = _iterator4[_i5++];
             } else {
-                _i4 = _iterator4.next();
-                if (_i4.done) break;
-                _ref4 = _i4.value;
+                _i5 = _iterator4.next();
+                if (_i5.done) break;
+                _ref4 = _i5.value;
             }
 
-            let frame = _ref4;
+            var frame = _ref4;
 
 
             if (result.indexOf(frame) === -1) {
@@ -337,19 +337,19 @@ export function getTop(win) {
         // pass
     }
 
-    for (var _iterator5 = getAllChildFrames(win), _isArray5 = Array.isArray(_iterator5), _i5 = 0, _iterator5 = _isArray5 ? _iterator5 : _iterator5[Symbol.iterator]();;) {
+    for (var _iterator5 = getAllChildFrames(win), _isArray5 = Array.isArray(_iterator5), _i6 = 0, _iterator5 = _isArray5 ? _iterator5 : _iterator5[Symbol.iterator]();;) {
         var _ref5;
 
         if (_isArray5) {
-            if (_i5 >= _iterator5.length) break;
-            _ref5 = _iterator5[_i5++];
+            if (_i6 >= _iterator5.length) break;
+            _ref5 = _iterator5[_i6++];
         } else {
-            _i5 = _iterator5.next();
-            if (_i5.done) break;
-            _ref5 = _i5.value;
+            _i6 = _iterator5.next();
+            if (_i6.done) break;
+            _ref5 = _i6.value;
         }
 
-        let frame = _ref5;
+        var frame = _ref5;
 
         try {
             if (frame.top) {
@@ -365,7 +365,13 @@ export function getTop(win) {
     }
 }
 
-export function isWindowClosed(win, allowMock = true) {
+export function isTop(win) {
+    return win === getTop(win);
+}
+
+export function isWindowClosed(win) {
+    var allowMock = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
 
     try {
         if (win === window) {
@@ -428,21 +434,21 @@ export function getUserAgent(win) {
 
 export function getFrameByName(win, name) {
 
-    let winFrames = getFrames(win);
+    var winFrames = getFrames(win);
 
-    for (var _iterator6 = winFrames, _isArray6 = Array.isArray(_iterator6), _i6 = 0, _iterator6 = _isArray6 ? _iterator6 : _iterator6[Symbol.iterator]();;) {
+    for (var _iterator6 = winFrames, _isArray6 = Array.isArray(_iterator6), _i7 = 0, _iterator6 = _isArray6 ? _iterator6 : _iterator6[Symbol.iterator]();;) {
         var _ref6;
 
         if (_isArray6) {
-            if (_i6 >= _iterator6.length) break;
-            _ref6 = _iterator6[_i6++];
+            if (_i7 >= _iterator6.length) break;
+            _ref6 = _iterator6[_i7++];
         } else {
-            _i6 = _iterator6.next();
-            if (_i6.done) break;
-            _ref6 = _i6.value;
+            _i7 = _iterator6.next();
+            if (_i7.done) break;
+            _ref6 = _i7.value;
         }
 
-        let childFrame = _ref6;
+        var childFrame = _ref6;
 
         try {
             if (isSameDomain(childFrame) && childFrame.name === name && winFrames.indexOf(childFrame) !== -1) {
@@ -472,27 +478,27 @@ export function getFrameByName(win, name) {
 
 export function findChildFrameByName(win, name) {
 
-    let frame = getFrameByName(win, name);
+    var frame = getFrameByName(win, name);
 
     if (frame) {
         return frame;
     }
 
-    for (var _iterator7 = getFrames(win), _isArray7 = Array.isArray(_iterator7), _i7 = 0, _iterator7 = _isArray7 ? _iterator7 : _iterator7[Symbol.iterator]();;) {
+    for (var _iterator7 = getFrames(win), _isArray7 = Array.isArray(_iterator7), _i8 = 0, _iterator7 = _isArray7 ? _iterator7 : _iterator7[Symbol.iterator]();;) {
         var _ref7;
 
         if (_isArray7) {
-            if (_i7 >= _iterator7.length) break;
-            _ref7 = _iterator7[_i7++];
+            if (_i8 >= _iterator7.length) break;
+            _ref7 = _iterator7[_i8++];
         } else {
-            _i7 = _iterator7.next();
-            if (_i7.done) break;
-            _ref7 = _i7.value;
+            _i8 = _iterator7.next();
+            if (_i8.done) break;
+            _ref7 = _i8.value;
         }
 
-        let childFrame = _ref7;
+        var childFrame = _ref7;
 
-        let namedFrame = findChildFrameByName(childFrame, name);
+        var namedFrame = findChildFrameByName(childFrame, name);
 
         if (namedFrame) {
             return namedFrame;
@@ -502,7 +508,7 @@ export function findChildFrameByName(win, name) {
 
 export function findFrameByName(win, name) {
 
-    let frame;
+    var frame = void 0;
 
     frame = getFrameByName(win, name);
 
@@ -515,25 +521,25 @@ export function findFrameByName(win, name) {
 
 export function isParent(win, frame) {
 
-    let frameParent = getParent(frame);
+    var frameParent = getParent(frame);
 
     if (frameParent) {
         return frameParent === win;
     }
 
-    for (var _iterator8 = getFrames(win), _isArray8 = Array.isArray(_iterator8), _i8 = 0, _iterator8 = _isArray8 ? _iterator8 : _iterator8[Symbol.iterator]();;) {
+    for (var _iterator8 = getFrames(win), _isArray8 = Array.isArray(_iterator8), _i9 = 0, _iterator8 = _isArray8 ? _iterator8 : _iterator8[Symbol.iterator]();;) {
         var _ref8;
 
         if (_isArray8) {
-            if (_i8 >= _iterator8.length) break;
-            _ref8 = _iterator8[_i8++];
+            if (_i9 >= _iterator8.length) break;
+            _ref8 = _iterator8[_i9++];
         } else {
-            _i8 = _iterator8.next();
-            if (_i8.done) break;
-            _ref8 = _i8.value;
+            _i9 = _iterator8.next();
+            if (_i9.done) break;
+            _ref8 = _i9.value;
         }
 
-        let childFrame = _ref8;
+        var childFrame = _ref8;
 
         if (childFrame === frame) {
             return true;
@@ -551,13 +557,13 @@ export function isOpener(parent, child) {
 export function getAncestor(win) {
     win = win || window;
 
-    let opener = getOpener(win);
+    var opener = getOpener(win);
 
     if (opener) {
         return opener;
     }
 
-    let parent = getParent(win);
+    var parent = getParent(win);
 
     if (parent) {
         return parent;
@@ -566,9 +572,9 @@ export function getAncestor(win) {
 
 export function getAncestors(win) {
 
-    let results = [];
+    var results = [];
 
-    let ancestor = win;
+    var ancestor = win;
 
     while (ancestor) {
         ancestor = getAncestor(ancestor);
@@ -582,7 +588,7 @@ export function getAncestors(win) {
 
 export function isAncestor(parent, child) {
 
-    let actualParent = getAncestor(child);
+    var actualParent = getAncestor(child);
 
     if (actualParent) {
         if (actualParent === parent) {
@@ -600,19 +606,19 @@ export function isAncestor(parent, child) {
         return false;
     }
 
-    for (var _iterator9 = getFrames(parent), _isArray9 = Array.isArray(_iterator9), _i9 = 0, _iterator9 = _isArray9 ? _iterator9 : _iterator9[Symbol.iterator]();;) {
+    for (var _iterator9 = getFrames(parent), _isArray9 = Array.isArray(_iterator9), _i10 = 0, _iterator9 = _isArray9 ? _iterator9 : _iterator9[Symbol.iterator]();;) {
         var _ref9;
 
         if (_isArray9) {
-            if (_i9 >= _iterator9.length) break;
-            _ref9 = _iterator9[_i9++];
+            if (_i10 >= _iterator9.length) break;
+            _ref9 = _iterator9[_i10++];
         } else {
-            _i9 = _iterator9.next();
-            if (_i9.done) break;
-            _ref9 = _i9.value;
+            _i10 = _iterator9.next();
+            if (_i10.done) break;
+            _ref9 = _i10.value;
         }
 
-        let frame = _ref9;
+        var frame = _ref9;
 
         if (frame === child) {
             return true;
@@ -636,33 +642,33 @@ export function isFullpage() {
 
 function anyMatch(collection1, collection2) {
 
-    for (var _iterator10 = collection1, _isArray10 = Array.isArray(_iterator10), _i10 = 0, _iterator10 = _isArray10 ? _iterator10 : _iterator10[Symbol.iterator]();;) {
+    for (var _iterator10 = collection1, _isArray10 = Array.isArray(_iterator10), _i11 = 0, _iterator10 = _isArray10 ? _iterator10 : _iterator10[Symbol.iterator]();;) {
         var _ref10;
 
         if (_isArray10) {
-            if (_i10 >= _iterator10.length) break;
-            _ref10 = _iterator10[_i10++];
+            if (_i11 >= _iterator10.length) break;
+            _ref10 = _iterator10[_i11++];
         } else {
-            _i10 = _iterator10.next();
-            if (_i10.done) break;
-            _ref10 = _i10.value;
+            _i11 = _iterator10.next();
+            if (_i11.done) break;
+            _ref10 = _i11.value;
         }
 
-        let item1 = _ref10;
+        var item1 = _ref10;
 
-        for (var _iterator11 = collection2, _isArray11 = Array.isArray(_iterator11), _i11 = 0, _iterator11 = _isArray11 ? _iterator11 : _iterator11[Symbol.iterator]();;) {
+        for (var _iterator11 = collection2, _isArray11 = Array.isArray(_iterator11), _i12 = 0, _iterator11 = _isArray11 ? _iterator11 : _iterator11[Symbol.iterator]();;) {
             var _ref11;
 
             if (_isArray11) {
-                if (_i11 >= _iterator11.length) break;
-                _ref11 = _iterator11[_i11++];
+                if (_i12 >= _iterator11.length) break;
+                _ref11 = _iterator11[_i12++];
             } else {
-                _i11 = _iterator11.next();
-                if (_i11.done) break;
-                _ref11 = _i11.value;
+                _i12 = _iterator11.next();
+                if (_i12.done) break;
+                _ref11 = _i12.value;
             }
 
-            let item2 = _ref11;
+            var item2 = _ref11;
 
             if (item1 === item2) {
                 return true;
@@ -671,10 +677,40 @@ function anyMatch(collection1, collection2) {
     }
 }
 
+export function getDistanceFromTop() {
+    var win = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : window;
+
+    var distance = 0;
+
+    while (win) {
+        win = getParent(win);
+        if (win) {
+            distance += 1;
+        }
+    }
+
+    return distance;
+}
+
+export function getNthParent(win) {
+    var n = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+
+    for (var i = 0; i < n; i++) {
+        win = getParent(win);
+    }
+    return win;
+}
+
+export function getNthParentFromTop(win) {
+    var n = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+
+    return getNthParent(win, getDistanceFromTop(win) - n);
+}
+
 export function isSameTopWindow(win1, win2) {
 
-    let top1 = getTop(win1);
-    let top2 = getTop(win2);
+    var top1 = getTop(win1);
+    var top2 = getTop(win2);
 
     try {
         if (top1 && top2) {
@@ -688,15 +724,15 @@ export function isSameTopWindow(win1, win2) {
         // pass
     }
 
-    let allFrames1 = getAllFramesInWindow(win1);
-    let allFrames2 = getAllFramesInWindow(win2);
+    var allFrames1 = getAllFramesInWindow(win1);
+    var allFrames2 = getAllFramesInWindow(win2);
 
     if (anyMatch(allFrames1, allFrames2)) {
         return true;
     }
 
-    let opener1 = getOpener(top1);
-    let opener2 = getOpener(top2);
+    var opener1 = getOpener(top1);
+    var opener2 = getOpener(top2);
 
     if (opener1 && anyMatch(getAllFramesInWindow(opener1), allFrames2)) {
         return false;
@@ -747,7 +783,9 @@ export function matchDomain(pattern, origin) {
             return false;
         }
 
-        return pattern.some(subpattern => matchDomain(subpattern, origin));
+        return pattern.some(function (subpattern) {
+            return matchDomain(subpattern, origin);
+        });
     }
 
     return false;
@@ -755,7 +793,7 @@ export function matchDomain(pattern, origin) {
 
 export function getDomainFromUrl(url) {
 
-    let domain;
+    var domain = void 0;
 
     if (url.match(/^(https?|mock|file):\/\//)) {
         domain = url;
