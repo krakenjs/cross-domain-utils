@@ -1,17 +1,21 @@
 {
-  "plugins": [
-      "transform-flow-strip-types",
-      "transform-es3-property-literals",
-      "transform-es3-member-expression-literals",
-      ["transform-es2015-for-of", {"loose": true}]
-    ],
   "env": {
     "production":{
-      "presets": [["es2015", {"modules": false}]]
+      "presets": [["es2015", {"modules": false}]],
+      "plugins": [
+        "transform-flow-strip-types",
+        "transform-es3-property-literals",
+        "transform-es3-member-expression-literals",
+        ["transform-es2015-for-of", {"loose": true}]
+      ]
     },
     "test": {
       "presets": ["es2015"],
       "plugins": [
+        "transform-flow-strip-types",
+        "transform-es3-property-literals",
+        "transform-es3-member-expression-literals",
+        ["transform-es2015-for-of", {"loose": true}],
         ["flow-runtime", {
             "assert": true,
             "annotate": true
