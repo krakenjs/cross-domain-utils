@@ -23,6 +23,7 @@ declare export function getUserAgent(win: any): any;
 declare export function isActuallySameDomain(win: any): boolean;
 declare export function isAncestor(parent: any, child: any): boolean;
 declare export function isAncestorParent(parent: any, child: any): boolean;
+declare export function isBlankDomain(win: any): boolean;
 declare export function isFullpage(): boolean;
 declare export function isIframe(): boolean;
 declare export function isOpener(parent: any, child: any): boolean;

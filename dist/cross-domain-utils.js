@@ -86,6 +86,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getActualDomain = getActualDomain;
 exports.getDomain = getDomain;
+exports.isBlankDomain = isBlankDomain;
 exports.isActuallySameDomain = isActuallySameDomain;
 exports.isSameDomain = isSameDomain;
 exports.getParent = getParent;
@@ -165,6 +166,22 @@ function getDomain(win) {
     return domain;
 }
 
+function isBlankDomain(win) {
+    try {
+        if (!win.location.href) {
+            return true;
+        }
+
+        if (win.location.href === 'about:blank') {
+            return true;
+        }
+    } catch (err) {
+        // pass
+    }
+
+    return false;
+}
+
 function isActuallySameDomain(win) {
 
     try {
@@ -178,6 +195,10 @@ function isActuallySameDomain(win) {
     }
 
     try {
+        if (isBlankDomain(win)) {
+            return true;
+        }
+
         if (getActualDomain(win) === getActualDomain(window)) {
             return true;
         }
@@ -195,6 +216,11 @@ function isSameDomain(win) {
     }
 
     try {
+
+        if (isBlankDomain(win)) {
+            return true;
+        }
+
         if (getDomain(window) === getDomain(win)) {
             return true;
         }
