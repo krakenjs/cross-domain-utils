@@ -48,6 +48,22 @@ export function getDomain(win : any) {
     return domain;
 }
 
+export function isBlankDomain(win : any) {
+    try {
+        if (!win.location.href) {
+            return true;
+        }
+
+        if (win.location.href === 'about:blank') {
+            return true;
+        }
+    } catch (err) {
+        // pass
+    }
+
+    return false;
+}
+
 export function isActuallySameDomain(win : any) {
 
     try {
@@ -62,9 +78,14 @@ export function isActuallySameDomain(win : any) {
     }
 
     try {
+        if (isBlankDomain(win)) {
+            return true;
+        }
+
         if (getActualDomain(win) === getActualDomain(window)) {
             return true;
         }
+
     } catch (err) {
         // pass
     }
@@ -79,9 +100,15 @@ export function isSameDomain(win : any) {
     }
 
     try {
+
+        if (isBlankDomain(win)) {
+            return true;
+        }
+
         if (getDomain(window) === getDomain(win)) {
             return true;
         }
+
     } catch (err) {
         // pass
     }
