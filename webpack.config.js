@@ -14,11 +14,8 @@ export let defaultWebpackConfig = {
     module: {
         rules: [ {
             test: /\.js$/,
-            exclude: /(node_modules)/,
-            loader: 'babel-loader',
-            options: {
-                presets: ["es2015"]
-            }
+            exclude: /(sinon|chai|diff)/,
+            loader: 'babel-loader'
         } ]
     },
     resolve: {
@@ -44,11 +41,8 @@ export let testConfig = Object.assign({}, defaultWebpackConfig, {
         rules: [
             {
                 test: /\.js$/,
-                exclude: /(node_modules)/,
-                loader: 'babel-loader',
-                options: {
-                    presets: ["es2015"]
-                }
+                exclude: /(sinon|chai|diff)/,
+                loader: 'babel-loader'
             },
 
             {

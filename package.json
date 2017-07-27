@@ -47,6 +47,8 @@
     "babel-loader": "^7.0.0",
     "babel-plugin-flow-runtime": "^0.11.1",
     "babel-plugin-istanbul": "^4.1.4",
+    "babel-plugin-syntax-flow": "^6.18.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-es2015-for-of": "^6.23.0",
     "babel-plugin-transform-es3-member-expression-literals": "^6.22.0",
     "babel-plugin-transform-es3-property-literals": "^6.22.0",
@@ -57,7 +59,7 @@
     "cross-env": "^5.0.1",
     "eslint": "^3",
     "eslint-plugin-flowtype": "^2.30.0",
-    "flow-bin": "^0.47.0",
+    "flow-bin": "^0.51.0",
     "flow-runtime": "^0.12.0",
     "flow-typed": "^2.1.2",
     "istanbul-instrumenter-loader": "^3.0.0-beta.0",
@@ -81,5 +83,7 @@
     "webpack": "^3.0.0",
     "yargs": "^8.0.1"
   },
-  "dependencies": {}
+  "dependencies": {
+    "cross-domain-safe-weakmap": "^1.0.10"
+  }
 }
