@@ -31,6 +31,13 @@ describe('isSameDomain cases', () => {
             }
         };
 
+        // $FlowFixMe
+        Object.defineProperty(win.location, 'href', {
+            get() {
+                return `${win.location.protocol}//${win.location.host}`;
+            }
+        });
+
         let result = isSameDomain(win);
         let expectedResult = false;
 
@@ -47,6 +54,13 @@ describe('isSameDomain cases', () => {
                 host: 'foobar.com:12345'
             }
         };
+
+        // $FlowFixMe
+        Object.defineProperty(win.location, 'href', {
+            get() {
+                return `${win.location.protocol}//${win.location.host}`;
+            }
+        });
 
         let result = isSameDomain(win);
         let expectedResult = false;
@@ -65,6 +79,13 @@ describe('isSameDomain cases', () => {
             }
         };
 
+        // $FlowFixMe
+        Object.defineProperty(win.location, 'href', {
+            get() {
+                return `${win.location.protocol}//${win.location.host}`;
+            }
+        });
+
         let result = isSameDomain(win);
         let expectedResult = false;
 
@@ -82,6 +103,13 @@ describe('isSameDomain cases', () => {
             }
         };
 
+        // $FlowFixMe
+        Object.defineProperty(win.location, 'href', {
+            get() {
+                return `${win.location.protocol}//${win.location.host}`;
+            }
+        });
+
         let result = isSameDomain(win);
         let expectedResult = false;
 
@@ -98,6 +126,13 @@ describe('isSameDomain cases', () => {
                 get host() { throw new Error('error'); }
             }
         };
+
+        // $FlowFixMe
+        Object.defineProperty(win.location, 'href', {
+            get() {
+                return `${win.location.protocol}//${win.location.host}`;
+            }
+        });
 
         let result = isSameDomain(win);
         let expectedResult = false;
@@ -117,6 +152,13 @@ describe('isSameDomain cases', () => {
                 host: window.location.host
             },
             enumerable: false
+        });
+
+        // $FlowFixMe
+        Object.defineProperty(win.location, 'href', {
+            get() {
+                return `${win.location.protocol}//${win.location.host}`;
+            }
         });
 
         let result = isSameDomain(win);
@@ -139,6 +181,13 @@ describe('isSameDomain cases', () => {
             mockDomain: 'mock://foobar.com:12345'
         };
 
+        // $FlowFixMe
+        Object.defineProperty(win.location, 'href', {
+            get() {
+                return `${win.location.protocol}//${win.location.host}`;
+            }
+        });
+
         let result = isSameDomain(win);
         let expectedResult = true;
 
@@ -160,6 +209,13 @@ describe('isSameDomain cases', () => {
             },
             mockDomain: 'mock://foobar.com:12345'
         };
+
+        // $FlowFixMe
+        Object.defineProperty(win.location, 'href', {
+            get() {
+                return `${win.location.protocol}//${win.location.host}`;
+            }
+        });
 
         let result = isSameDomain(win);
         let expectedResult = false;
