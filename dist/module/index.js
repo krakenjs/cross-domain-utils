@@ -1,4 +1,46 @@
-import { isRegex } from './util';
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.getActualDomain = getActualDomain;
+exports.getDomain = getDomain;
+exports.isBlankDomain = isBlankDomain;
+exports.isActuallySameDomain = isActuallySameDomain;
+exports.isSameDomain = isSameDomain;
+exports.getParent = getParent;
+exports.getOpener = getOpener;
+exports.getParents = getParents;
+exports.isAncestorParent = isAncestorParent;
+exports.getFrames = getFrames;
+exports.getAllChildFrames = getAllChildFrames;
+exports.getAllFramesInWindow = getAllFramesInWindow;
+exports.getTop = getTop;
+exports.isTop = isTop;
+exports.linkFrameWindow = linkFrameWindow;
+exports.isWindowClosed = isWindowClosed;
+exports.getUserAgent = getUserAgent;
+exports.getFrameByName = getFrameByName;
+exports.findChildFrameByName = findChildFrameByName;
+exports.findFrameByName = findFrameByName;
+exports.isParent = isParent;
+exports.isOpener = isOpener;
+exports.getAncestor = getAncestor;
+exports.getAncestors = getAncestors;
+exports.isAncestor = isAncestor;
+exports.isPopup = isPopup;
+exports.isIframe = isIframe;
+exports.isFullpage = isFullpage;
+exports.getDistanceFromTop = getDistanceFromTop;
+exports.getNthParent = getNthParent;
+exports.getNthParentFromTop = getNthParentFromTop;
+exports.isSameTopWindow = isSameTopWindow;
+exports.matchDomain = matchDomain;
+exports.getDomainFromUrl = getDomainFromUrl;
+
+var _src = require('cross-domain-safe-weakmap/src');
+
+var _util = require('./util');
 
 var CONSTANTS = {
     MOCK_PROTOCOL: 'mock:',
@@ -6,7 +48,7 @@ var CONSTANTS = {
     WILDCARD: '*'
 };
 
-export function getActualDomain(win) {
+function getActualDomain(win) {
 
     var location = win.location;
 
@@ -33,7 +75,7 @@ export function getActualDomain(win) {
     return protocol + '//' + host;
 }
 
-export function getDomain(win) {
+function getDomain(win) {
 
     win = win || window;
 
@@ -46,7 +88,7 @@ export function getDomain(win) {
     return domain;
 }
 
-export function isBlankDomain(win) {
+function isBlankDomain(win) {
     try {
         if (!win.location.href) {
             return true;
@@ -62,7 +104,7 @@ export function isBlankDomain(win) {
     return false;
 }
 
-export function isActuallySameDomain(win) {
+function isActuallySameDomain(win) {
 
     try {
         var desc = Object.getOwnPropertyDescriptor(win, 'location');
@@ -89,7 +131,7 @@ export function isActuallySameDomain(win) {
     return false;
 }
 
-export function isSameDomain(win) {
+function isSameDomain(win) {
 
     if (!isActuallySameDomain(win)) {
         return false;
@@ -111,7 +153,7 @@ export function isSameDomain(win) {
     return false;
 }
 
-export function getParent(win) {
+function getParent(win) {
 
     if (!win) {
         return;
@@ -126,7 +168,7 @@ export function getParent(win) {
     }
 }
 
-export function getOpener(win) {
+function getOpener(win) {
 
     if (!win) {
         return;
@@ -144,7 +186,7 @@ export function getOpener(win) {
     }
 }
 
-export function getParents(win) {
+function getParents(win) {
 
     var result = [];
 
@@ -161,7 +203,7 @@ export function getParents(win) {
     return result;
 }
 
-export function isAncestorParent(parent, child) {
+function isAncestorParent(parent, child) {
 
     if (!parent || !child) {
         return false;
@@ -180,7 +222,7 @@ export function isAncestorParent(parent, child) {
     return false;
 }
 
-export function getFrames(win) {
+function getFrames(win) {
 
     var result = [];
 
@@ -240,7 +282,7 @@ export function getFrames(win) {
     return result;
 }
 
-export function getAllChildFrames(win) {
+function getAllChildFrames(win) {
 
     var result = [];
 
@@ -281,7 +323,7 @@ export function getAllChildFrames(win) {
     return result;
 }
 
-export function getAllFramesInWindow(win) {
+function getAllFramesInWindow(win) {
 
     var result = getAllChildFrames(win);
 
@@ -328,7 +370,7 @@ export function getAllFramesInWindow(win) {
     return result;
 }
 
-export function getTop(win) {
+function getTop(win) {
 
     if (!win) {
         return;
@@ -390,11 +432,23 @@ export function getTop(win) {
     }
 }
 
-export function isTop(win) {
+function isTop(win) {
     return win === getTop(win);
 }
 
-export function isWindowClosed(win) {
+var iframeWindows = new _src.WeakMap();
+
+function linkFrameWindow(frame) {
+    if (frame && frame.contentWindow) {
+        try {
+            iframeWindows.set(frame.contentWindow, frame);
+        } catch (err) {
+            // pass
+        }
+    }
+}
+
+function isWindowClosed(win) {
     var allowMock = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
 
 
@@ -445,6 +499,32 @@ export function isWindowClosed(win) {
         if (!win.parent || !win.top) {
             return true;
         }
+    } catch (err) {}
+    // pass
+
+
+    // IE orphaned frame
+
+    try {
+        if (iframeWindows.has(win)) {
+            var frame = iframeWindows.get(win);
+
+            if (frame) {
+                if (!frame.contentWindow) {
+                    return true;
+                }
+
+                if (!frame.parentNode) {
+                    return true;
+                }
+
+                var doc = frame.ownerDocument;
+
+                if (doc && doc.body && !doc.body.contains(frame)) {
+                    return true;
+                }
+            }
+        }
     } catch (err) {
         // pass
     }
@@ -452,12 +532,12 @@ export function isWindowClosed(win) {
     return false;
 }
 
-export function getUserAgent(win) {
+function getUserAgent(win) {
     win = win || window;
     return win.navigator.mockUserAgent || win.navigator.userAgent;
 }
 
-export function getFrameByName(win, name) {
+function getFrameByName(win, name) {
 
     var winFrames = getFrames(win);
 
@@ -501,7 +581,7 @@ export function getFrameByName(win, name) {
     }
 }
 
-export function findChildFrameByName(win, name) {
+function findChildFrameByName(win, name) {
 
     var frame = getFrameByName(win, name);
 
@@ -531,7 +611,7 @@ export function findChildFrameByName(win, name) {
     }
 }
 
-export function findFrameByName(win, name) {
+function findFrameByName(win, name) {
 
     var frame = void 0;
 
@@ -544,7 +624,7 @@ export function findFrameByName(win, name) {
     return findChildFrameByName(getTop(win), name);
 }
 
-export function isParent(win, frame) {
+function isParent(win, frame) {
 
     var frameParent = getParent(frame);
 
@@ -574,12 +654,12 @@ export function isParent(win, frame) {
     return false;
 }
 
-export function isOpener(parent, child) {
+function isOpener(parent, child) {
 
     return parent === getOpener(child);
 }
 
-export function getAncestor(win) {
+function getAncestor(win) {
     win = win || window;
 
     var opener = getOpener(win);
@@ -595,7 +675,7 @@ export function getAncestor(win) {
     }
 }
 
-export function getAncestors(win) {
+function getAncestors(win) {
 
     var results = [];
 
@@ -611,7 +691,7 @@ export function getAncestors(win) {
     return results;
 }
 
-export function isAncestor(parent, child) {
+function isAncestor(parent, child) {
 
     var actualParent = getAncestor(child);
 
@@ -653,15 +733,15 @@ export function isAncestor(parent, child) {
     return false;
 }
 
-export function isPopup() {
+function isPopup() {
     return Boolean(getOpener(window));
 }
 
-export function isIframe() {
+function isIframe() {
     return Boolean(getParent(window));
 }
 
-export function isFullpage() {
+function isFullpage() {
     return Boolean(!isIframe() && !isPopup());
 }
 
@@ -702,7 +782,7 @@ function anyMatch(collection1, collection2) {
     }
 }
 
-export function getDistanceFromTop() {
+function getDistanceFromTop() {
     var win = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : window;
 
     var distance = 0;
@@ -717,7 +797,7 @@ export function getDistanceFromTop() {
     return distance;
 }
 
-export function getNthParent(win) {
+function getNthParent(win) {
     var n = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
 
     for (var i = 0; i < n; i++) {
@@ -726,13 +806,13 @@ export function getNthParent(win) {
     return win;
 }
 
-export function getNthParentFromTop(win) {
+function getNthParentFromTop(win) {
     var n = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
 
     return getNthParent(win, getDistanceFromTop(win) - n);
 }
 
-export function isSameTopWindow(win1, win2) {
+function isSameTopWindow(win1, win2) {
 
     var top1 = getTop(win1);
     var top2 = getTop(win2);
@@ -768,7 +848,7 @@ export function isSameTopWindow(win1, win2) {
     }
 }
 
-export function matchDomain(pattern, origin) {
+function matchDomain(pattern, origin) {
 
     if (typeof pattern === 'string') {
 
@@ -776,7 +856,7 @@ export function matchDomain(pattern, origin) {
             return pattern === CONSTANTS.WILDCARD || origin === pattern;
         }
 
-        if (isRegex(origin)) {
+        if ((0, _util.isRegex)(origin)) {
             return false;
         }
 
@@ -785,9 +865,9 @@ export function matchDomain(pattern, origin) {
         }
     }
 
-    if (isRegex(pattern)) {
+    if ((0, _util.isRegex)(pattern)) {
 
-        if (isRegex(origin)) {
+        if ((0, _util.isRegex)(origin)) {
             return pattern.toString() === origin.toString();
         }
 
@@ -804,7 +884,7 @@ export function matchDomain(pattern, origin) {
             return JSON.stringify(pattern) === JSON.stringify(origin);
         }
 
-        if (isRegex(origin)) {
+        if ((0, _util.isRegex)(origin)) {
             return false;
         }
 
@@ -816,7 +896,7 @@ export function matchDomain(pattern, origin) {
     return false;
 }
 
-export function getDomainFromUrl(url) {
+function getDomainFromUrl(url) {
 
     var domain = void 0;
 

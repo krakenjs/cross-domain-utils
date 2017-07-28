@@ -1,6 +1,23 @@
 // @flow
 
 import {isRegex} from "./util";
+import {WeakMap} from "cross-domain-safe-weakmap/src";
+declare class Class0 extends HTMLElement<> {
+
+  allowFullScreen: boolean;
+  contentDocument: Document;
+  contentWindow: any;
+  frameBorder: string;
+  height: string;
+  marginHeight: string;
+  marginWidth: string;
+  name: string;
+  sandbox: DOMTokenList;
+  scrolling: string;
+  src: string;
+  srcDoc: string;
+  width: string;
+}
 declare export function findChildFrameByName(win: any, name: string): void;
 declare export function findFrameByName(win: any, name: string): void;
 declare export function getActualDomain(win: any): string;
@@ -33,4 +50,5 @@ declare export function isSameDomain(win: any): boolean;
 declare export function isSameTopWindow(win1: any, win2: any): boolean | boolean | boolean | boolean | boolean | void;
 declare export function isTop(win: any): boolean;
 declare export function isWindowClosed(win: any, allowMock?: boolean): boolean;
+declare export function linkFrameWindow(frame: Class0): void;
 declare export function matchDomain(pattern: any, origin: any): boolean;

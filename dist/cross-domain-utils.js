@@ -75,6 +75,377 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ({
 
+/***/ "./node_modules/cross-domain-safe-weakmap/src/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _interface = __webpack_require__("./node_modules/cross-domain-safe-weakmap/src/interface.js");
+
+Object.keys(_interface).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _interface[key];
+    }
+  });
+});
+
+var INTERFACE = _interopRequireWildcard(_interface);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj['default'] = obj; return newObj; } }
+
+exports['default'] = INTERFACE;
+
+/***/ }),
+
+/***/ "./node_modules/cross-domain-safe-weakmap/src/interface.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _weakmap = __webpack_require__("./node_modules/cross-domain-safe-weakmap/src/weakmap.js");
+
+Object.defineProperty(exports, 'WeakMap', {
+  enumerable: true,
+  get: function get() {
+    return _weakmap.CrossDomainSafeWeakMap;
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/cross-domain-safe-weakmap/src/native.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.hasNativeWeakMap = hasNativeWeakMap;
+function hasNativeWeakMap() {
+
+    if (!window.WeakMap) {
+        return false;
+    }
+
+    if (!window.Object.freeze) {
+        return false;
+    }
+
+    try {
+
+        var testWeakMap = new window.WeakMap();
+        var testKey = {};
+        var testValue = '__testvalue__';
+
+        window.Object.freeze(testKey);
+
+        testWeakMap.set(testKey, testValue);
+
+        if (testWeakMap.get(testKey) === testValue) {
+            return true;
+        }
+
+        return false;
+    } catch (err) {
+
+        return false;
+    }
+}
+
+/***/ }),
+
+/***/ "./node_modules/cross-domain-safe-weakmap/src/util.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.isWindow = isWindow;
+exports.isClosedWindow = isClosedWindow;
+function isWindow(obj) {
+
+    try {
+        if (obj && obj.self === obj) {
+            return true;
+        }
+    } catch (err) {
+        // pass
+    }
+
+    return false;
+}
+
+function isClosedWindow(obj) {
+
+    try {
+        if (obj && obj !== window && obj.closed) {
+            return true;
+        }
+    } catch (err) {
+
+        if (err && err.message === 'Call was rejected by callee.\r\n') {
+            return false;
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
+/***/ }),
+
+/***/ "./node_modules/cross-domain-safe-weakmap/src/weakmap.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.CrossDomainSafeWeakMap = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _util = __webpack_require__("./node_modules/cross-domain-safe-weakmap/src/util.js");
+
+var _native = __webpack_require__("./node_modules/cross-domain-safe-weakmap/src/native.js");
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var defineProperty = Object.defineProperty;
+var counter = Date.now() % 1e9;
+
+var CrossDomainSafeWeakMap = exports.CrossDomainSafeWeakMap = function () {
+    function CrossDomainSafeWeakMap() {
+        _classCallCheck(this, CrossDomainSafeWeakMap);
+
+        counter += 1;
+        this.name = '__weakmap_' + (Math.random() * 1e9 >>> 0) + '__' + counter; // eslint-disable-line
+
+        if ((0, _native.hasNativeWeakMap)()) {
+            try {
+                this.weakmap = new window.WeakMap();
+            } catch (err) {
+                // pass
+            }
+        }
+
+        this.keys = [];
+        this.values = [];
+    }
+
+    _createClass(CrossDomainSafeWeakMap, [{
+        key: '_cleanupClosedWindows',
+        value: function _cleanupClosedWindows() {
+
+            var weakmap = this.weakmap;
+            var keys = this.keys;
+
+            for (var i = 0; i < keys.length; i++) {
+                var value = keys[i];
+
+                if ((0, _util.isClosedWindow)(value)) {
+
+                    if (weakmap) {
+                        try {
+                            weakmap['delete'](value);
+                        } catch (err) {
+                            // pass
+                        }
+                    }
+
+                    keys.splice(i, 1);
+                    this.values.splice(i, 1);
+
+                    i -= 1;
+                }
+            }
+        }
+    }, {
+        key: 'set',
+        value: function set(key, value) {
+
+            if (!key) {
+                throw new Error('WeakMap expected key');
+            }
+
+            var weakmap = this.weakmap;
+
+            if (weakmap) {
+                try {
+                    weakmap.set(key, value);
+                } catch (err) {
+                    delete this.weakmap;
+                }
+            }
+
+            if ((0, _util.isWindow)(key)) {
+
+                this._cleanupClosedWindows();
+
+                var keys = this.keys;
+                var values = this.values;
+                var index = keys.indexOf(key);
+
+                if (index === -1) {
+                    keys.push(key);
+                    values.push(value);
+                } else {
+                    values[index] = value;
+                }
+            } else {
+
+                var name = this.name;
+                var entry = key[name];
+
+                if (entry && entry[0] === key) {
+                    entry[1] = value;
+                } else {
+                    defineProperty(key, name, {
+                        value: [key, value],
+                        writable: true
+                    });
+                }
+            }
+        }
+    }, {
+        key: 'get',
+        value: function get(key) {
+
+            if (!key) {
+                throw new Error('WeakMap expected key');
+            }
+
+            var weakmap = this.weakmap;
+
+            if (weakmap) {
+                try {
+                    if (weakmap.has(key)) {
+                        return weakmap.get(key);
+                    }
+                } catch (err) {
+                    delete this.weakmap;
+                }
+            }
+
+            if ((0, _util.isWindow)(key)) {
+
+                var keys = this.keys;
+                var index = keys.indexOf(key);
+
+                if (index === -1) {
+                    return;
+                }
+
+                return this.values[index];
+            } else {
+
+                var entry = key[this.name];
+
+                if (entry && entry[0] === key) {
+                    return entry[1];
+                }
+            }
+        }
+    }, {
+        key: 'delete',
+        value: function _delete(key) {
+
+            if (!key) {
+                throw new Error('WeakMap expected key');
+            }
+
+            var weakmap = this.weakmap;
+
+            if (weakmap) {
+                try {
+                    weakmap['delete'](key);
+                } catch (err) {
+                    delete this.weakmap;
+                }
+            }
+
+            if ((0, _util.isWindow)(key)) {
+
+                this._cleanupClosedWindows();
+
+                var keys = this.keys;
+                var index = keys.indexOf(key);
+
+                if (index !== -1) {
+                    keys.splice(index, 1);
+                    this.values.splice(index, 1);
+                }
+            } else {
+
+                var entry = key[this.name];
+
+                if (entry && entry[0] === key) {
+                    entry[0] = entry[1] = undefined;
+                }
+            }
+        }
+    }, {
+        key: 'has',
+        value: function has(key) {
+
+            if (!key) {
+                throw new Error('WeakMap expected key');
+            }
+
+            var weakmap = this.weakmap;
+
+            if (weakmap) {
+                try {
+                    return weakmap.has(key);
+                } catch (err) {
+                    delete this.weakmap;
+                }
+            }
+
+            if ((0, _util.isWindow)(key)) {
+
+                this._cleanupClosedWindows();
+
+                return this.keys.indexOf(key) !== -1;
+            } else {
+
+                var entry = key[this.name];
+
+                if (entry && entry[0] === key) {
+                    return true;
+                }
+
+                return false;
+            }
+        }
+    }]);
+
+    return CrossDomainSafeWeakMap;
+}();
+
+/***/ }),
+
 /***/ "./src/index.js":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -98,6 +469,7 @@ exports.getAllChildFrames = getAllChildFrames;
 exports.getAllFramesInWindow = getAllFramesInWindow;
 exports.getTop = getTop;
 exports.isTop = isTop;
+exports.linkFrameWindow = linkFrameWindow;
 exports.isWindowClosed = isWindowClosed;
 exports.getUserAgent = getUserAgent;
 exports.getFrameByName = getFrameByName;
@@ -117,6 +489,8 @@ exports.getNthParentFromTop = getNthParentFromTop;
 exports.isSameTopWindow = isSameTopWindow;
 exports.matchDomain = matchDomain;
 exports.getDomainFromUrl = getDomainFromUrl;
+
+var _src = __webpack_require__("./node_modules/cross-domain-safe-weakmap/src/index.js");
 
 var _util = __webpack_require__("./src/util.js");
 
@@ -364,53 +738,37 @@ function getAllChildFrames(win) {
 
     var result = [];
 
-    var _iteratorNormalCompletion = true;
-    var _didIteratorError = false;
-    var _iteratorError = undefined;
+    for (var _iterator = getFrames(win), _isArray = Array.isArray(_iterator), _i2 = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
+        var _ref;
 
-    try {
-        for (var _iterator = getFrames(win)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-            var frame = _step.value;
-
-            result.push(frame);
-
-            var _iteratorNormalCompletion2 = true;
-            var _didIteratorError2 = false;
-            var _iteratorError2 = undefined;
-
-            try {
-                for (var _iterator2 = getAllChildFrames(frame)[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-                    var childFrame = _step2.value;
-
-                    result.push(childFrame);
-                }
-            } catch (err) {
-                _didIteratorError2 = true;
-                _iteratorError2 = err;
-            } finally {
-                try {
-                    if (!_iteratorNormalCompletion2 && _iterator2['return']) {
-                        _iterator2['return']();
-                    }
-                } finally {
-                    if (_didIteratorError2) {
-                        throw _iteratorError2;
-                    }
-                }
-            }
+        if (_isArray) {
+            if (_i2 >= _iterator.length) break;
+            _ref = _iterator[_i2++];
+        } else {
+            _i2 = _iterator.next();
+            if (_i2.done) break;
+            _ref = _i2.value;
         }
-    } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
-    } finally {
-        try {
-            if (!_iteratorNormalCompletion && _iterator['return']) {
-                _iterator['return']();
+
+        var frame = _ref;
+
+        result.push(frame);
+
+        for (var _iterator2 = getAllChildFrames(frame), _isArray2 = Array.isArray(_iterator2), _i3 = 0, _iterator2 = _isArray2 ? _iterator2 : _iterator2[Symbol.iterator]();;) {
+            var _ref2;
+
+            if (_isArray2) {
+                if (_i3 >= _iterator2.length) break;
+                _ref2 = _iterator2[_i3++];
+            } else {
+                _i3 = _iterator2.next();
+                if (_i3.done) break;
+                _ref2 = _i3.value;
             }
-        } finally {
-            if (_didIteratorError) {
-                throw _iteratorError;
-            }
+
+            var childFrame = _ref2;
+
+            result.push(childFrame);
         }
     }
 
@@ -423,56 +781,40 @@ function getAllFramesInWindow(win) {
 
     result.push(win);
 
-    var _iteratorNormalCompletion3 = true;
-    var _didIteratorError3 = false;
-    var _iteratorError3 = undefined;
+    for (var _iterator3 = getParents(win), _isArray3 = Array.isArray(_iterator3), _i4 = 0, _iterator3 = _isArray3 ? _iterator3 : _iterator3[Symbol.iterator]();;) {
+        var _ref3;
 
-    try {
-        for (var _iterator3 = getParents(win)[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-            var parent = _step3.value;
-
-
-            result.push(parent);
-
-            var _iteratorNormalCompletion4 = true;
-            var _didIteratorError4 = false;
-            var _iteratorError4 = undefined;
-
-            try {
-                for (var _iterator4 = getFrames(parent)[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-                    var frame = _step4.value;
-
-
-                    if (result.indexOf(frame) === -1) {
-                        result.push(frame);
-                    }
-                }
-            } catch (err) {
-                _didIteratorError4 = true;
-                _iteratorError4 = err;
-            } finally {
-                try {
-                    if (!_iteratorNormalCompletion4 && _iterator4['return']) {
-                        _iterator4['return']();
-                    }
-                } finally {
-                    if (_didIteratorError4) {
-                        throw _iteratorError4;
-                    }
-                }
-            }
+        if (_isArray3) {
+            if (_i4 >= _iterator3.length) break;
+            _ref3 = _iterator3[_i4++];
+        } else {
+            _i4 = _iterator3.next();
+            if (_i4.done) break;
+            _ref3 = _i4.value;
         }
-    } catch (err) {
-        _didIteratorError3 = true;
-        _iteratorError3 = err;
-    } finally {
-        try {
-            if (!_iteratorNormalCompletion3 && _iterator3['return']) {
-                _iterator3['return']();
+
+        var parent = _ref3;
+
+
+        result.push(parent);
+
+        for (var _iterator4 = getFrames(parent), _isArray4 = Array.isArray(_iterator4), _i5 = 0, _iterator4 = _isArray4 ? _iterator4 : _iterator4[Symbol.iterator]();;) {
+            var _ref4;
+
+            if (_isArray4) {
+                if (_i5 >= _iterator4.length) break;
+                _ref4 = _iterator4[_i5++];
+            } else {
+                _i5 = _iterator4.next();
+                if (_i5.done) break;
+                _ref4 = _i5.value;
             }
-        } finally {
-            if (_didIteratorError3) {
-                throw _iteratorError3;
+
+            var frame = _ref4;
+
+
+            if (result.indexOf(frame) === -1) {
+                result.push(frame);
             }
         }
     }
@@ -514,44 +856,48 @@ function getTop(win) {
         // pass
     }
 
-    var _iteratorNormalCompletion5 = true;
-    var _didIteratorError5 = false;
-    var _iteratorError5 = undefined;
+    for (var _iterator5 = getAllChildFrames(win), _isArray5 = Array.isArray(_iterator5), _i6 = 0, _iterator5 = _isArray5 ? _iterator5 : _iterator5[Symbol.iterator]();;) {
+        var _ref5;
 
-    try {
-        for (var _iterator5 = getAllChildFrames(win)[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
-            var frame = _step5.value;
-
-            try {
-                if (frame.top) {
-                    return frame.top;
-                }
-            } catch (err) {
-                // pass
-            }
-
-            if (getParent(frame) === frame) {
-                return frame;
-            }
+        if (_isArray5) {
+            if (_i6 >= _iterator5.length) break;
+            _ref5 = _iterator5[_i6++];
+        } else {
+            _i6 = _iterator5.next();
+            if (_i6.done) break;
+            _ref5 = _i6.value;
         }
-    } catch (err) {
-        _didIteratorError5 = true;
-        _iteratorError5 = err;
-    } finally {
+
+        var frame = _ref5;
+
         try {
-            if (!_iteratorNormalCompletion5 && _iterator5['return']) {
-                _iterator5['return']();
+            if (frame.top) {
+                return frame.top;
             }
-        } finally {
-            if (_didIteratorError5) {
-                throw _iteratorError5;
-            }
+        } catch (err) {
+            // pass
+        }
+
+        if (getParent(frame) === frame) {
+            return frame;
         }
     }
 }
 
 function isTop(win) {
     return win === getTop(win);
+}
+
+var iframeWindows = new _src.WeakMap();
+
+function linkFrameWindow(frame) {
+    if (frame && frame.contentWindow) {
+        try {
+            iframeWindows.set(frame.contentWindow, frame);
+        } catch (err) {
+            // pass
+        }
+    }
 }
 
 function isWindowClosed(win) {
@@ -605,6 +951,32 @@ function isWindowClosed(win) {
         if (!win.parent || !win.top) {
             return true;
         }
+    } catch (err) {}
+    // pass
+
+
+    // IE orphaned frame
+
+    try {
+        if (iframeWindows.has(win)) {
+            var frame = iframeWindows.get(win);
+
+            if (frame) {
+                if (!frame.contentWindow) {
+                    return true;
+                }
+
+                if (!frame.parentNode) {
+                    return true;
+                }
+
+                var doc = frame.ownerDocument;
+
+                if (doc && doc.body && !doc.body.contains(frame)) {
+                    return true;
+                }
+            }
+        }
     } catch (err) {
         // pass
     }
@@ -621,34 +993,26 @@ function getFrameByName(win, name) {
 
     var winFrames = getFrames(win);
 
-    var _iteratorNormalCompletion6 = true;
-    var _didIteratorError6 = false;
-    var _iteratorError6 = undefined;
+    for (var _iterator6 = winFrames, _isArray6 = Array.isArray(_iterator6), _i7 = 0, _iterator6 = _isArray6 ? _iterator6 : _iterator6[Symbol.iterator]();;) {
+        var _ref6;
 
-    try {
-        for (var _iterator6 = winFrames[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
-            var childFrame = _step6.value;
-
-            try {
-                if (isSameDomain(childFrame) && childFrame.name === name && winFrames.indexOf(childFrame) !== -1) {
-                    return childFrame;
-                }
-            } catch (err) {
-                // pass
-            }
+        if (_isArray6) {
+            if (_i7 >= _iterator6.length) break;
+            _ref6 = _iterator6[_i7++];
+        } else {
+            _i7 = _iterator6.next();
+            if (_i7.done) break;
+            _ref6 = _i7.value;
         }
-    } catch (err) {
-        _didIteratorError6 = true;
-        _iteratorError6 = err;
-    } finally {
+
+        var childFrame = _ref6;
+
         try {
-            if (!_iteratorNormalCompletion6 && _iterator6['return']) {
-                _iterator6['return']();
+            if (isSameDomain(childFrame) && childFrame.name === name && winFrames.indexOf(childFrame) !== -1) {
+                return childFrame;
             }
-        } finally {
-            if (_didIteratorError6) {
-                throw _iteratorError6;
-            }
+        } catch (err) {
+            // pass
         }
     }
 
@@ -677,32 +1041,24 @@ function findChildFrameByName(win, name) {
         return frame;
     }
 
-    var _iteratorNormalCompletion7 = true;
-    var _didIteratorError7 = false;
-    var _iteratorError7 = undefined;
+    for (var _iterator7 = getFrames(win), _isArray7 = Array.isArray(_iterator7), _i8 = 0, _iterator7 = _isArray7 ? _iterator7 : _iterator7[Symbol.iterator]();;) {
+        var _ref7;
 
-    try {
-        for (var _iterator7 = getFrames(win)[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
-            var childFrame = _step7.value;
-
-            var namedFrame = findChildFrameByName(childFrame, name);
-
-            if (namedFrame) {
-                return namedFrame;
-            }
+        if (_isArray7) {
+            if (_i8 >= _iterator7.length) break;
+            _ref7 = _iterator7[_i8++];
+        } else {
+            _i8 = _iterator7.next();
+            if (_i8.done) break;
+            _ref7 = _i8.value;
         }
-    } catch (err) {
-        _didIteratorError7 = true;
-        _iteratorError7 = err;
-    } finally {
-        try {
-            if (!_iteratorNormalCompletion7 && _iterator7['return']) {
-                _iterator7['return']();
-            }
-        } finally {
-            if (_didIteratorError7) {
-                throw _iteratorError7;
-            }
+
+        var childFrame = _ref7;
+
+        var namedFrame = findChildFrameByName(childFrame, name);
+
+        if (namedFrame) {
+            return namedFrame;
         }
     }
 }
@@ -728,30 +1084,22 @@ function isParent(win, frame) {
         return frameParent === win;
     }
 
-    var _iteratorNormalCompletion8 = true;
-    var _didIteratorError8 = false;
-    var _iteratorError8 = undefined;
+    for (var _iterator8 = getFrames(win), _isArray8 = Array.isArray(_iterator8), _i9 = 0, _iterator8 = _isArray8 ? _iterator8 : _iterator8[Symbol.iterator]();;) {
+        var _ref8;
 
-    try {
-        for (var _iterator8 = getFrames(win)[Symbol.iterator](), _step8; !(_iteratorNormalCompletion8 = (_step8 = _iterator8.next()).done); _iteratorNormalCompletion8 = true) {
-            var childFrame = _step8.value;
-
-            if (childFrame === frame) {
-                return true;
-            }
+        if (_isArray8) {
+            if (_i9 >= _iterator8.length) break;
+            _ref8 = _iterator8[_i9++];
+        } else {
+            _i9 = _iterator8.next();
+            if (_i9.done) break;
+            _ref8 = _i9.value;
         }
-    } catch (err) {
-        _didIteratorError8 = true;
-        _iteratorError8 = err;
-    } finally {
-        try {
-            if (!_iteratorNormalCompletion8 && _iterator8['return']) {
-                _iterator8['return']();
-            }
-        } finally {
-            if (_didIteratorError8) {
-                throw _iteratorError8;
-            }
+
+        var childFrame = _ref8;
+
+        if (childFrame === frame) {
+            return true;
         }
     }
 
@@ -815,30 +1163,22 @@ function isAncestor(parent, child) {
         return false;
     }
 
-    var _iteratorNormalCompletion9 = true;
-    var _didIteratorError9 = false;
-    var _iteratorError9 = undefined;
+    for (var _iterator9 = getFrames(parent), _isArray9 = Array.isArray(_iterator9), _i10 = 0, _iterator9 = _isArray9 ? _iterator9 : _iterator9[Symbol.iterator]();;) {
+        var _ref9;
 
-    try {
-        for (var _iterator9 = getFrames(parent)[Symbol.iterator](), _step9; !(_iteratorNormalCompletion9 = (_step9 = _iterator9.next()).done); _iteratorNormalCompletion9 = true) {
-            var frame = _step9.value;
-
-            if (frame === child) {
-                return true;
-            }
+        if (_isArray9) {
+            if (_i10 >= _iterator9.length) break;
+            _ref9 = _iterator9[_i10++];
+        } else {
+            _i10 = _iterator9.next();
+            if (_i10.done) break;
+            _ref9 = _i10.value;
         }
-    } catch (err) {
-        _didIteratorError9 = true;
-        _iteratorError9 = err;
-    } finally {
-        try {
-            if (!_iteratorNormalCompletion9 && _iterator9['return']) {
-                _iterator9['return']();
-            }
-        } finally {
-            if (_didIteratorError9) {
-                throw _iteratorError9;
-            }
+
+        var frame = _ref9;
+
+        if (frame === child) {
+            return true;
         }
     }
 
@@ -858,52 +1198,37 @@ function isFullpage() {
 }
 
 function anyMatch(collection1, collection2) {
-    var _iteratorNormalCompletion10 = true;
-    var _didIteratorError10 = false;
-    var _iteratorError10 = undefined;
 
-    try {
+    for (var _iterator10 = collection1, _isArray10 = Array.isArray(_iterator10), _i11 = 0, _iterator10 = _isArray10 ? _iterator10 : _iterator10[Symbol.iterator]();;) {
+        var _ref10;
 
-        for (var _iterator10 = collection1[Symbol.iterator](), _step10; !(_iteratorNormalCompletion10 = (_step10 = _iterator10.next()).done); _iteratorNormalCompletion10 = true) {
-            var item1 = _step10.value;
-            var _iteratorNormalCompletion11 = true;
-            var _didIteratorError11 = false;
-            var _iteratorError11 = undefined;
-
-            try {
-                for (var _iterator11 = collection2[Symbol.iterator](), _step11; !(_iteratorNormalCompletion11 = (_step11 = _iterator11.next()).done); _iteratorNormalCompletion11 = true) {
-                    var item2 = _step11.value;
-
-                    if (item1 === item2) {
-                        return true;
-                    }
-                }
-            } catch (err) {
-                _didIteratorError11 = true;
-                _iteratorError11 = err;
-            } finally {
-                try {
-                    if (!_iteratorNormalCompletion11 && _iterator11['return']) {
-                        _iterator11['return']();
-                    }
-                } finally {
-                    if (_didIteratorError11) {
-                        throw _iteratorError11;
-                    }
-                }
-            }
+        if (_isArray10) {
+            if (_i11 >= _iterator10.length) break;
+            _ref10 = _iterator10[_i11++];
+        } else {
+            _i11 = _iterator10.next();
+            if (_i11.done) break;
+            _ref10 = _i11.value;
         }
-    } catch (err) {
-        _didIteratorError10 = true;
-        _iteratorError10 = err;
-    } finally {
-        try {
-            if (!_iteratorNormalCompletion10 && _iterator10['return']) {
-                _iterator10['return']();
+
+        var item1 = _ref10;
+
+        for (var _iterator11 = collection2, _isArray11 = Array.isArray(_iterator11), _i12 = 0, _iterator11 = _isArray11 ? _iterator11 : _iterator11[Symbol.iterator]();;) {
+            var _ref11;
+
+            if (_isArray11) {
+                if (_i12 >= _iterator11.length) break;
+                _ref11 = _iterator11[_i12++];
+            } else {
+                _i12 = _iterator11.next();
+                if (_i12.done) break;
+                _ref11 = _i12.value;
             }
-        } finally {
-            if (_didIteratorError10) {
-                throw _iteratorError10;
+
+            var item2 = _ref11;
+
+            if (item1 === item2) {
+                return true;
             }
         }
     }
