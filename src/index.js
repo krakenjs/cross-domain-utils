@@ -734,17 +734,17 @@ export function getDomainFromUrl(url : string) {
     return domain;
 }
 
-let closeWindowPromises : WeakMap<any, ZalgoPromise<void>> = new WeakMap();
+let closeWindowPromises : WeakMap<any, { [number] : ZalgoPromise<void> }> = new WeakMap();
 
 export function onCloseWindow(win : any, delay : number = 1000) : ZalgoPromise<void> {
 
-    let promise = closeWindowPromises.get(win);
+    let promises = closeWindowPromises.get(win) || {};
 
-    if (promise) {
-        return promise;
+    if (promises[delay]) {
+        return promises[delay];
     }
 
-    promise = new ZalgoPromise(resolve => {
+    let promise = new ZalgoPromise(resolve => {
 
         let check = () => {
             if (isWindowClosed(win)) {
@@ -757,7 +757,8 @@ export function onCloseWindow(win : any, delay : number = 1000) : ZalgoPromise<v
         check();
     });
 
-    closeWindowPromises.set(win, promise);
+    promises[delay] = promise;
+    closeWindowPromises.set(win, promises);
 
     return promise;
 }
