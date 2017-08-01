@@ -1,6 +1,7 @@
 // @flow
 
 import { WeakMap } from 'cross-domain-safe-weakmap/src';
+import { ZalgoPromise } from 'zalgo-promise/src';
 import { isRegex } from './util';
 
 const CONSTANTS = {
@@ -339,7 +340,7 @@ export function isTop(win : any) : boolean {
     return win === getTop(win);
 }
 
-let iframeWindows = new WeakMap();
+let iframeWindows : WeakMap<any, HTMLIFrameElement> = new WeakMap();
 
 export function linkFrameWindow(frame : HTMLIFrameElement) {
     if (frame && frame.contentWindow) {
@@ -731,4 +732,32 @@ export function getDomainFromUrl(url : string) {
     domain = domain.split('/').slice(0, 3).join('/');
 
     return domain;
+}
+
+let closeWindowPromises : WeakMap<any, ZalgoPromise<void>> = new WeakMap();
+
+export function onCloseWindow(win : any, delay : number = 1000) : ZalgoPromise<void> {
+
+    let promise = closeWindowPromises.get(win);
+
+    if (promise) {
+        return promise;
+    }
+
+    promise = new ZalgoPromise(resolve => {
+
+        let check = () => {
+            if (isWindowClosed(win)) {
+                return resolve();
+            }
+
+            setTimeout(check, delay);
+        };
+
+        check();
+    });
+
+    closeWindowPromises.set(win, promise);
+
+    return promise;
 }
