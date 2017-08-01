@@ -1859,13 +1859,13 @@ function onCloseWindow(win) {
     var delay = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1000;
 
 
-    var promise = closeWindowPromises.get(win);
+    var promises = closeWindowPromises.get(win) || {};
 
-    if (promise) {
-        return promise;
+    if (promises[delay]) {
+        return promises[delay];
     }
 
-    promise = new _src2.ZalgoPromise(function (resolve) {
+    var promise = new _src2.ZalgoPromise(function (resolve) {
 
         var check = function check() {
             if (isWindowClosed(win)) {
@@ -1878,7 +1878,8 @@ function onCloseWindow(win) {
         check();
     });
 
-    closeWindowPromises.set(win, promise);
+    promises[delay] = promise;
+    closeWindowPromises.set(win, promises);
 
     return promise;
 }
