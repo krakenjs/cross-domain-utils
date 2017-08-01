@@ -37,8 +37,11 @@ exports.getNthParentFromTop = getNthParentFromTop;
 exports.isSameTopWindow = isSameTopWindow;
 exports.matchDomain = matchDomain;
 exports.getDomainFromUrl = getDomainFromUrl;
+exports.onCloseWindow = onCloseWindow;
 
 var _src = require('cross-domain-safe-weakmap/src');
+
+var _src2 = require('zalgo-promise/src');
 
 var _util = require('./util');
 
@@ -909,4 +912,34 @@ function getDomainFromUrl(url) {
     domain = domain.split('/').slice(0, 3).join('/');
 
     return domain;
+}
+
+var closeWindowPromises = new _src.WeakMap();
+
+function onCloseWindow(win) {
+    var delay = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1000;
+
+
+    var promise = closeWindowPromises.get(win);
+
+    if (promise) {
+        return promise;
+    }
+
+    promise = new _src2.ZalgoPromise(function (resolve) {
+
+        var check = function check() {
+            if (isWindowClosed(win)) {
+                return resolve();
+            }
+
+            setTimeout(check, delay);
+        };
+
+        check();
+    });
+
+    closeWindowPromises.set(win, promise);
+
+    return promise;
 }

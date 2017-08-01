@@ -1,6 +1,7 @@
 // @flow
 
 import {isRegex} from "./util";
+import {ZalgoPromise} from "zalgo-promise/src";
 import {WeakMap} from "cross-domain-safe-weakmap/src";
 declare class Class0 extends HTMLElement<> {
 
@@ -52,3 +53,4 @@ declare export function isTop(win: any): boolean;
 declare export function isWindowClosed(win: any, allowMock?: boolean): boolean;
 declare export function linkFrameWindow(frame: Class0): void;
 declare export function matchDomain(pattern: any, origin: any): boolean;
+declare export function onCloseWindow(win: any, delay?: number): ZalgoPromise<void>;
