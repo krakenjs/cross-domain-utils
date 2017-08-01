@@ -43,19 +43,6 @@ export let testConfig = Object.assign({}, defaultWebpackConfig, {
                 test: /\.js$/,
                 exclude: /(sinon|chai|diff)/,
                 loader: 'babel-loader'
-            },
-
-            {
-                test: /\.js$/,
-                // enforce: 'post',
-                include: path.resolve('src/'),
-                exclude: /node_modules|test/,
-                use: {
-                    loader: 'istanbul-instrumenter-loader',
-                    options: {
-                        esModules: true
-                    }
-                }
             }
         ]
     }

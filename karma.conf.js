@@ -26,7 +26,7 @@ export default (config) => {
 
         webpack: testConfig,
 
-        
+
         // list of files to exclude
         exclude: [
         ],

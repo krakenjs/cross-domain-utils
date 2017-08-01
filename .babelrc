@@ -21,7 +21,8 @@
         ["flow-runtime", {
             "assert": true,
             "annotate": true
-        }]
+        }],
+        [ "istanbul", { "only": "./src" } ]
       ]
     }
   }
