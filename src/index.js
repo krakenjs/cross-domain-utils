@@ -733,7 +733,7 @@ export function getDomainFromUrl(url : string) {
     return domain;
 }
 
-export function onCloseWindow(win : any, callback : Function, delay : number = 1000) : { cancel : () => void } {
+export function onCloseWindow(win : any, callback : Function, delay : number = 1000, maxtime : number = Infinity) : { cancel : () => void } {
 
     let timeout;
 
@@ -748,7 +748,12 @@ export function onCloseWindow(win : any, callback : Function, delay : number = 1
             return callback();
         }
 
-        timeout = setTimeout(check, delay);
+        if (maxtime <= 0) {
+            clearTimeout(timeout);
+        } else {
+            maxtime -= delay;
+            timeout = setTimeout(check, delay);
+        }
     };
 
     check();
