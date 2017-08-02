@@ -41,8 +41,6 @@ exports.onCloseWindow = onCloseWindow;
 
 var _src = require('cross-domain-safe-weakmap/src');
 
-var _src2 = require('zalgo-promise/src');
-
 var _util = require('./util');
 
 var CONSTANTS = {
@@ -914,33 +912,33 @@ function getDomainFromUrl(url) {
     return domain;
 }
 
-var closeWindowPromises = new _src.WeakMap();
-
-function onCloseWindow(win) {
-    var delay = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1000;
+function onCloseWindow(win, callback) {
+    var delay = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1000;
 
 
-    var promises = closeWindowPromises.get(win) || {};
+    var timeout = void 0;
 
-    if (promises[delay]) {
-        return promises[delay];
-    }
+    var check = function check() {
 
-    var promise = new _src2.ZalgoPromise(function (resolve) {
+        if (isWindowClosed(win)) {
 
-        var check = function check() {
-            if (isWindowClosed(win)) {
-                return resolve();
+            if (timeout) {
+                clearTimeout(timeout);
             }
 
-            setTimeout(check, delay);
-        };
+            return callback();
+        }
 
-        check();
-    });
+        timeout = setTimeout(check, delay);
+    };
 
-    promises[delay] = promise;
-    closeWindowPromises.set(win, promises);
+    check();
 
-    return promise;
+    return {
+        cancel: function cancel() {
+            if (timeout) {
+                clearTimeout(timeout);
+            }
+        }
+    };
 }
