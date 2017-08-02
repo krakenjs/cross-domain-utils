@@ -914,6 +914,7 @@ function getDomainFromUrl(url) {
 
 function onCloseWindow(win, callback) {
     var delay = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1000;
+    var maxtime = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : Infinity;
 
 
     var timeout = void 0;
@@ -929,7 +930,12 @@ function onCloseWindow(win, callback) {
             return callback();
         }
 
-        timeout = setTimeout(check, delay);
+        if (maxtime <= 0) {
+            clearTimeout(timeout);
+        } else {
+            maxtime -= delay;
+            timeout = setTimeout(check, delay);
+        }
     };
 
     check();

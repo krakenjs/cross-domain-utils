@@ -52,4 +52,4 @@ declare export function isTop(win: any): boolean;
 declare export function isWindowClosed(win: any, allowMock?: boolean): boolean;
 declare export function linkFrameWindow(frame: Class0): void;
 declare export function matchDomain(pattern: any, origin: any): boolean;
-declare export function onCloseWindow(win: any, callback: Function, delay?: number): {cancel: () => void};
+declare export function onCloseWindow(win: any, callback: Function, delay?: number, maxtime?: number): {cancel: () => void};
