@@ -490,6 +490,7 @@ exports.isSameTopWindow = isSameTopWindow;
 exports.matchDomain = matchDomain;
 exports.getDomainFromUrl = getDomainFromUrl;
 exports.onCloseWindow = onCloseWindow;
+exports.isWindow = isWindow;
 
 var _src = __webpack_require__("./node_modules/cross-domain-safe-weakmap/src/index.js");
 
@@ -1399,6 +1400,19 @@ function onCloseWindow(win, callback) {
             }
         }
     };
+}
+
+function isWindow(obj) {
+
+    try {
+        if (obj && obj.self === obj) {
+            return true;
+        }
+    } catch (err) {
+        // pass
+    }
+
+    return false;
 }
 
 /***/ }),

@@ -49,6 +49,7 @@ declare export function isPopup(): boolean;
 declare export function isSameDomain(win: any): boolean;
 declare export function isSameTopWindow(win1: any, win2: any): boolean | boolean | boolean | boolean | boolean | void;
 declare export function isTop(win: any): boolean;
+declare export function isWindow(obj: Object): boolean;
 declare export function isWindowClosed(win: any, allowMock?: boolean): boolean;
 declare export function linkFrameWindow(frame: Class0): void;
 declare export function matchDomain(pattern: any, origin: any): boolean;

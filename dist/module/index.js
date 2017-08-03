@@ -38,6 +38,7 @@ exports.isSameTopWindow = isSameTopWindow;
 exports.matchDomain = matchDomain;
 exports.getDomainFromUrl = getDomainFromUrl;
 exports.onCloseWindow = onCloseWindow;
+exports.isWindow = isWindow;
 
 var _src = require('cross-domain-safe-weakmap/src');
 
@@ -947,4 +948,17 @@ function onCloseWindow(win, callback) {
             }
         }
     };
+}
+
+function isWindow(obj) {
+
+    try {
+        if (obj && obj.self === obj) {
+            return true;
+        }
+    } catch (err) {
+        // pass
+    }
+
+    return false;
 }
