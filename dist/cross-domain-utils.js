@@ -98,8 +98,9 @@ exports.getAllChildFrames = getAllChildFrames;
 exports.getAllFramesInWindow = getAllFramesInWindow;
 exports.getTop = getTop;
 exports.isTop = isTop;
-exports.linkFrameWindow = linkFrameWindow;
+exports.isFrameWindowClosed = isFrameWindowClosed;
 exports.isWindowClosed = isWindowClosed;
+exports.linkFrameWindow = linkFrameWindow;
 exports.getUserAgent = getUserAgent;
 exports.getFrameByName = getFrameByName;
 exports.findChildFrameByName = findChildFrameByName;
@@ -517,20 +518,27 @@ function isTop(win) {
     return win === getTop(win);
 }
 
+function isFrameWindowClosed(frame) {
+
+    if (!frame.contentWindow) {
+        return true;
+    }
+
+    if (!frame.parentNode) {
+        return true;
+    }
+
+    var doc = frame.ownerDocument;
+
+    if (doc && doc.body && !doc.body.contains(frame)) {
+        return true;
+    }
+
+    return false;
+}
+
 var iframeWindows = [];
 var iframeFrames = [];
-
-function linkFrameWindow(frame) {
-
-    if (frame && frame.contentWindow) {
-        try {
-            iframeWindows.push(frame.contentWindow);
-            iframeFrames.push(frame);
-        } catch (err) {
-            // pass
-        }
-    }
-}
 
 function isWindowClosed(win) {
     var allowMock = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
@@ -595,20 +603,8 @@ function isWindowClosed(win) {
         if (index !== -1) {
             var frame = iframeFrames[index];
 
-            if (frame) {
-                if (!frame.contentWindow) {
-                    return true;
-                }
-
-                if (!frame.parentNode) {
-                    return true;
-                }
-
-                var doc = frame.ownerDocument;
-
-                if (doc && doc.body && !doc.body.contains(frame)) {
-                    return true;
-                }
+            if (frame && isFrameWindowClosed(frame)) {
+                return true;
             }
         }
     } catch (err) {
@@ -616,6 +612,37 @@ function isWindowClosed(win) {
     }
 
     return false;
+}
+
+function cleanIframes() {
+
+    for (var i = 0; i < iframeFrames.length; i++) {
+        if (isFrameWindowClosed(iframeFrames[i])) {
+            iframeFrames.splice(i, 1);
+            iframeWindows.splice(i, 1);
+        }
+    }
+
+    for (var _i7 = 0; _i7 < iframeWindows.length; _i7++) {
+        if (isWindowClosed(iframeWindows[_i7])) {
+            iframeFrames.splice(_i7, 1);
+            iframeWindows.splice(_i7, 1);
+        }
+    }
+}
+
+function linkFrameWindow(frame) {
+
+    cleanIframes();
+
+    if (frame && frame.contentWindow) {
+        try {
+            iframeWindows.push(frame.contentWindow);
+            iframeFrames.push(frame);
+        } catch (err) {
+            // pass
+        }
+    }
 }
 
 function getUserAgent(win) {
@@ -627,16 +654,16 @@ function getFrameByName(win, name) {
 
     var winFrames = getFrames(win);
 
-    for (var _iterator6 = winFrames, _isArray6 = Array.isArray(_iterator6), _i7 = 0, _iterator6 = _isArray6 ? _iterator6 : _iterator6[Symbol.iterator]();;) {
+    for (var _iterator6 = winFrames, _isArray6 = Array.isArray(_iterator6), _i8 = 0, _iterator6 = _isArray6 ? _iterator6 : _iterator6[Symbol.iterator]();;) {
         var _ref6;
 
         if (_isArray6) {
-            if (_i7 >= _iterator6.length) break;
-            _ref6 = _iterator6[_i7++];
+            if (_i8 >= _iterator6.length) break;
+            _ref6 = _iterator6[_i8++];
         } else {
-            _i7 = _iterator6.next();
-            if (_i7.done) break;
-            _ref6 = _i7.value;
+            _i8 = _iterator6.next();
+            if (_i8.done) break;
+            _ref6 = _i8.value;
         }
 
         var childFrame = _ref6;
@@ -675,16 +702,16 @@ function findChildFrameByName(win, name) {
         return frame;
     }
 
-    for (var _iterator7 = getFrames(win), _isArray7 = Array.isArray(_iterator7), _i8 = 0, _iterator7 = _isArray7 ? _iterator7 : _iterator7[Symbol.iterator]();;) {
+    for (var _iterator7 = getFrames(win), _isArray7 = Array.isArray(_iterator7), _i9 = 0, _iterator7 = _isArray7 ? _iterator7 : _iterator7[Symbol.iterator]();;) {
         var _ref7;
 
         if (_isArray7) {
-            if (_i8 >= _iterator7.length) break;
-            _ref7 = _iterator7[_i8++];
+            if (_i9 >= _iterator7.length) break;
+            _ref7 = _iterator7[_i9++];
         } else {
-            _i8 = _iterator7.next();
-            if (_i8.done) break;
-            _ref7 = _i8.value;
+            _i9 = _iterator7.next();
+            if (_i9.done) break;
+            _ref7 = _i9.value;
         }
 
         var childFrame = _ref7;
@@ -718,16 +745,16 @@ function isParent(win, frame) {
         return frameParent === win;
     }
 
-    for (var _iterator8 = getFrames(win), _isArray8 = Array.isArray(_iterator8), _i9 = 0, _iterator8 = _isArray8 ? _iterator8 : _iterator8[Symbol.iterator]();;) {
+    for (var _iterator8 = getFrames(win), _isArray8 = Array.isArray(_iterator8), _i10 = 0, _iterator8 = _isArray8 ? _iterator8 : _iterator8[Symbol.iterator]();;) {
         var _ref8;
 
         if (_isArray8) {
-            if (_i9 >= _iterator8.length) break;
-            _ref8 = _iterator8[_i9++];
+            if (_i10 >= _iterator8.length) break;
+            _ref8 = _iterator8[_i10++];
         } else {
-            _i9 = _iterator8.next();
-            if (_i9.done) break;
-            _ref8 = _i9.value;
+            _i10 = _iterator8.next();
+            if (_i10.done) break;
+            _ref8 = _i10.value;
         }
 
         var childFrame = _ref8;
@@ -797,16 +824,16 @@ function isAncestor(parent, child) {
         return false;
     }
 
-    for (var _iterator9 = getFrames(parent), _isArray9 = Array.isArray(_iterator9), _i10 = 0, _iterator9 = _isArray9 ? _iterator9 : _iterator9[Symbol.iterator]();;) {
+    for (var _iterator9 = getFrames(parent), _isArray9 = Array.isArray(_iterator9), _i11 = 0, _iterator9 = _isArray9 ? _iterator9 : _iterator9[Symbol.iterator]();;) {
         var _ref9;
 
         if (_isArray9) {
-            if (_i10 >= _iterator9.length) break;
-            _ref9 = _iterator9[_i10++];
+            if (_i11 >= _iterator9.length) break;
+            _ref9 = _iterator9[_i11++];
         } else {
-            _i10 = _iterator9.next();
-            if (_i10.done) break;
-            _ref9 = _i10.value;
+            _i11 = _iterator9.next();
+            if (_i11.done) break;
+            _ref9 = _i11.value;
         }
 
         var frame = _ref9;
@@ -833,30 +860,30 @@ function isFullpage() {
 
 function anyMatch(collection1, collection2) {
 
-    for (var _iterator10 = collection1, _isArray10 = Array.isArray(_iterator10), _i11 = 0, _iterator10 = _isArray10 ? _iterator10 : _iterator10[Symbol.iterator]();;) {
+    for (var _iterator10 = collection1, _isArray10 = Array.isArray(_iterator10), _i12 = 0, _iterator10 = _isArray10 ? _iterator10 : _iterator10[Symbol.iterator]();;) {
         var _ref10;
 
         if (_isArray10) {
-            if (_i11 >= _iterator10.length) break;
-            _ref10 = _iterator10[_i11++];
+            if (_i12 >= _iterator10.length) break;
+            _ref10 = _iterator10[_i12++];
         } else {
-            _i11 = _iterator10.next();
-            if (_i11.done) break;
-            _ref10 = _i11.value;
+            _i12 = _iterator10.next();
+            if (_i12.done) break;
+            _ref10 = _i12.value;
         }
 
         var item1 = _ref10;
 
-        for (var _iterator11 = collection2, _isArray11 = Array.isArray(_iterator11), _i12 = 0, _iterator11 = _isArray11 ? _iterator11 : _iterator11[Symbol.iterator]();;) {
+        for (var _iterator11 = collection2, _isArray11 = Array.isArray(_iterator11), _i13 = 0, _iterator11 = _isArray11 ? _iterator11 : _iterator11[Symbol.iterator]();;) {
             var _ref11;
 
             if (_isArray11) {
-                if (_i12 >= _iterator11.length) break;
-                _ref11 = _iterator11[_i12++];
+                if (_i13 >= _iterator11.length) break;
+                _ref11 = _iterator11[_i13++];
             } else {
-                _i12 = _iterator11.next();
-                if (_i12.done) break;
-                _ref11 = _i12.value;
+                _i13 = _iterator11.next();
+                if (_i13.done) break;
+                _ref11 = _i13.value;
             }
 
             var item2 = _ref11;
