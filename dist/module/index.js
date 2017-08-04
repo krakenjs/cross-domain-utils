@@ -40,8 +40,6 @@ exports.getDomainFromUrl = getDomainFromUrl;
 exports.onCloseWindow = onCloseWindow;
 exports.isWindow = isWindow;
 
-var _src = require('cross-domain-safe-weakmap/src');
-
 var _util = require('./util');
 
 var CONSTANTS = {
@@ -438,12 +436,15 @@ function isTop(win) {
     return win === getTop(win);
 }
 
-var iframeWindows = new _src.WeakMap();
+var iframeWindows = [];
+var iframeFrames = [];
 
 function linkFrameWindow(frame) {
+
     if (frame && frame.contentWindow) {
         try {
-            iframeWindows.set(frame.contentWindow, frame);
+            iframeWindows.push(frame.contentWindow);
+            iframeFrames.push(frame);
         } catch (err) {
             // pass
         }
@@ -508,8 +509,10 @@ function isWindowClosed(win) {
     // IE orphaned frame
 
     try {
-        if (iframeWindows.has(win)) {
-            var frame = iframeWindows.get(win);
+        var index = iframeWindows.indexOf(win);
+
+        if (index !== -1) {
+            var frame = iframeFrames[index];
 
             if (frame) {
                 if (!frame.contentWindow) {

@@ -1,7 +1,6 @@
 // @flow
 
 import {isRegex} from "./util";
-import {WeakMap} from "cross-domain-safe-weakmap/src";
 declare class Class0 extends HTMLElement<> {
 
   allowFullScreen: boolean;
