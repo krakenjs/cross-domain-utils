@@ -338,20 +338,27 @@ export function isTop(win : any) : boolean {
     return win === getTop(win);
 }
 
+export function isFrameWindowClosed(frame : HTMLIFrameElement) : boolean {
+
+    if (!frame.contentWindow) {
+        return true;
+    }
+
+    if (!frame.parentNode) {
+        return true;
+    }
+
+    let doc = frame.ownerDocument;
+
+    if (doc && doc.body && !doc.body.contains(frame)) {
+        return true;
+    }
+
+    return false;
+}
+
 let iframeWindows = [];
 let iframeFrames = [];
-
-export function linkFrameWindow(frame : HTMLIFrameElement) {
-
-    if (frame && frame.contentWindow) {
-        try {
-            iframeWindows.push(frame.contentWindow);
-            iframeFrames.push(frame);
-        } catch (err) {
-            // pass
-        }
-    }
-}
 
 export function isWindowClosed(win : any, allowMock : boolean = true) {
 
@@ -418,20 +425,8 @@ export function isWindowClosed(win : any, allowMock : boolean = true) {
         if (index !== -1) {
             let frame = iframeFrames[index];
 
-            if (frame) {
-                if (!frame.contentWindow) {
-                    return true;
-                }
-
-                if (!frame.parentNode) {
-                    return true;
-                }
-
-                let doc = frame.ownerDocument;
-
-                if (doc && doc.body && !doc.body.contains(frame)) {
-                    return true;
-                }
+            if (frame && isFrameWindowClosed(frame)) {
+                return true;
             }
         }
     } catch (err) {
@@ -440,6 +435,37 @@ export function isWindowClosed(win : any, allowMock : boolean = true) {
 
 
     return false;
+}
+
+function cleanIframes() {
+
+    for (let i = 0; i < iframeFrames.length; i++) {
+        if (isFrameWindowClosed(iframeFrames[i])) {
+            iframeFrames.splice(i, 1);
+            iframeWindows.splice(i, 1);
+        }
+    }
+
+    for (let i = 0; i < iframeWindows.length; i++) {
+        if (isWindowClosed(iframeWindows[i])) {
+            iframeFrames.splice(i, 1);
+            iframeWindows.splice(i, 1);
+        }
+    }
+}
+
+export function linkFrameWindow(frame : HTMLIFrameElement) {
+
+    cleanIframes();
+
+    if (frame && frame.contentWindow) {
+        try {
+            iframeWindows.push(frame.contentWindow);
+            iframeFrames.push(frame);
+        } catch (err) {
+            // pass
+        }
+    }
 }
 
 export function getUserAgent(win : any) {
