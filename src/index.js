@@ -1,6 +1,5 @@
 // @flow
 
-import { WeakMap } from 'cross-domain-safe-weakmap/src';
 import { isRegex } from './util';
 
 const CONSTANTS = {
@@ -339,12 +338,15 @@ export function isTop(win : any) : boolean {
     return win === getTop(win);
 }
 
-let iframeWindows : WeakMap<any, HTMLIFrameElement> = new WeakMap();
+let iframeWindows = [];
+let iframeFrames = [];
 
 export function linkFrameWindow(frame : HTMLIFrameElement) {
+
     if (frame && frame.contentWindow) {
         try {
-            iframeWindows.set(frame.contentWindow, frame);
+            iframeWindows.push(frame.contentWindow);
+            iframeFrames.push(frame);
         } catch (err) {
             // pass
         }
@@ -411,8 +413,10 @@ export function isWindowClosed(win : any, allowMock : boolean = true) {
     // IE orphaned frame
 
     try {
-        if (iframeWindows.has(win)) {
-            let frame = iframeWindows.get(win);
+        let index = iframeWindows.indexOf(win);
+
+        if (index !== -1) {
+            let frame = iframeFrames[index];
 
             if (frame) {
                 if (!frame.contentWindow) {
