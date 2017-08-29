@@ -264,27 +264,6 @@ export function getAllChildFrames(win : any) {
     return result;
 }
 
-export function getAllFramesInWindow(win : any) {
-
-    let result = getAllChildFrames(win);
-
-    result.push(win);
-
-    for (let parent of getParents(win)) {
-
-        result.push(parent);
-
-        for (let frame of getFrames(parent)) {
-
-            if (result.indexOf(frame) === -1) {
-                result.push(frame);
-            }
-        }
-    }
-
-    return result;
-}
-
 export function getTop(win : any) {
 
     if (!win) {
@@ -304,7 +283,7 @@ export function getTop(win : any) {
     }
 
     try {
-        if (isAncestorParent(window, win)) {
+        if (isAncestorParent(window, win) && window.top) {
             return window.top;
         }
     } catch (err) {
@@ -312,7 +291,7 @@ export function getTop(win : any) {
     }
 
     try {
-        if (isAncestorParent(win, window)) {
+        if (isAncestorParent(win, window) && window.top) {
             return window.top;
         }
     } catch (err) {
@@ -332,6 +311,11 @@ export function getTop(win : any) {
             return frame;
         }
     }
+}
+
+export function getAllFramesInWindow(win : any) {
+    let top = getTop(win);
+    return getAllChildFrames(top).concat(top);
 }
 
 export function isTop(win : any) : boolean {
