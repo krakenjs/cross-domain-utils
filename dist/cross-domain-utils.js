@@ -95,8 +95,8 @@ exports.getParents = getParents;
 exports.isAncestorParent = isAncestorParent;
 exports.getFrames = getFrames;
 exports.getAllChildFrames = getAllChildFrames;
-exports.getAllFramesInWindow = getAllFramesInWindow;
 exports.getTop = getTop;
+exports.getAllFramesInWindow = getAllFramesInWindow;
 exports.isTop = isTop;
 exports.isFrameWindowClosed = isFrameWindowClosed;
 exports.isWindowClosed = isWindowClosed;
@@ -405,53 +405,6 @@ function getAllChildFrames(win) {
     return result;
 }
 
-function getAllFramesInWindow(win) {
-
-    var result = getAllChildFrames(win);
-
-    result.push(win);
-
-    for (var _iterator3 = getParents(win), _isArray3 = Array.isArray(_iterator3), _i4 = 0, _iterator3 = _isArray3 ? _iterator3 : _iterator3[Symbol.iterator]();;) {
-        var _ref3;
-
-        if (_isArray3) {
-            if (_i4 >= _iterator3.length) break;
-            _ref3 = _iterator3[_i4++];
-        } else {
-            _i4 = _iterator3.next();
-            if (_i4.done) break;
-            _ref3 = _i4.value;
-        }
-
-        var parent = _ref3;
-
-
-        result.push(parent);
-
-        for (var _iterator4 = getFrames(parent), _isArray4 = Array.isArray(_iterator4), _i5 = 0, _iterator4 = _isArray4 ? _iterator4 : _iterator4[Symbol.iterator]();;) {
-            var _ref4;
-
-            if (_isArray4) {
-                if (_i5 >= _iterator4.length) break;
-                _ref4 = _iterator4[_i5++];
-            } else {
-                _i5 = _iterator4.next();
-                if (_i5.done) break;
-                _ref4 = _i5.value;
-            }
-
-            var frame = _ref4;
-
-
-            if (result.indexOf(frame) === -1) {
-                result.push(frame);
-            }
-        }
-    }
-
-    return result;
-}
-
 function getTop(win) {
 
     if (!win) {
@@ -471,7 +424,7 @@ function getTop(win) {
     }
 
     try {
-        if (isAncestorParent(window, win)) {
+        if (isAncestorParent(window, win) && window.top) {
             return window.top;
         }
     } catch (err) {
@@ -479,26 +432,26 @@ function getTop(win) {
     }
 
     try {
-        if (isAncestorParent(win, window)) {
+        if (isAncestorParent(win, window) && window.top) {
             return window.top;
         }
     } catch (err) {
         // pass
     }
 
-    for (var _iterator5 = getAllChildFrames(win), _isArray5 = Array.isArray(_iterator5), _i6 = 0, _iterator5 = _isArray5 ? _iterator5 : _iterator5[Symbol.iterator]();;) {
-        var _ref5;
+    for (var _iterator3 = getAllChildFrames(win), _isArray3 = Array.isArray(_iterator3), _i4 = 0, _iterator3 = _isArray3 ? _iterator3 : _iterator3[Symbol.iterator]();;) {
+        var _ref3;
 
-        if (_isArray5) {
-            if (_i6 >= _iterator5.length) break;
-            _ref5 = _iterator5[_i6++];
+        if (_isArray3) {
+            if (_i4 >= _iterator3.length) break;
+            _ref3 = _iterator3[_i4++];
         } else {
-            _i6 = _iterator5.next();
-            if (_i6.done) break;
-            _ref5 = _i6.value;
+            _i4 = _iterator3.next();
+            if (_i4.done) break;
+            _ref3 = _i4.value;
         }
 
-        var frame = _ref5;
+        var frame = _ref3;
 
         try {
             if (frame.top) {
@@ -512,6 +465,11 @@ function getTop(win) {
             return frame;
         }
     }
+}
+
+function getAllFramesInWindow(win) {
+    var top = getTop(win);
+    return getAllChildFrames(top).concat(top);
 }
 
 function isTop(win) {
@@ -623,10 +581,10 @@ function cleanIframes() {
         }
     }
 
-    for (var _i7 = 0; _i7 < iframeWindows.length; _i7++) {
-        if (isWindowClosed(iframeWindows[_i7])) {
-            iframeFrames.splice(_i7, 1);
-            iframeWindows.splice(_i7, 1);
+    for (var _i5 = 0; _i5 < iframeWindows.length; _i5++) {
+        if (isWindowClosed(iframeWindows[_i5])) {
+            iframeFrames.splice(_i5, 1);
+            iframeWindows.splice(_i5, 1);
         }
     }
 }
@@ -654,19 +612,19 @@ function getFrameByName(win, name) {
 
     var winFrames = getFrames(win);
 
-    for (var _iterator6 = winFrames, _isArray6 = Array.isArray(_iterator6), _i8 = 0, _iterator6 = _isArray6 ? _iterator6 : _iterator6[Symbol.iterator]();;) {
-        var _ref6;
+    for (var _iterator4 = winFrames, _isArray4 = Array.isArray(_iterator4), _i6 = 0, _iterator4 = _isArray4 ? _iterator4 : _iterator4[Symbol.iterator]();;) {
+        var _ref4;
 
-        if (_isArray6) {
-            if (_i8 >= _iterator6.length) break;
-            _ref6 = _iterator6[_i8++];
+        if (_isArray4) {
+            if (_i6 >= _iterator4.length) break;
+            _ref4 = _iterator4[_i6++];
         } else {
-            _i8 = _iterator6.next();
-            if (_i8.done) break;
-            _ref6 = _i8.value;
+            _i6 = _iterator4.next();
+            if (_i6.done) break;
+            _ref4 = _i6.value;
         }
 
-        var childFrame = _ref6;
+        var childFrame = _ref4;
 
         try {
             if (isSameDomain(childFrame) && childFrame.name === name && winFrames.indexOf(childFrame) !== -1) {
@@ -702,19 +660,19 @@ function findChildFrameByName(win, name) {
         return frame;
     }
 
-    for (var _iterator7 = getFrames(win), _isArray7 = Array.isArray(_iterator7), _i9 = 0, _iterator7 = _isArray7 ? _iterator7 : _iterator7[Symbol.iterator]();;) {
-        var _ref7;
+    for (var _iterator5 = getFrames(win), _isArray5 = Array.isArray(_iterator5), _i7 = 0, _iterator5 = _isArray5 ? _iterator5 : _iterator5[Symbol.iterator]();;) {
+        var _ref5;
 
-        if (_isArray7) {
-            if (_i9 >= _iterator7.length) break;
-            _ref7 = _iterator7[_i9++];
+        if (_isArray5) {
+            if (_i7 >= _iterator5.length) break;
+            _ref5 = _iterator5[_i7++];
         } else {
-            _i9 = _iterator7.next();
-            if (_i9.done) break;
-            _ref7 = _i9.value;
+            _i7 = _iterator5.next();
+            if (_i7.done) break;
+            _ref5 = _i7.value;
         }
 
-        var childFrame = _ref7;
+        var childFrame = _ref5;
 
         var namedFrame = findChildFrameByName(childFrame, name);
 
@@ -745,19 +703,19 @@ function isParent(win, frame) {
         return frameParent === win;
     }
 
-    for (var _iterator8 = getFrames(win), _isArray8 = Array.isArray(_iterator8), _i10 = 0, _iterator8 = _isArray8 ? _iterator8 : _iterator8[Symbol.iterator]();;) {
-        var _ref8;
+    for (var _iterator6 = getFrames(win), _isArray6 = Array.isArray(_iterator6), _i8 = 0, _iterator6 = _isArray6 ? _iterator6 : _iterator6[Symbol.iterator]();;) {
+        var _ref6;
 
-        if (_isArray8) {
-            if (_i10 >= _iterator8.length) break;
-            _ref8 = _iterator8[_i10++];
+        if (_isArray6) {
+            if (_i8 >= _iterator6.length) break;
+            _ref6 = _iterator6[_i8++];
         } else {
-            _i10 = _iterator8.next();
-            if (_i10.done) break;
-            _ref8 = _i10.value;
+            _i8 = _iterator6.next();
+            if (_i8.done) break;
+            _ref6 = _i8.value;
         }
 
-        var childFrame = _ref8;
+        var childFrame = _ref6;
 
         if (childFrame === frame) {
             return true;
@@ -824,19 +782,19 @@ function isAncestor(parent, child) {
         return false;
     }
 
-    for (var _iterator9 = getFrames(parent), _isArray9 = Array.isArray(_iterator9), _i11 = 0, _iterator9 = _isArray9 ? _iterator9 : _iterator9[Symbol.iterator]();;) {
-        var _ref9;
+    for (var _iterator7 = getFrames(parent), _isArray7 = Array.isArray(_iterator7), _i9 = 0, _iterator7 = _isArray7 ? _iterator7 : _iterator7[Symbol.iterator]();;) {
+        var _ref7;
 
-        if (_isArray9) {
-            if (_i11 >= _iterator9.length) break;
-            _ref9 = _iterator9[_i11++];
+        if (_isArray7) {
+            if (_i9 >= _iterator7.length) break;
+            _ref7 = _iterator7[_i9++];
         } else {
-            _i11 = _iterator9.next();
-            if (_i11.done) break;
-            _ref9 = _i11.value;
+            _i9 = _iterator7.next();
+            if (_i9.done) break;
+            _ref7 = _i9.value;
         }
 
-        var frame = _ref9;
+        var frame = _ref7;
 
         if (frame === child) {
             return true;
@@ -860,33 +818,33 @@ function isFullpage() {
 
 function anyMatch(collection1, collection2) {
 
-    for (var _iterator10 = collection1, _isArray10 = Array.isArray(_iterator10), _i12 = 0, _iterator10 = _isArray10 ? _iterator10 : _iterator10[Symbol.iterator]();;) {
-        var _ref10;
+    for (var _iterator8 = collection1, _isArray8 = Array.isArray(_iterator8), _i10 = 0, _iterator8 = _isArray8 ? _iterator8 : _iterator8[Symbol.iterator]();;) {
+        var _ref8;
 
-        if (_isArray10) {
-            if (_i12 >= _iterator10.length) break;
-            _ref10 = _iterator10[_i12++];
+        if (_isArray8) {
+            if (_i10 >= _iterator8.length) break;
+            _ref8 = _iterator8[_i10++];
         } else {
-            _i12 = _iterator10.next();
-            if (_i12.done) break;
-            _ref10 = _i12.value;
+            _i10 = _iterator8.next();
+            if (_i10.done) break;
+            _ref8 = _i10.value;
         }
 
-        var item1 = _ref10;
+        var item1 = _ref8;
 
-        for (var _iterator11 = collection2, _isArray11 = Array.isArray(_iterator11), _i13 = 0, _iterator11 = _isArray11 ? _iterator11 : _iterator11[Symbol.iterator]();;) {
-            var _ref11;
+        for (var _iterator9 = collection2, _isArray9 = Array.isArray(_iterator9), _i11 = 0, _iterator9 = _isArray9 ? _iterator9 : _iterator9[Symbol.iterator]();;) {
+            var _ref9;
 
-            if (_isArray11) {
-                if (_i13 >= _iterator11.length) break;
-                _ref11 = _iterator11[_i13++];
+            if (_isArray9) {
+                if (_i11 >= _iterator9.length) break;
+                _ref9 = _iterator9[_i11++];
             } else {
-                _i13 = _iterator11.next();
-                if (_i13.done) break;
-                _ref11 = _i13.value;
+                _i11 = _iterator9.next();
+                if (_i11.done) break;
+                _ref9 = _i11.value;
             }
 
-            var item2 = _ref11;
+            var item2 = _ref9;
 
             if (item1 === item2) {
                 return true;

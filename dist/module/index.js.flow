@@ -21,7 +21,7 @@ declare export function findChildFrameByName(win: any, name: string): void;
 declare export function findFrameByName(win: any, name: string): void;
 declare export function getActualDomain(win: any): string;
 declare export function getAllChildFrames(win: any): [];
-declare export function getAllFramesInWindow(win: any): [];
+declare export function getAllFramesInWindow(win: any): Array<any | void>;
 declare export function getAncestor(win: any): void;
 declare export function getAncestors(win: any): [];
 declare export function getDistanceFromTop(win?: any): number;
