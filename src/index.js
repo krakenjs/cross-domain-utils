@@ -1,12 +1,14 @@
 // @flow
 
-import { isRegex } from './util';
+import { isRegex, noop } from './util';
 
 const CONSTANTS = {
     MOCK_PROTOCOL: 'mock:',
     FILE_PROTOCOL: 'file:',
     WILDCARD: '*'
 };
+
+let IE_WIN_ACCESS_ERROR = 'Call was rejected by callee.\r\n';
 
 export function getActualDomain(win : any) {
 
@@ -373,7 +375,7 @@ export function isWindowClosed(win : any, allowMock : boolean = true) {
 
         // I love you so much IE
 
-        if (err && err.message === 'Call was rejected by callee.\r\n') {
+        if (err && err.message === IE_WIN_ACCESS_ERROR) {
             return false;
         }
 
@@ -784,11 +786,60 @@ export function onCloseWindow(win : any, callback : Function, delay : number = 1
 export function isWindow(obj : Object) {
 
     try {
+        if (obj === window) {
+            return true;
+        }
+    } catch (err) {
+        if (err && err.message === IE_WIN_ACCESS_ERROR) {
+            return true;
+        }
+    }
+
+    try {
+        if (window.Window && obj instanceof window.Window) {
+            return true;
+        }
+    } catch (err) {
+        if (err && err.message === IE_WIN_ACCESS_ERROR) {
+            return true;
+        }
+    }
+
+    try {
         if (obj && obj.self === obj) {
             return true;
         }
     } catch (err) {
-        // pass
+        if (err && err.message === IE_WIN_ACCESS_ERROR) {
+            return true;
+        }
+    }
+
+    try {
+        if (obj && obj.parent === obj) {
+            return true;
+        }
+    } catch (err) {
+        if (err && err.message === IE_WIN_ACCESS_ERROR) {
+            return true;
+        }
+    }
+
+    try {
+        if (obj && obj.top === obj) {
+            return true;
+        }
+    } catch (err) {
+        if (err && err.message === IE_WIN_ACCESS_ERROR) {
+            return true;
+        }
+    }
+
+    try {
+        noop(obj && obj.__cross_domain_utils_window_check__);
+
+    } catch (err) {
+        return true;
     }
 
     return false;
