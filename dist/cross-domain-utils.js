@@ -130,6 +130,8 @@ var CONSTANTS = {
     WILDCARD: '*'
 };
 
+var IE_WIN_ACCESS_ERROR = 'Call was rejected by callee.\r\n';
+
 function getActualDomain(win) {
 
     var location = win.location;
@@ -526,7 +528,7 @@ function isWindowClosed(win) {
 
         // I love you so much IE
 
-        if (err && err.message === 'Call was rejected by callee.\r\n') {
+        if (err && err.message === IE_WIN_ACCESS_ERROR) {
             return false;
         }
 
@@ -1022,11 +1024,59 @@ function onCloseWindow(win, callback) {
 function isWindow(obj) {
 
     try {
+        if (obj === window) {
+            return true;
+        }
+    } catch (err) {
+        if (err && err.message === IE_WIN_ACCESS_ERROR) {
+            return true;
+        }
+    }
+
+    try {
+        if (window.Window && obj instanceof window.Window) {
+            return true;
+        }
+    } catch (err) {
+        if (err && err.message === IE_WIN_ACCESS_ERROR) {
+            return true;
+        }
+    }
+
+    try {
         if (obj && obj.self === obj) {
             return true;
         }
     } catch (err) {
-        // pass
+        if (err && err.message === IE_WIN_ACCESS_ERROR) {
+            return true;
+        }
+    }
+
+    try {
+        if (obj && obj.parent === obj) {
+            return true;
+        }
+    } catch (err) {
+        if (err && err.message === IE_WIN_ACCESS_ERROR) {
+            return true;
+        }
+    }
+
+    try {
+        if (obj && obj.top === obj) {
+            return true;
+        }
+    } catch (err) {
+        if (err && err.message === IE_WIN_ACCESS_ERROR) {
+            return true;
+        }
+    }
+
+    try {
+        (0, _util.noop)(obj && obj.__cross_domain_utils_window_check__);
+    } catch (err) {
+        return true;
     }
 
     return false;
@@ -1044,8 +1094,13 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.isRegex = isRegex;
+exports.noop = noop;
 function isRegex(item) {
     return Object.prototype.toString.call(item) === '[object RegExp]';
+}
+
+function noop() {
+    // pass
 }
 
 /***/ })

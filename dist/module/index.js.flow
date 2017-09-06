@@ -1,6 +1,6 @@
 // @flow
 
-import {isRegex} from "./util";
+import {isRegex, noop} from "./util";
 declare class Class0 extends HTMLElement<> {
 
   allowFullScreen: boolean;
