@@ -416,6 +416,21 @@ function isFrameWindowClosed(frame) {
     return false;
 }
 
+function safeIndexOf(collection, item) {
+    for (var i = 0; i < collection.length; i++) {
+
+        try {
+            if (collection[i] === item) {
+                return i;
+            }
+        } catch (err) {
+            // pass
+        }
+    }
+
+    return -1;
+}
+
 var iframeWindows = [];
 var iframeFrames = [];
 
@@ -474,20 +489,25 @@ function isWindowClosed(win) {
     // pass
 
 
-    // IE orphaned frame
+    // Yes, this actually happens in IE. win === win errors out when the window
+    // is from an iframe, and the iframe was removed from the page.
 
     try {
-        var index = iframeWindows.indexOf(win);
-
-        if (index !== -1) {
-            var frame = iframeFrames[index];
-
-            if (frame && isFrameWindowClosed(frame)) {
-                return true;
-            }
-        }
+        (0, _util.noop)(win === win); // eslint-disable-line no-self-compare
     } catch (err) {
-        // pass
+        return true;
+    }
+
+    // IE orphaned frame
+
+    var iframeIndex = safeIndexOf(iframeWindows, win);
+
+    if (iframeIndex !== -1) {
+        var frame = iframeFrames[iframeIndex];
+
+        if (frame && isFrameWindowClosed(frame)) {
+            return true;
+        }
     }
 
     return false;
@@ -990,6 +1010,12 @@ function isWindow(obj) {
         if (err && err.message === IE_WIN_ACCESS_ERROR) {
             return true;
         }
+    }
+
+    try {
+        (0, _util.noop)(obj === obj); // eslint-disable-line no-self-compare
+    } catch (err) {
+        return true;
     }
 
     try {
