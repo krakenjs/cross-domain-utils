@@ -343,6 +343,21 @@ export function isFrameWindowClosed(frame : HTMLIFrameElement) : boolean {
     return false;
 }
 
+function safeIndexOf<T>(collection : Array<T>, item : T) {
+    for (let i = 0; i < collection.length; i++) {
+
+        try {
+            if (collection[i] === item) {
+                return i;
+            }
+        } catch (err) {
+            // pass
+        }
+    }
+
+    return -1;
+}
+
 let iframeWindows = [];
 let iframeFrames = [];
 
@@ -403,22 +418,26 @@ export function isWindowClosed(win : any, allowMock : boolean = true) {
         // pass
     }
 
-    // IE orphaned frame
+    // Yes, this actually happens in IE. win === win errors out when the window
+    // is from an iframe, and the iframe was removed from the page.
 
     try {
-        let index = iframeWindows.indexOf(win);
-
-        if (index !== -1) {
-            let frame = iframeFrames[index];
-
-            if (frame && isFrameWindowClosed(frame)) {
-                return true;
-            }
-        }
+        noop(win === win); // eslint-disable-line no-self-compare
     } catch (err) {
-        // pass
+        return true;
     }
 
+    // IE orphaned frame
+
+    let iframeIndex = safeIndexOf(iframeWindows, win);
+
+    if (iframeIndex !== -1) {
+        let frame = iframeFrames[iframeIndex];
+
+        if (frame && isFrameWindowClosed(frame)) {
+            return true;
+        }
+    }
 
     return false;
 }
@@ -833,6 +852,13 @@ export function isWindow(obj : Object) {
         if (err && err.message === IE_WIN_ACCESS_ERROR) {
             return true;
         }
+    }
+
+    try {
+        noop(obj === obj);  // eslint-disable-line no-self-compare
+
+    } catch (err) {
+        return true;
     }
 
     try {
