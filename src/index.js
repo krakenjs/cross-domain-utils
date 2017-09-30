@@ -371,7 +371,6 @@ export function isWindowClosed(win : any, allowMock : boolean = true) {
         return true;
     }
 
-
     try {
         if (!win) {
             return true;
@@ -806,6 +805,16 @@ export function isWindow(obj : Object) {
 
     try {
         if (obj === window) {
+            return true;
+        }
+    } catch (err) {
+        if (err && err.message === IE_WIN_ACCESS_ERROR) {
+            return true;
+        }
+    }
+
+    try {
+        if (Object.prototype.toString.call(obj) === '[object Window]') {
             return true;
         }
     } catch (err) {
