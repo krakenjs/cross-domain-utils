@@ -315,7 +315,7 @@ export function getTop(win : any) {
     }
 }
 
-export function getAllFramesInWindow(win : any) {
+export function getAllFramesInWindow(win : any) : Array<any> {
     let top = getTop(win);
     return getAllChildFrames(top).concat(top);
 }
