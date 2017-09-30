@@ -1054,6 +1054,16 @@ function isWindow(obj) {
     }
 
     try {
+        if (Object.prototype.toString.call(obj) === '[object Window]') {
+            return true;
+        }
+    } catch (err) {
+        if (err && err.message === IE_WIN_ACCESS_ERROR) {
+            return true;
+        }
+    }
+
+    try {
         if (window.Window && obj instanceof window.Window) {
             return true;
         }
