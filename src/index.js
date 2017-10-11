@@ -10,7 +10,7 @@ const CONSTANTS = {
 
 let IE_WIN_ACCESS_ERROR = 'Call was rejected by callee.\r\n';
 
-export function getActualDomain(win : any) {
+export function getActualDomain(win : SameDomainWindowType) : string {
 
     let location = win.location;
 
@@ -37,7 +37,7 @@ export function getActualDomain(win : any) {
     return `${protocol}//${host}`;
 }
 
-export function getDomain(win : any) {
+export function getDomain(win : ?SameDomainWindowType) : string {
 
     win = win || window;
 
@@ -50,7 +50,7 @@ export function getDomain(win : any) {
     return domain;
 }
 
-export function isBlankDomain(win : any) {
+export function isBlankDomain(win : CrossDomainWindowType) : boolean {
     try {
         if (!win.location.href) {
             return true;
@@ -66,7 +66,7 @@ export function isBlankDomain(win : any) {
     return false;
 }
 
-export function isActuallySameDomain(win : any) {
+export function isActuallySameDomain(win : CrossDomainWindowType) : boolean {
 
     try {
         let desc = Object.getOwnPropertyDescriptor(win, 'location');
@@ -84,6 +84,7 @@ export function isActuallySameDomain(win : any) {
             return true;
         }
 
+        // $FlowFixMe
         if (getActualDomain(win) === getActualDomain(window)) {
             return true;
         }
@@ -95,7 +96,7 @@ export function isActuallySameDomain(win : any) {
     return false;
 }
 
-export function isSameDomain(win : any) {
+export function isSameDomain(win : CrossDomainWindowType | SameDomainWindowType) : boolean {
 
     if (!isActuallySameDomain(win)) {
         return false;
@@ -107,6 +108,7 @@ export function isSameDomain(win : any) {
             return true;
         }
 
+        // $FlowFixMe
         if (getDomain(window) === getDomain(win)) {
             return true;
         }
@@ -118,7 +120,7 @@ export function isSameDomain(win : any) {
     return false;
 }
 
-export function getParent(win : any) {
+export function getParent(win : ?CrossDomainWindowType) : ?CrossDomainWindowType {
 
     if (!win) {
         return;
@@ -133,7 +135,7 @@ export function getParent(win : any) {
     }
 }
 
-export function getOpener(win : any) {
+export function getOpener(win : ?CrossDomainWindowType) : ?CrossDomainWindowType {
 
     if (!win) {
         return;
@@ -153,7 +155,7 @@ export function getOpener(win : any) {
 
 
 
-export function getParents(win : any) {
+export function getParents(win : CrossDomainWindowType) : Array<CrossDomainWindowType> {
 
     let result = [];
 
@@ -171,7 +173,7 @@ export function getParents(win : any) {
     return result;
 }
 
-export function isAncestorParent(parent : any, child : any) {
+export function isAncestorParent(parent : CrossDomainWindowType, child : CrossDomainWindowType) : boolean {
 
     if (!parent || !child) {
         return false;
@@ -190,7 +192,7 @@ export function isAncestorParent(parent : any, child : any) {
     return false;
 }
 
-export function getFrames(win : any) {
+export function getFrames(win : CrossDomainWindowType) : Array<CrossDomainWindowType> {
 
     let result = [];
 
@@ -251,7 +253,7 @@ export function getFrames(win : any) {
 }
 
 
-export function getAllChildFrames(win : any) {
+export function getAllChildFrames(win : CrossDomainWindowType) : Array<CrossDomainWindowType> {
 
     let result = [];
 
@@ -266,7 +268,7 @@ export function getAllChildFrames(win : any) {
     return result;
 }
 
-export function getTop(win : any) {
+export function getTop(win : CrossDomainWindowType) : ?CrossDomainWindowType {
 
     if (!win) {
         return;
@@ -315,12 +317,13 @@ export function getTop(win : any) {
     }
 }
 
-export function getAllFramesInWindow(win : any) : Array<any> {
+export function getAllFramesInWindow(win : CrossDomainWindowType) : Array<CrossDomainWindowType> {
     let top = getTop(win);
+    // $FlowFixMe
     return getAllChildFrames(top).concat(top);
 }
 
-export function isTop(win : any) : boolean {
+export function isTop(win : CrossDomainWindowType) : boolean {
     return win === getTop(win);
 }
 
@@ -343,7 +346,7 @@ export function isFrameWindowClosed(frame : HTMLIFrameElement) : boolean {
     return false;
 }
 
-function safeIndexOf<T>(collection : Array<T>, item : T) {
+function safeIndexOf<T>(collection : Array<T>, item : T) : number {
     for (let i = 0; i < collection.length; i++) {
 
         try {
@@ -361,7 +364,7 @@ function safeIndexOf<T>(collection : Array<T>, item : T) {
 let iframeWindows = [];
 let iframeFrames = [];
 
-export function isWindowClosed(win : any, allowMock : boolean = true) {
+export function isWindowClosed(win : CrossDomainWindowType, allowMock : boolean = true) : boolean {
 
     try {
         if (win === window) {
@@ -472,13 +475,13 @@ export function linkFrameWindow(frame : HTMLIFrameElement) {
     }
 }
 
-export function getUserAgent(win : any) {
+export function getUserAgent(win : ?SameDomainWindowType) : string {
     win = win || window;
     return win.navigator.mockUserAgent || win.navigator.userAgent;
 }
 
 
-export function getFrameByName(win : any, name : string) {
+export function getFrameByName(win : CrossDomainWindowType, name : string) : ?CrossDomainWindowType {
 
     let winFrames = getFrames(win);
 
@@ -493,7 +496,9 @@ export function getFrameByName(win : any, name : string) {
     }
 
     try {
+        // $FlowFixMe
         if (winFrames.indexOf(win.frames[name]) !== -1) {
+            // $FlowFixMe
             return win.frames[name];
         }
     } catch (err) {
@@ -509,7 +514,7 @@ export function getFrameByName(win : any, name : string) {
     }
 }
 
-export function findChildFrameByName(win : any, name : string) {
+export function findChildFrameByName(win : CrossDomainWindowType, name : string) : ?CrossDomainWindowType {
 
     let frame = getFrameByName(win, name);
 
@@ -526,7 +531,7 @@ export function findChildFrameByName(win : any, name : string) {
     }
 }
 
-export function findFrameByName(win : any, name : string) {
+export function findFrameByName(win : CrossDomainWindowType, name : string) : ?CrossDomainWindowType {
 
     let frame;
 
@@ -536,10 +541,12 @@ export function findFrameByName(win : any, name : string) {
         return frame;
     }
 
-    return findChildFrameByName(getTop(win), name);
+    let top = getTop(win) || win;
+
+    return findChildFrameByName(top, name);
 }
 
-export function isParent(win : any, frame : any) {
+export function isParent(win : CrossDomainWindowType, frame : CrossDomainWindowType) : boolean {
 
     let frameParent = getParent(frame);
 
@@ -556,12 +563,12 @@ export function isParent(win : any, frame : any) {
     return false;
 }
 
-export function isOpener(parent : any, child : any) {
+export function isOpener(parent : CrossDomainWindowType, child : CrossDomainWindowType) : boolean {
 
     return parent === getOpener(child);
 }
 
-export function getAncestor(win : any) {
+export function getAncestor(win : CrossDomainWindowType) : ?CrossDomainWindowType {
     win = win || window;
 
     let opener = getOpener(win);
@@ -577,7 +584,7 @@ export function getAncestor(win : any) {
     }
 }
 
-export function getAncestors(win : any) {
+export function getAncestors(win : CrossDomainWindowType) : Array<CrossDomainWindowType> {
 
     let results = [];
 
@@ -594,7 +601,7 @@ export function getAncestors(win : any) {
 }
 
 
-export function isAncestor(parent : any, child : any) {
+export function isAncestor(parent : CrossDomainWindowType, child : CrossDomainWindowType) : boolean {
 
     let actualParent = getAncestor(child);
 
@@ -623,19 +630,19 @@ export function isAncestor(parent : any, child : any) {
     return false;
 }
 
-export function isPopup() {
+export function isPopup() : boolean {
     return Boolean(getOpener(window));
 }
 
-export function isIframe() {
+export function isIframe() : boolean {
     return Boolean(getParent(window));
 }
 
-export function isFullpage() {
+export function isFullpage() : boolean {
     return Boolean(!isIframe() && !isPopup());
 }
 
-function anyMatch(collection1, collection2) {
+function anyMatch(collection1, collection2) : boolean {
 
     for (let item1 of collection1) {
         for (let item2 of collection2) {
@@ -644,14 +651,17 @@ function anyMatch(collection1, collection2) {
             }
         }
     }
+
+    return false;
 }
 
-export function getDistanceFromTop(win : any = window) {
+export function getDistanceFromTop(win : CrossDomainWindowType = window) : number {
     let distance = 0;
+    let parent = win;
 
-    while (win) {
-        win = getParent(win);
-        if (win) {
+    while (parent) {
+        parent = getParent(parent);
+        if (parent) {
             distance += 1;
         }
     }
@@ -659,21 +669,28 @@ export function getDistanceFromTop(win : any = window) {
     return distance;
 }
 
-export function getNthParent(win : any, n : number = 1) {
+export function getNthParent(win : CrossDomainWindowType, n : number = 1) : ?CrossDomainWindowType {
+    let parent = win;
+
     for (let i = 0; i < n; i++) {
-        win = getParent(win);
+        if (!parent) {
+            return;
+        }
+
+        parent = getParent(parent);
     }
-    return win;
+
+    return parent;
 }
 
-export function getNthParentFromTop(win : any, n : number = 1) {
+export function getNthParentFromTop(win : CrossDomainWindowType, n : number = 1) : ?CrossDomainWindowType {
     return getNthParent(win, getDistanceFromTop(win) - n);
 }
 
-export function isSameTopWindow(win1 : any, win2 : any) {
+export function isSameTopWindow(win1 : CrossDomainWindowType, win2 : CrossDomainWindowType) : boolean {
 
-    let top1 = getTop(win1);
-    let top2 = getTop(win2);
+    let top1 = getTop(win1) || win1;
+    let top2 = getTop(win2) || win2;
 
     try {
         if (top1 && top2) {
@@ -704,9 +721,11 @@ export function isSameTopWindow(win1 : any, win2 : any) {
     if (opener2 && anyMatch(getAllFramesInWindow(opener2), allFrames1)) {
         return false;
     }
+
+    return false;
 }
 
-export function matchDomain(pattern : any, origin : any) {
+export function matchDomain(pattern : (string | Array<string> | RegExp), origin : (string | Array<string> | RegExp)) : boolean {
 
     if (typeof pattern === 'string') {
 
@@ -733,6 +752,7 @@ export function matchDomain(pattern : any, origin : any) {
             return false;
         }
 
+        // $FlowFixMe
         return Boolean(origin.match(pattern));
     }
 
@@ -752,7 +772,7 @@ export function matchDomain(pattern : any, origin : any) {
     return false;
 }
 
-export function getDomainFromUrl(url : string) {
+export function getDomainFromUrl(url : string) : string {
 
     let domain;
 
@@ -767,7 +787,7 @@ export function getDomainFromUrl(url : string) {
     return domain;
 }
 
-export function onCloseWindow(win : any, callback : Function, delay : number = 1000, maxtime : number = Infinity) : { cancel : () => void } {
+export function onCloseWindow(win : CrossDomainWindowType, callback : Function, delay : number = 1000, maxtime : number = Infinity) : { cancel : () => void } {
 
     let timeout;
 
@@ -801,7 +821,7 @@ export function onCloseWindow(win : any, callback : Function, delay : number = 1
     };
 }
 
-export function isWindow(obj : Object) {
+export function isWindow(obj : Object) : boolean {
 
     try {
         if (obj === window) {

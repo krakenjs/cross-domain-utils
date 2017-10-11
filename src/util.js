@@ -1,6 +1,6 @@
 // @flow
 
-export function isRegex(item : any) {
+export function isRegex(item : mixed) : boolean {
     return Object.prototype.toString.call(item) === '[object RegExp]';
 }
 

@@ -285,17 +285,25 @@
             "never"
         ],
         "flowtype/no-primitive-constructor-types": 2,
-        "flowtype/no-weak-types": 0,
+        "flowtype/no-weak-types": [
+            2,
+            {
+                "any": true,
+                "Object": false,
+                "Function": false
+            }
+        ],
         "flowtype/object-type-delimiter": [
             2,
             "comma"
         ],
         "flowtype/require-parameter-type": 0,
         "flowtype/require-return-type": [
-            0,
+            2,
             "always",
             {
-                "annotateUndefined": "never"
+                "annotateUndefined": "never",
+                "excludeArrowFunctions": true
             }
         ],
         "flowtype/require-valid-file-annotation": 2,
@@ -317,7 +325,7 @@
         ],
         "flowtype/type-id-match": [
             2,
-            "^([A-Z][a-z0-9]+)+Type$"
+            "^([A-Z][a-z0-9]+)+$"
         ],
         "flowtype/union-intersection-spacing": [
             2,
@@ -326,5 +334,4 @@
         "flowtype/use-flow-type": 1,
         "flowtype/valid-syntax": 1
     }
-
 }

@@ -2,6 +2,7 @@
 
 import { getDomain } from 'src/index';
 import { describe, it } from 'mocha';
+import { getSameDomainWindow } from '../win';
 
 describe('getDomain cases', () => {
 
@@ -17,12 +18,12 @@ describe('getDomain cases', () => {
 
     it('should get the domain for a specific window', () => {
 
-        let win = {
+        let win = getSameDomainWindow({
             location: {
                 protocol: 'https:',
                 host: 'foo.com:8087'
             }
-        };
+        });
 
         let domain = getDomain(win);
         let expectedDomain = `${win.location.protocol}//${win.location.host}`;
@@ -34,13 +35,13 @@ describe('getDomain cases', () => {
 
     it('should get the mock domain for a specific window', () => {
 
-        let win = {
+        let win = getSameDomainWindow({
             location: {
                 protocol: 'https:',
                 host: 'foo.com:8087'
             },
             mockDomain: 'mock://zomg.com:3456'
-        };
+        });
 
         let domain = getDomain(win);
         let expectedDomain = 'mock://zomg.com:3456';
@@ -52,13 +53,13 @@ describe('getDomain cases', () => {
 
     it('should get the actual domain for a specific window when mock domain is not mock://', () => {
 
-        let win = {
+        let win = getSameDomainWindow({
             location: {
                 protocol: 'https:',
                 host: 'foo.com:8087'
             },
             mockDomain: 'mocc://zomg.com:3456'
-        };
+        });
 
         let domain = getDomain(win);
         let expectedDomain = `${win.location.protocol}//${win.location.host}`;
@@ -70,10 +71,10 @@ describe('getDomain cases', () => {
 
     it('should throw errors when the window does not have a location', () => {
 
-        let win = {
+        let win = getSameDomainWindow({
             location: null,
             mockDomain: 'mocc://zomg.com:3456'
-        };
+        });
 
         let error;
 
@@ -90,13 +91,13 @@ describe('getDomain cases', () => {
 
     it('should throw errors when the window does not have a protocol', () => {
 
-        let win = {
+        let win = getSameDomainWindow({
             location: {
                 protocol: null,
                 host: 'foo.com:8087'
             },
             mockDomain: 'mocc://zomg.com:3456'
-        };
+        });
 
         let error;
 
@@ -113,13 +114,13 @@ describe('getDomain cases', () => {
 
     it('should throw errors when the window does not have a host', () => {
 
-        let win = {
+        let win = getSameDomainWindow({
             location: {
                 protocol: 'https:',
                 host: null
             },
             mockDomain: 'mocc://zomg.com:3456'
-        };
+        });
 
         let error;
 
@@ -136,11 +137,11 @@ describe('getDomain cases', () => {
 
     it('should get the domain for a specific window when its protocol is file:// even with no host', () => {
 
-        let win = {
+        let win = getSameDomainWindow({
             location: {
                 protocol: 'file:'
             }
-        };
+        });
 
         let domain = getDomain(win);
         let expectedDomain = `${win.location.protocol}//`;

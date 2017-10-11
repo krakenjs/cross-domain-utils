@@ -1,14 +1,15 @@
 /* @flow */
 
 import { getOpener } from 'src/index';
+import { getCrossDomainWindow } from '../win';
 
 describe('getOpener cases', () => {
 
     it('should get the opener window if there is one', () => {
 
-        let win = {
+        let win = getCrossDomainWindow({
             opener: {}
-        };
+        });
 
         let opener = getOpener(win);
 
@@ -19,10 +20,10 @@ describe('getOpener cases', () => {
 
     it('should not get the opener window if the window has a parent', () => {
 
-        let win = {
+        let win = getCrossDomainWindow({
             parent: {},
             opener: {}
-        };
+        });
 
         let opener = getOpener(win);
 
@@ -42,7 +43,7 @@ describe('getOpener cases', () => {
 
     it('should return void in case of any errors', () => {
 
-        let win = {};
+        let win = getCrossDomainWindow({});
 
         // $FlowFixMe
         Object.defineProperty(win, 'opener', {

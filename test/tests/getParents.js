@@ -1,12 +1,13 @@
 /* @flow */
 
 import { getParents } from 'src/index';
+import { getCrossDomainWindow } from '../win';
 
 describe('getParents cases', () => {
 
     it('should get all of a windows parents', () => {
 
-        let win = {
+        let win = getCrossDomainWindow({
             parent: {
                 parent: {
                     parent: {
@@ -14,7 +15,7 @@ describe('getParents cases', () => {
                     }
                 }
             }
-        };
+        });
 
         win.parent.parent.parent.parent = win.parent.parent.parent;
 

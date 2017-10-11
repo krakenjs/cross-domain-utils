@@ -5,6 +5,7 @@
 .*/dist
 [include]
 [libs]
+src/types.js
 flow-typed
 [options]
 module.name_mapper='^src\(.*\)$' -> '<PROJECT_ROOT>/src/\1'
