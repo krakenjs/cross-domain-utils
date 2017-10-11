@@ -205,6 +205,7 @@ function isActuallySameDomain(win) {
             return true;
         }
 
+        // $FlowFixMe
         if (getActualDomain(win) === getActualDomain(window)) {
             return true;
         }
@@ -227,6 +228,7 @@ function isSameDomain(win) {
             return true;
         }
 
+        // $FlowFixMe
         if (getDomain(window) === getDomain(win)) {
             return true;
         }
@@ -471,6 +473,7 @@ function getTop(win) {
 
 function getAllFramesInWindow(win) {
     var top = getTop(win);
+    // $FlowFixMe
     return getAllChildFrames(top).concat(top);
 }
 
@@ -658,7 +661,9 @@ function getFrameByName(win, name) {
     }
 
     try {
+        // $FlowFixMe
         if (winFrames.indexOf(win.frames[name]) !== -1) {
+            // $FlowFixMe
             return win.frames[name];
         }
     } catch (err) {
@@ -714,7 +719,9 @@ function findFrameByName(win, name) {
         return frame;
     }
 
-    return findChildFrameByName(getTop(win), name);
+    var top = getTop(win) || win;
+
+    return findChildFrameByName(top, name);
 }
 
 function isParent(win, frame) {
@@ -873,16 +880,19 @@ function anyMatch(collection1, collection2) {
             }
         }
     }
+
+    return false;
 }
 
 function getDistanceFromTop() {
     var win = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : window;
 
     var distance = 0;
+    var parent = win;
 
-    while (win) {
-        win = getParent(win);
-        if (win) {
+    while (parent) {
+        parent = getParent(parent);
+        if (parent) {
             distance += 1;
         }
     }
@@ -893,10 +903,17 @@ function getDistanceFromTop() {
 function getNthParent(win) {
     var n = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
 
+    var parent = win;
+
     for (var i = 0; i < n; i++) {
-        win = getParent(win);
+        if (!parent) {
+            return;
+        }
+
+        parent = getParent(parent);
     }
-    return win;
+
+    return parent;
 }
 
 function getNthParentFromTop(win) {
@@ -907,8 +924,8 @@ function getNthParentFromTop(win) {
 
 function isSameTopWindow(win1, win2) {
 
-    var top1 = getTop(win1);
-    var top2 = getTop(win2);
+    var top1 = getTop(win1) || win1;
+    var top2 = getTop(win2) || win2;
 
     try {
         if (top1 && top2) {
@@ -939,6 +956,8 @@ function isSameTopWindow(win1, win2) {
     if (opener2 && anyMatch(getAllFramesInWindow(opener2), allFrames1)) {
         return false;
     }
+
+    return false;
 }
 
 function matchDomain(pattern, origin) {
@@ -968,6 +987,7 @@ function matchDomain(pattern, origin) {
             return false;
         }
 
+        // $FlowFixMe
         return Boolean(origin.match(pattern));
     }
 
