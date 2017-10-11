@@ -568,7 +568,7 @@ export function isOpener(parent : CrossDomainWindowType, child : CrossDomainWind
     return parent === getOpener(child);
 }
 
-export function getAncestor(win : CrossDomainWindowType) : ?CrossDomainWindowType {
+export function getAncestor(win : ?CrossDomainWindowType) : ?CrossDomainWindowType {
     win = win || window;
 
     let opener = getOpener(win);
