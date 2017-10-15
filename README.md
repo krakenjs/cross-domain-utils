@@ -27,7 +27,40 @@ Returns if the specified window is on the same domain as the current window.
 
 ### `getParent(win : Window) => ?Window`
 
+Gets the parent of the specified window, if the window has a parent.
 
+- Only returns the parent of iframes
+- Returns void if the window is the top-level window
+
+### `getOpener(win : Window) => ?Window`
+
+Gets the opener of the specified window, if the window has an opener.
+
+- Only returns the opener of windows opened with `window.open`
+- Returns void if the window is the top-level window
+
+### `getParents(win : Window) => Array<Window>`
+
+Gets all of the hierarchical parents of the specified window.
+
+- Only returns the parents of iframes
+- Returns a blank array if the window is the top-level window
+
+### `isAncestorParent(ancestor : Window, win : Window) => boolean`
+
+Returns true if the `ancestor` is a direct or non-direct parent of the specified window.
+
+### `getFrames(win : Window) => Array<Window>`
+
+Returns an array of all direct child frames found in a given window.
+
+- Only returns direct children
+
+### `getAllChildFrames(win : Window) => Array<Window>`
+
+Returns an array of all recursive child frames found in a given window, and in the child-frames of that window.
+
+- Recursively searches for all direct and indirect children
 
 # Tasks
 
