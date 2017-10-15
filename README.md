@@ -3,6 +3,16 @@ Cross Domain Utils
 
 A set of utilities for dealing with cross-domain windows
 
+# Public methods
+
+## `getDomain(win : Window) => domain : string`
+
+Get the full domain of a window object as a string.
+
+- `win` must be a window on the same domain as the current window
+- This can be overridden / mocked by setting `win.mockDomain = 'mock://some-domain.com';`. `mock://` is required to ensure the window can not spoof actual `http://` or `https://` domains
+
+
 # Tasks
 
 All of the tasks are listed in the package.json file under the scripts section
