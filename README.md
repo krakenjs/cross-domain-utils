@@ -161,6 +161,8 @@ Returns true if the specified object is a window instance
 
 Calls the callback when the specified window closes, with checks running on the specified interval.
 
+- Returns a listener object with a `.cancel()` method, to stop the loop
+
 ### `matchDomain(pattern : (string | RegExp | Array<string>), domain : string) => boolean`
 
 Returns true if the specified domain matches the pattern. The pattern can be one of:
