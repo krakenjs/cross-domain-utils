@@ -125,7 +125,7 @@ Gets either the parent or the opener of the specified window, if either is prese
 
 Recursively gets either the parent or the opener of the specified window, if either is present, and returns an array of the entire ancestor hierarchy.
 
-### `isAncesotr(ancestor : Window, child : Window) => boolean`
+### `isAncestor(ancestor : Window, child : Window) => boolean`
 
 Returns true if the specified ancestor window is the parent or the opener of the specified child window.
 
