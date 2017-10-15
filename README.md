@@ -3,9 +3,9 @@ Cross Domain Utils
 
 A set of utilities for dealing with cross-domain windows
 
-# Public methods
+## Public methods
 
-## `getDomain(win : Window) => domain : string`
+### `getDomain(win : Window) => domain : string`
 
 Get the full domain of a window object as a string.
 
