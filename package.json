@@ -16,6 +16,7 @@
     "flow:build": "flow gen-flow-files ./src/index.js --out-dir ./dist/module",
     "clean": "rimraf dist coverage",
     "reinstall": "rimraf flow-typed && rimraf node_modules && npm install && flow-typed install",
+    "postinstall": "flow-typed install",
     "release": "./publish.sh",
     "release:patch": "./publish.sh patch",
     "release:minor": "./publish.sh minor",
