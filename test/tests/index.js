@@ -8,3 +8,4 @@ export * from './getParent';
 export * from './getOpener';
 export * from './getParents';
 export * from './getAllFramesInWindow';
+export * from './getUserAgent';
