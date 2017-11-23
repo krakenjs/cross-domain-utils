@@ -12,6 +12,17 @@ Get the full domain of the specified window, as a string.
 - `win` must be a window on the same domain as the current window, or an exception will be raised
 - This can be overridden / mocked by setting `win.mockDomain = 'mock://some-domain.com';`. `mock://` is required to ensure the window can not spoof actual `http://` or `https://` domains
 
+### `getDomainFromUrl(url : string) => string`
+
+Get the full domain from the specified url, as a string. 
+
+- it will try to extract the domain from the url string if it starts with well known protocols (`http://`, `https://`, `file://`, and additionally `mock://` urls)
+- if url string does not contain a known protocol, it will try to extract the domain calling `getDomain` using the current window as input
+
+### `getActualDomain(win : Window) => string`
+
+Same as `getDomain` but overriding / mocking is disabled. it will return the real full domain of the specified window.
+
 ### `isBlankDomain(win : Window) => boolean`
 
 Returns if the domain for the specified window is blank, or `about:blank`
