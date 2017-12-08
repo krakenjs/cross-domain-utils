@@ -10,6 +10,10 @@ const CONSTANTS = {
 
 let IE_WIN_ACCESS_ERROR = 'Call was rejected by callee.\r\n';
 
+export function isFileProtocol(win : SameDomainWindowType = window) : boolean {
+    return win.location.protocol === CONSTANTS.FILE_PROTOCOL;
+}
+
 export function getActualDomain(win : SameDomainWindowType) : string {
 
     let location = win.location;
@@ -25,7 +29,7 @@ export function getActualDomain(win : SameDomainWindowType) : string {
     }
 
     if (protocol === CONSTANTS.FILE_PROTOCOL) {
-        return 'file://';
+        return `${CONSTANTS.FILE_PROTOCOL }//`;
     }
 
     let host = location.host;
