@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.isFileProtocol = isFileProtocol;
 exports.getActualDomain = getActualDomain;
 exports.getDomain = getDomain;
 exports.isBlankDomain = isBlankDomain;
@@ -51,6 +52,12 @@ var CONSTANTS = {
 
 var IE_WIN_ACCESS_ERROR = 'Call was rejected by callee.\r\n';
 
+function isFileProtocol() {
+    var win = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : window;
+
+    return win.location.protocol === CONSTANTS.FILE_PROTOCOL;
+}
+
 function getActualDomain(win) {
 
     var location = win.location;
@@ -66,7 +73,7 @@ function getActualDomain(win) {
     }
 
     if (protocol === CONSTANTS.FILE_PROTOCOL) {
-        return 'file://';
+        return CONSTANTS.FILE_PROTOCOL + '//';
     }
 
     var host = location.host;
