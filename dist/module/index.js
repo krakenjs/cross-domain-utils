@@ -158,6 +158,10 @@ function isSameDomain(win) {
 
     try {
 
+        if (win === window) {
+            return true;
+        }
+
         if (isBlankDomain(win)) {
             return true;
         }
