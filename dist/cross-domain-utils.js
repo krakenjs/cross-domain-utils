@@ -85,13 +85,15 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.isFileProtocol = isFileProtocol;
+exports.isAboutProtocol = isAboutProtocol;
+exports.getParent = getParent;
+exports.getOpener = getOpener;
+exports.canReadFromWindow = canReadFromWindow;
 exports.getActualDomain = getActualDomain;
 exports.getDomain = getDomain;
 exports.isBlankDomain = isBlankDomain;
 exports.isActuallySameDomain = isActuallySameDomain;
 exports.isSameDomain = isSameDomain;
-exports.getParent = getParent;
-exports.getOpener = getOpener;
 exports.getParents = getParents;
 exports.isAncestorParent = isAncestorParent;
 exports.getFrames = getFrames;
@@ -128,6 +130,7 @@ var _util = __webpack_require__("./src/util.js");
 var CONSTANTS = {
     MOCK_PROTOCOL: 'mock:',
     FILE_PROTOCOL: 'file:',
+    ABOUT_PROTOCOL: 'about:',
     WILDCARD: '*'
 };
 
@@ -137,6 +140,57 @@ function isFileProtocol() {
     var win = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : window;
 
     return win.location.protocol === CONSTANTS.FILE_PROTOCOL;
+}
+
+function isAboutProtocol() {
+    var win = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : window;
+
+    return win.location.protocol === CONSTANTS.ABOUT_PROTOCOL;
+}
+
+function getParent(win) {
+
+    if (!win) {
+        return;
+    }
+
+    try {
+        if (win.parent && win.parent !== win) {
+            return win.parent;
+        }
+    } catch (err) {
+        return;
+    }
+}
+
+function getOpener(win) {
+
+    if (!win) {
+        return;
+    }
+
+    // Make sure we're not actually an iframe which has had window.open() called on us
+    if (getParent(win)) {
+        return;
+    }
+
+    try {
+        return win.opener;
+    } catch (err) {
+        return;
+    }
+}
+
+function canReadFromWindow(win) {
+    try {
+        // $FlowFixMe
+        (0, _util.noop)(win && win.location && win.location.href);
+        return true;
+    } catch (err) {
+        // pass
+    }
+
+    return false;
 }
 
 function getActualDomain(win) {
@@ -155,6 +209,17 @@ function getActualDomain(win) {
 
     if (protocol === CONSTANTS.FILE_PROTOCOL) {
         return CONSTANTS.FILE_PROTOCOL + '//';
+    }
+
+    if (protocol === CONSTANTS.ABOUT_PROTOCOL) {
+
+        var parent = getParent(win);
+        if (parent && canReadFromWindow(win)) {
+            // $FlowFixMe
+            return getActualDomain(parent);
+        }
+
+        return CONSTANTS.ABOUT_PROTOCOL + '//';
     }
 
     var host = location.host;
@@ -216,10 +281,15 @@ function isActuallySameDomain(win) {
     }
 
     try {
-        if (isBlankDomain(win)) {
+        // $FlowFixMe
+        if (isAboutProtocol(win) && canReadFromWindow(win)) {
             return true;
         }
+    } catch (err) {
+        // pass
+    }
 
+    try {
         // $FlowFixMe
         if (getActualDomain(win) === getActualDomain(window)) {
             return true;
@@ -243,7 +313,8 @@ function isSameDomain(win) {
             return true;
         }
 
-        if (isBlankDomain(win)) {
+        // $FlowFixMe
+        if (isAboutProtocol(win) && canReadFromWindow(win)) {
             return true;
         }
 
@@ -256,39 +327,6 @@ function isSameDomain(win) {
     }
 
     return false;
-}
-
-function getParent(win) {
-
-    if (!win) {
-        return;
-    }
-
-    try {
-        if (win.parent && win.parent !== win) {
-            return win.parent;
-        }
-    } catch (err) {
-        return;
-    }
-}
-
-function getOpener(win) {
-
-    if (!win) {
-        return;
-    }
-
-    // Make sure we're not actually an iframe which has had window.open() called on us
-    if (getParent(win)) {
-        return;
-    }
-
-    try {
-        return win.opener;
-    } catch (err) {
-        return;
-    }
 }
 
 function getParents(win) {
