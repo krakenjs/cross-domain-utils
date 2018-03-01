@@ -73,6 +73,15 @@ export function isBlankDomain(win : CrossDomainWindowType) : boolean {
 export function isActuallySameDomain(win : CrossDomainWindowType) : boolean {
 
     try {
+        if (win === window) {
+            return true;
+        }
+
+    } catch (err) {
+        // pass
+    }
+
+    try {
         let desc = Object.getOwnPropertyDescriptor(win, 'location');
 
         if (desc && desc.enumerable === false) {
