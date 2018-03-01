@@ -117,6 +117,10 @@ export function isSameDomain(win : CrossDomainWindowType | SameDomainWindowType)
 
     try {
 
+        if (win === window) {
+            return true;
+        }
+
         if (isBlankDomain(win)) {
             return true;
         }
