@@ -5,6 +5,7 @@ import { isRegex, noop } from './util';
 const CONSTANTS = {
     MOCK_PROTOCOL: 'mock:',
     FILE_PROTOCOL: 'file:',
+    ABOUT_PROTOCOL: 'about:',
     WILDCARD: '*'
 };
 
@@ -12,6 +13,55 @@ let IE_WIN_ACCESS_ERROR = 'Call was rejected by callee.\r\n';
 
 export function isFileProtocol(win : SameDomainWindowType = window) : boolean {
     return win.location.protocol === CONSTANTS.FILE_PROTOCOL;
+}
+
+export function isAboutProtocol(win : SameDomainWindowType = window) : boolean {
+    return win.location.protocol === CONSTANTS.ABOUT_PROTOCOL;
+}
+
+export function getParent(win : ?CrossDomainWindowType) : ?CrossDomainWindowType {
+
+    if (!win) {
+        return;
+    }
+
+    try {
+        if (win.parent && win.parent !== win) {
+            return win.parent;
+        }
+    } catch (err) {
+        return;
+    }
+}
+
+export function getOpener(win : ?CrossDomainWindowType) : ?CrossDomainWindowType {
+
+    if (!win) {
+        return;
+    }
+
+    // Make sure we're not actually an iframe which has had window.open() called on us
+    if (getParent(win)) {
+        return;
+    }
+
+    try {
+        return win.opener;
+    } catch (err) {
+        return;
+    }
+}
+
+export function canReadFromWindow(win : CrossDomainWindowType | SameDomainWindowType) : boolean {
+    try {
+        // $FlowFixMe
+        noop(win && win.location && win.location.href);
+        return true;
+    } catch (err) {
+        // pass
+    }
+
+    return false;
 }
 
 export function getActualDomain(win : SameDomainWindowType) : string {
@@ -30,6 +80,17 @@ export function getActualDomain(win : SameDomainWindowType) : string {
 
     if (protocol === CONSTANTS.FILE_PROTOCOL) {
         return `${CONSTANTS.FILE_PROTOCOL }//`;
+    }
+
+    if (protocol === CONSTANTS.ABOUT_PROTOCOL) {
+
+        let parent = getParent(win);
+        if (parent && canReadFromWindow(win)) {
+            // $FlowFixMe
+            return getActualDomain(parent);
+        }
+
+        return `${CONSTANTS.ABOUT_PROTOCOL}//`;
     }
 
     let host = location.host;
@@ -93,10 +154,15 @@ export function isActuallySameDomain(win : CrossDomainWindowType) : boolean {
     }
 
     try {
-        if (isBlankDomain(win)) {
+        // $FlowFixMe
+        if (isAboutProtocol(win) && canReadFromWindow(win)) {
             return true;
         }
+    } catch (err) {
+        // pass
+    }
 
+    try {
         // $FlowFixMe
         if (getActualDomain(win) === getActualDomain(window)) {
             return true;
@@ -121,7 +187,8 @@ export function isSameDomain(win : CrossDomainWindowType | SameDomainWindowType)
             return true;
         }
 
-        if (isBlankDomain(win)) {
+        // $FlowFixMe
+        if (isAboutProtocol(win) && canReadFromWindow(win)) {
             return true;
         }
 
@@ -135,39 +202,6 @@ export function isSameDomain(win : CrossDomainWindowType | SameDomainWindowType)
     }
 
     return false;
-}
-
-export function getParent(win : ?CrossDomainWindowType) : ?CrossDomainWindowType {
-
-    if (!win) {
-        return;
-    }
-
-    try {
-        if (win.parent && win.parent !== win) {
-            return win.parent;
-        }
-    } catch (err) {
-        return;
-    }
-}
-
-export function getOpener(win : ?CrossDomainWindowType) : ?CrossDomainWindowType {
-
-    if (!win) {
-        return;
-    }
-
-    // Make sure we're not actually an iframe which has had window.open() called on us
-    if (getParent(win)) {
-        return;
-    }
-
-    try {
-        return win.opener;
-    } catch (err) {
-        return;
-    }
 }
 
 
