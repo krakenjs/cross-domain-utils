@@ -198,6 +198,14 @@ function isBlankDomain(win) {
 function isActuallySameDomain(win) {
 
     try {
+        if (win === window) {
+            return true;
+        }
+    } catch (err) {
+        // pass
+    }
+
+    try {
         var desc = Object.getOwnPropertyDescriptor(win, 'location');
 
         if (desc && desc.enumerable === false) {
