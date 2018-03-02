@@ -13,6 +13,7 @@
     "test": "npm run karma",
     "lint": "eslint src/ test/",
     "flow": "flow",
+    "flow-typed": "flow-typed install",
     "flow:build": "flow gen-flow-files ./src/index.js --out-dir ./dist/module",
     "clean": "rimraf dist coverage",
     "reinstall": "rimraf flow-typed && rimraf node_modules && npm install && flow-typed install",
