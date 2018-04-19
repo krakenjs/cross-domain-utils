@@ -1,5 +1,7 @@
 /* @flow */
 
+import type { CrossDomainWindowType, SameDomainWindowType } from '../src/types';
+
 export function getCrossDomainWindow(options : Object) : CrossDomainWindowType {
     return {
         ...options

@@ -7,6 +7,7 @@ export type CrossDomainWindowType = {|
     open : (string, string, string) => CrossDomainWindowType,
     close : () => void,
     focus : () => void,
+    top : CrossDomainWindowType,
     frames : Array<CrossDomainWindowType>,
     opener ? : CrossDomainWindowType,
     parent : CrossDomainWindowType,

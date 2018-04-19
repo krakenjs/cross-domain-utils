@@ -1,6 +1,7 @@
 // @flow
 
 import { isRegex, noop } from './util';
+import type { CrossDomainWindowType, SameDomainWindowType } from './types';
 
 const CONSTANTS = {
     MOCK_PROTOCOL: 'mock:',
@@ -453,6 +454,7 @@ export function isWindowClosed(win : CrossDomainWindowType, allowMock : boolean 
 
     if (allowMock && isSameDomain(win)) {
         try {
+            // $FlowFixMe
             if (win.mockclosed) {
                 return true;
             }
@@ -538,6 +540,7 @@ export function getFrameByName(win : CrossDomainWindowType, name : string) : ?Cr
 
     for (let childFrame of winFrames) {
         try {
+            // $FlowFixMe
             if (isSameDomain(childFrame) && childFrame.name === name && winFrames.indexOf(childFrame) !== -1) {
                 return childFrame;
             }
