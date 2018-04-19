@@ -40,6 +40,7 @@ exports.getNthParent = getNthParent;
 exports.getNthParentFromTop = getNthParentFromTop;
 exports.isSameTopWindow = isSameTopWindow;
 exports.matchDomain = matchDomain;
+exports.stringifyDomainPattern = stringifyDomainPattern;
 exports.getDomainFromUrl = getDomainFromUrl;
 exports.onCloseWindow = onCloseWindow;
 exports.isWindow = isWindow;
@@ -986,6 +987,16 @@ function matchDomain(pattern, origin) {
     }
 
     return false;
+}
+
+function stringifyDomainPattern(pattern) {
+    if (Array.isArray(pattern)) {
+        return '(' + pattern.join(' | ') + ')';
+    } else if ((0, _util.isRegex)(pattern)) {
+        return 'RegExp(' + pattern.toString();
+    } else {
+        return pattern.toString();
+    }
 }
 
 function getDomainFromUrl(url) {

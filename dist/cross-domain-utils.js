@@ -511,6 +511,9 @@
                     return matchDomain(subpattern, origin);
                 }));
             }
+            function stringifyDomainPattern(pattern) {
+                return Array.isArray(pattern) ? "(" + pattern.join(" | ") + ")" : (0, _util.isRegex)(pattern) ? "RegExp(" + pattern.toString() : pattern.toString();
+            }
             function getDomainFromUrl(url) {
                 var domain = void 0;
                 if (!url.match(/^(https?|mock|file):\/\//)) return getDomain();
@@ -619,6 +622,7 @@
             exports.getNthParentFromTop = getNthParentFromTop;
             exports.isSameTopWindow = isSameTopWindow;
             exports.matchDomain = matchDomain;
+            exports.stringifyDomainPattern = stringifyDomainPattern;
             exports.getDomainFromUrl = getDomainFromUrl;
             exports.onCloseWindow = onCloseWindow;
             exports.isWindow = isWindow;
