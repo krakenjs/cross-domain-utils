@@ -86,7 +86,6 @@
     "yargs": "^8.0.1"
   },
   "dependencies": {
-    "flow-bin": "^0.70.0",
     "zalgo-promise": "^1.0.11"
   }
 }
