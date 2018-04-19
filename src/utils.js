@@ -826,6 +826,16 @@ export function matchDomain(pattern : (string | Array<string> | RegExp), origin 
     return false;
 }
 
+export function stringifyDomainPattern(pattern : (string | Array<string> | RegExp)) : string {
+    if (Array.isArray(pattern)) {
+        return `(${ pattern.join(' | ') })`;
+    } else if (isRegex(pattern)) {
+        return `RegExp(${ pattern.toString() }`;
+    } else {
+        return pattern.toString();
+    }
+}
+
 export function getDomainFromUrl(url : string) : string {
 
     let domain;
