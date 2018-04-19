@@ -1,6 +1,6 @@
 /* @flow */
 
-import { getParents } from 'src/index';
+import { getParents } from '../../src';
 import { getCrossDomainWindow } from '../win';
 
 describe('getParents cases', () => {
@@ -22,7 +22,7 @@ describe('getParents cases', () => {
         let parents = getParents(win);
 
         if (parents.length !== 3) {
-            throw new Error(`Expected to get 3 parents, got ${parents.length}`);
+            throw new Error(`Expected to get 3 parents, got ${ parents.length }`);
         }
 
         if (parents[0] !== win.parent) {

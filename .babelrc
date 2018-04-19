@@ -1,32 +1,3 @@
 {
-  "presets": [
-    [
-      "es2015"
-    ]
-  ],
-  "plugins": [
-    "transform-class-properties",
-    "transform-flow-strip-types",
-    "transform-es3-property-literals",
-    "transform-es3-member-expression-literals",
-    "transform-object-rest-spread",
-    "syntax-object-rest-spread",
-    [
-      "transform-es2015-for-of",
-      {
-        "loose": true
-      }
-    ]
-  ],
-  "env": {
-    "test": {
-      "plugins": [
-        ["flow-runtime", {
-            "assert": true,
-            "annotate": true
-        }],
-        [ "istanbul", { "only": "./src" } ]
-      ]
-    }
-  }
+  "extends": "grumbler-scripts/config/.babelrc-browser"
 }

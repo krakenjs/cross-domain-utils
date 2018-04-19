@@ -1,6 +1,6 @@
 /* @flow */
 
-import { getOpener } from 'src/index';
+import { getOpener } from '../../src';
 import { getCrossDomainWindow } from '../win';
 
 describe('getOpener cases', () => {

@@ -1,6 +1,6 @@
 /* @flow */
 
-import { getParent } from 'src/index';
+import { getParent } from '../../src';
 import { getCrossDomainWindow } from '../win';
 
 describe('getParent cases', () => {

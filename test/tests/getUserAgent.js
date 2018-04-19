@@ -1,8 +1,7 @@
 /* @flow */
 
-import { getUserAgent } from 'src/index';
+import { getUserAgent } from '../../src';
 import { getSameDomainWindow } from '../win';
-import { describe, it } from 'mocha';
 
 describe('getUserAgent cases', () => {
 
@@ -18,7 +17,7 @@ describe('getUserAgent cases', () => {
         const result = getUserAgent(win);
 
         if (result !== userAgent) {
-            throw new Error(`Expected getUserAgent to return ${userAgent}, actually got ${result}`);
+            throw new Error(`Expected getUserAgent to return ${ userAgent }, actually got ${ result }`);
         }
     });
 
@@ -34,7 +33,7 @@ describe('getUserAgent cases', () => {
         const result = getUserAgent(win);
 
         if (result !== mockUserAgent) {
-            throw new Error(`Expected getUserAgent to return ${mockUserAgent}, actually got ${result}`);
+            throw new Error(`Expected getUserAgent to return ${ mockUserAgent }, actually got ${ result }`);
         }
     });
 

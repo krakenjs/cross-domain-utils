@@ -1,7 +1,6 @@
 /* @flow */
 
-import { isSameDomain } from 'src/index';
-import { describe, it } from 'mocha';
+import { isSameDomain } from '../../src';
 import { getSameDomainWindow } from '../win';
 
 describe('isSameDomain cases', () => {
@@ -11,7 +10,7 @@ describe('isSameDomain cases', () => {
         let win = getSameDomainWindow({
             location: {
                 protocol: window.location.protocol,
-                host: window.location.host
+                host:     window.location.host
             }
         });
 
@@ -19,7 +18,7 @@ describe('isSameDomain cases', () => {
         let expectedResult = true;
 
         if (result !== expectedResult) {
-            throw new Error(`Expected isSameDomain result to be "${expectedResult.toString()}", got "${result.toString()}"`);
+            throw new Error(`Expected isSameDomain result to be "${ expectedResult.toString() }", got "${ result.toString() }"`);
         }
     });
 
@@ -28,14 +27,14 @@ describe('isSameDomain cases', () => {
         let win = getSameDomainWindow({
             location: {
                 protocol: 'https:',
-                host: window.location.host
+                host:     window.location.host
             }
         });
 
         // $FlowFixMe
         Object.defineProperty(win.location, 'href', {
             get() : string {
-                return `${win.location.protocol}//${win.location.host}`;
+                return `${ win.location.protocol }//${ win.location.host }`;
             }
         });
 
@@ -43,7 +42,7 @@ describe('isSameDomain cases', () => {
         let expectedResult = false;
 
         if (result !== expectedResult) {
-            throw new Error(`Expected isSameDomain result to be "${expectedResult.toString()}", got "${result.toString()}"`);
+            throw new Error(`Expected isSameDomain result to be "${ expectedResult.toString() }", got "${ result.toString() }"`);
         }
     });
 
@@ -52,14 +51,14 @@ describe('isSameDomain cases', () => {
         let win = getSameDomainWindow({
             location: {
                 protocol: window.location.protocol,
-                host: 'foobar.com:12345'
+                host:     'foobar.com:12345'
             }
         });
 
         // $FlowFixMe
         Object.defineProperty(win.location, 'href', {
             get() : string {
-                return `${win.location.protocol}//${win.location.host}`;
+                return `${ win.location.protocol }//${ win.location.host }`;
             }
         });
 
@@ -67,7 +66,7 @@ describe('isSameDomain cases', () => {
         let expectedResult = false;
 
         if (result !== expectedResult) {
-            throw new Error(`Expected isSameDomain result to be "${expectedResult.toString()}", got "${result.toString()}"`);
+            throw new Error(`Expected isSameDomain result to be "${ expectedResult.toString() }", got "${ result.toString() }"`);
         }
     });
 
@@ -76,14 +75,14 @@ describe('isSameDomain cases', () => {
         let win = getSameDomainWindow({
             location: {
                 protocol: 'https:',
-                host: 'foobar.com:12345'
+                host:     'foobar.com:12345'
             }
         });
 
         // $FlowFixMe
         Object.defineProperty(win.location, 'href', {
             get() : string {
-                return `${win.location.protocol}//${win.location.host}`;
+                return `${ win.location.protocol }//${ win.location.host }`;
             }
         });
 
@@ -91,7 +90,7 @@ describe('isSameDomain cases', () => {
         let expectedResult = false;
 
         if (result !== expectedResult) {
-            throw new Error(`Expected isSameDomain result to be "${expectedResult.toString()}", got "${result.toString()}"`);
+            throw new Error(`Expected isSameDomain result to be "${ expectedResult.toString() }", got "${ result.toString() }"`);
         }
     });
 
@@ -107,7 +106,7 @@ describe('isSameDomain cases', () => {
         // $FlowFixMe
         Object.defineProperty(win.location, 'href', {
             get() : string {
-                return `${win.location.protocol}//${win.location.host}`;
+                return `${ win.location.protocol }//${ win.location.host }`;
             }
         });
 
@@ -115,7 +114,7 @@ describe('isSameDomain cases', () => {
         let expectedResult = false;
 
         if (result !== expectedResult) {
-            throw new Error(`Expected isSameDomain result to be "${expectedResult.toString()}", got "${result.toString()}"`);
+            throw new Error(`Expected isSameDomain result to be "${ expectedResult.toString() }", got "${ result.toString() }"`);
         }
     });
 
@@ -131,7 +130,7 @@ describe('isSameDomain cases', () => {
         // $FlowFixMe
         Object.defineProperty(win.location, 'href', {
             get() : string {
-                return `${win.location.protocol}//${win.location.host}`;
+                return `${ win.location.protocol }//${ win.location.host }`;
             }
         });
 
@@ -139,7 +138,7 @@ describe('isSameDomain cases', () => {
         let expectedResult = false;
 
         if (result !== expectedResult) {
-            throw new Error(`Expected isSameDomain result to be "${expectedResult.toString()}", got "${result.toString()}"`);
+            throw new Error(`Expected isSameDomain result to be "${ expectedResult.toString() }", got "${ result.toString() }"`);
         }
     });
 
@@ -150,7 +149,7 @@ describe('isSameDomain cases', () => {
         Object.defineProperty(win, 'location', {
             value: {
                 protocol: window.location.protocol,
-                host: window.location.host
+                host:     window.location.host
             },
             enumerable: false
         });
@@ -158,7 +157,7 @@ describe('isSameDomain cases', () => {
         // $FlowFixMe
         Object.defineProperty(win.location, 'href', {
             get() : string {
-                return `${win.location.protocol}//${win.location.host}`;
+                return `${ win.location.protocol }//${ win.location.host }`;
             }
         });
 
@@ -166,7 +165,7 @@ describe('isSameDomain cases', () => {
         let expectedResult = false;
 
         if (result !== expectedResult) {
-            throw new Error(`Expected isSameDomain result to be "${expectedResult.toString()}", got "${result.toString()}"`);
+            throw new Error(`Expected isSameDomain result to be "${ expectedResult.toString() }", got "${ result.toString() }"`);
         }
     });
 
@@ -177,7 +176,7 @@ describe('isSameDomain cases', () => {
         let win = getSameDomainWindow({
             location: {
                 protocol: window.location.protocol,
-                host: window.location.host
+                host:     window.location.host
             },
             mockDomain: 'mock://foobar.com:12345'
         });
@@ -185,7 +184,7 @@ describe('isSameDomain cases', () => {
         // $FlowFixMe
         Object.defineProperty(win.location, 'href', {
             get() : string {
-                return `${win.location.protocol}//${win.location.host}`;
+                return `${ win.location.protocol }//${ win.location.host }`;
             }
         });
 
@@ -193,7 +192,7 @@ describe('isSameDomain cases', () => {
         let expectedResult = true;
 
         if (result !== expectedResult) {
-            throw new Error(`Expected isSameDomain result to be "${expectedResult.toString()}", got "${result.toString()}"`);
+            throw new Error(`Expected isSameDomain result to be "${ expectedResult.toString() }", got "${ result.toString() }"`);
         }
 
         delete window.mockDomain;
@@ -206,7 +205,7 @@ describe('isSameDomain cases', () => {
         let win = getSameDomainWindow({
             location: {
                 protocol: window.location.protocol,
-                host: window.location.host
+                host:     window.location.host
             },
             mockDomain: 'mock://foobar.com:12345'
         });
@@ -214,7 +213,7 @@ describe('isSameDomain cases', () => {
         // $FlowFixMe
         Object.defineProperty(win.location, 'href', {
             get() : string {
-                return `${win.location.protocol}//${win.location.host}`;
+                return `${ win.location.protocol }//${ win.location.host }`;
             }
         });
 
@@ -222,7 +221,7 @@ describe('isSameDomain cases', () => {
         let expectedResult = false;
 
         if (result !== expectedResult) {
-            throw new Error(`Expected isSameDomain result to be "${expectedResult.toString()}", got "${result.toString()}"`);
+            throw new Error(`Expected isSameDomain result to be "${ expectedResult.toString() }", got "${ result.toString() }"`);
         }
 
         delete window.mockDomain;

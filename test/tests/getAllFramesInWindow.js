@@ -1,7 +1,6 @@
 /* @flow */
 
-import { getAllFramesInWindow } from 'src/index';
-import { describe, it } from 'mocha';
+import { getAllFramesInWindow } from '../../src';
 
 describe('getAllFramesInWindow cases', () => {
 

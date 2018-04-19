@@ -1,13 +1,14 @@
-// @flow
+/* @flow */
+/* eslint max-lines: 0 */
 
 import { isRegex, noop } from './util';
 import type { CrossDomainWindowType, SameDomainWindowType } from './types';
 
 const CONSTANTS = {
-    MOCK_PROTOCOL: 'mock:',
-    FILE_PROTOCOL: 'file:',
+    MOCK_PROTOCOL:  'mock:',
+    FILE_PROTOCOL:  'file:',
     ABOUT_PROTOCOL: 'about:',
-    WILDCARD: '*'
+    WILDCARD:       '*'
 };
 
 let IE_WIN_ACCESS_ERROR = 'Call was rejected by callee.\r\n';
@@ -31,7 +32,7 @@ export function getParent(win : ?CrossDomainWindowType) : ?CrossDomainWindowType
             return win.parent;
         }
     } catch (err) {
-        return;
+        // pass
     }
 }
 
@@ -49,7 +50,7 @@ export function getOpener(win : ?CrossDomainWindowType) : ?CrossDomainWindowType
     try {
         return win.opener;
     } catch (err) {
-        return;
+        // pass
     }
 }
 
@@ -80,7 +81,7 @@ export function getActualDomain(win : SameDomainWindowType) : string {
     }
 
     if (protocol === CONSTANTS.FILE_PROTOCOL) {
-        return `${CONSTANTS.FILE_PROTOCOL }//`;
+        return `${ CONSTANTS.FILE_PROTOCOL }//`;
     }
 
     if (protocol === CONSTANTS.ABOUT_PROTOCOL) {
@@ -91,7 +92,7 @@ export function getActualDomain(win : SameDomainWindowType) : string {
             return getActualDomain(parent);
         }
 
-        return `${CONSTANTS.ABOUT_PROTOCOL}//`;
+        return `${ CONSTANTS.ABOUT_PROTOCOL }//`;
     }
 
     let host = location.host;
@@ -100,7 +101,7 @@ export function getActualDomain(win : SameDomainWindowType) : string {
         throw new Error(`Can not read window host`);
     }
 
-    return `${protocol}//${host}`;
+    return `${ protocol }//${ host }`;
 }
 
 export function getDomain(win : ?SameDomainWindowType) : string {
@@ -204,7 +205,6 @@ export function isSameDomain(win : CrossDomainWindowType | SameDomainWindowType)
 
     return false;
 }
-
 
 
 export function getParents(win : CrossDomainWindowType) : Array<CrossDomainWindowType> {
@@ -875,6 +875,7 @@ export function onCloseWindow(win : CrossDomainWindowType, callback : Function, 
     };
 }
 
+// eslint-disable-next-line complexity
 export function isWindow(obj : Object) : boolean {
 
     try {

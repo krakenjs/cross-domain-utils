@@ -1,7 +1,6 @@
 /* @flow */
 
-import { getDomain } from 'src/index';
-import { describe, it } from 'mocha';
+import { getDomain } from '../../src';
 import { getSameDomainWindow } from '../win';
 
 describe('getDomain cases', () => {
@@ -9,10 +8,10 @@ describe('getDomain cases', () => {
     it('should get the domain for the current window', () => {
 
         let domain = getDomain();
-        let expectedDomain = `${window.location.protocol}//${window.location.host}`;
+        let expectedDomain = `${ window.location.protocol }//${ window.location.host }`;
 
         if (domain !== expectedDomain) {
-            throw new Error(`Expected domain to be "${expectedDomain}", got "${domain}"`);
+            throw new Error(`Expected domain to be "${ expectedDomain }", got "${ domain }"`);
         }
     });
 
@@ -21,15 +20,15 @@ describe('getDomain cases', () => {
         let win = getSameDomainWindow({
             location: {
                 protocol: 'https:',
-                host: 'foo.com:8087'
+                host:     'foo.com:8087'
             }
         });
 
         let domain = getDomain(win);
-        let expectedDomain = `${win.location.protocol}//${win.location.host}`;
+        let expectedDomain = `${ win.location.protocol }//${ win.location.host }`;
 
         if (domain !== expectedDomain) {
-            throw new Error(`Expected domain to be "${expectedDomain}", got "${domain}"`);
+            throw new Error(`Expected domain to be "${ expectedDomain }", got "${ domain }"`);
         }
     });
 
@@ -38,7 +37,7 @@ describe('getDomain cases', () => {
         let win = getSameDomainWindow({
             location: {
                 protocol: 'https:',
-                host: 'foo.com:8087'
+                host:     'foo.com:8087'
             },
             mockDomain: 'mock://zomg.com:3456'
         });
@@ -47,7 +46,7 @@ describe('getDomain cases', () => {
         let expectedDomain = 'mock://zomg.com:3456';
 
         if (domain !== expectedDomain) {
-            throw new Error(`Expected domain to be "${expectedDomain}", got "${domain}"`);
+            throw new Error(`Expected domain to be "${ expectedDomain }", got "${ domain }"`);
         }
     });
 
@@ -56,23 +55,23 @@ describe('getDomain cases', () => {
         let win = getSameDomainWindow({
             location: {
                 protocol: 'https:',
-                host: 'foo.com:8087'
+                host:     'foo.com:8087'
             },
             mockDomain: 'mocc://zomg.com:3456'
         });
 
         let domain = getDomain(win);
-        let expectedDomain = `${win.location.protocol}//${win.location.host}`;
+        let expectedDomain = `${ win.location.protocol }//${ win.location.host }`;
 
         if (domain !== expectedDomain) {
-            throw new Error(`Expected domain to be "${expectedDomain}", got "${domain}"`);
+            throw new Error(`Expected domain to be "${ expectedDomain }", got "${ domain }"`);
         }
     });
 
     it('should throw errors when the window does not have a location', () => {
 
         let win = getSameDomainWindow({
-            location: null,
+            location:   null,
             mockDomain: 'mocc://zomg.com:3456'
         });
 
@@ -85,7 +84,7 @@ describe('getDomain cases', () => {
         }
 
         if (!(error instanceof Error)) {
-            throw new Error(`Expected to get Error, got ${typeof error}`);
+            throw new TypeError(`Expected to get Error, got ${ typeof error }`);
         }
     });
 
@@ -94,7 +93,7 @@ describe('getDomain cases', () => {
         let win = getSameDomainWindow({
             location: {
                 protocol: null,
-                host: 'foo.com:8087'
+                host:     'foo.com:8087'
             },
             mockDomain: 'mocc://zomg.com:3456'
         });
@@ -108,7 +107,7 @@ describe('getDomain cases', () => {
         }
 
         if (!(error instanceof Error)) {
-            throw new Error(`Expected to get Error, got ${typeof error}`);
+            throw new TypeError(`Expected to get Error, got ${ typeof error }`);
         }
     });
 
@@ -117,7 +116,7 @@ describe('getDomain cases', () => {
         let win = getSameDomainWindow({
             location: {
                 protocol: 'https:',
-                host: null
+                host:     null
             },
             mockDomain: 'mocc://zomg.com:3456'
         });
@@ -131,7 +130,7 @@ describe('getDomain cases', () => {
         }
 
         if (!(error instanceof Error)) {
-            throw new Error(`Expected to get Error, got ${typeof error}`);
+            throw new TypeError(`Expected to get Error, got ${ typeof error }`);
         }
     });
 
@@ -144,10 +143,10 @@ describe('getDomain cases', () => {
         });
 
         let domain = getDomain(win);
-        let expectedDomain = `${win.location.protocol}//`;
+        let expectedDomain = `${ win.location.protocol }//`;
 
         if (domain !== expectedDomain) {
-            throw new Error(`Expected domain to be "${expectedDomain}", got "${domain}"`);
+            throw new Error(`Expected domain to be "${ expectedDomain }", got "${ domain }"`);
         }
     });
 });
