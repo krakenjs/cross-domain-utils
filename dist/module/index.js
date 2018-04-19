@@ -52,6 +52,7 @@ var CONSTANTS = {
     ABOUT_PROTOCOL: 'about:',
     WILDCARD: '*'
 };
+/* eslint max-lines: 0 */
 
 var IE_WIN_ACCESS_ERROR = 'Call was rejected by callee.\r\n';
 
@@ -78,7 +79,7 @@ function getParent(win) {
             return win.parent;
         }
     } catch (err) {
-        return;
+        // pass
     }
 }
 
@@ -96,7 +97,7 @@ function getOpener(win) {
     try {
         return win.opener;
     } catch (err) {
-        return;
+        // pass
     }
 }
 
@@ -531,6 +532,7 @@ function isWindowClosed(win) {
 
     if (allowMock && isSameDomain(win)) {
         try {
+            // $FlowFixMe
             if (win.mockclosed) {
                 return true;
             }
@@ -628,6 +630,7 @@ function getFrameByName(win, name) {
         var childFrame = _ref4;
 
         try {
+            // $FlowFixMe
             if (isSameDomain(childFrame) && childFrame.name === name && winFrames.indexOf(childFrame) !== -1) {
                 return childFrame;
             }
@@ -1037,6 +1040,7 @@ function onCloseWindow(win, callback) {
     };
 }
 
+// eslint-disable-next-line complexity
 function isWindow(obj) {
 
     try {
