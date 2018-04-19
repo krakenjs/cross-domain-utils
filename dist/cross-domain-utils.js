@@ -40,6 +40,45 @@
     }({
         "./src/index.js": function(module, exports, __webpack_require__) {
             "use strict";
+            Object.defineProperty(exports, "__esModule", {
+                value: !0
+            });
+            var _utils = __webpack_require__("./src/utils.js");
+            Object.keys(_utils).forEach(function(key) {
+                "default" !== key && "__esModule" !== key && Object.defineProperty(exports, key, {
+                    enumerable: !0,
+                    get: function() {
+                        return _utils[key];
+                    }
+                });
+            });
+            var _types = __webpack_require__("./src/types.js");
+            Object.keys(_types).forEach(function(key) {
+                "default" !== key && "__esModule" !== key && Object.defineProperty(exports, key, {
+                    enumerable: !0,
+                    get: function() {
+                        return _types[key];
+                    }
+                });
+            });
+        },
+        "./src/types.js": function(module, exports, __webpack_require__) {
+            "use strict";
+        },
+        "./src/util.js": function(module, exports, __webpack_require__) {
+            "use strict";
+            function isRegex(item) {
+                return "[object RegExp]" === Object.prototype.toString.call(item);
+            }
+            function noop() {}
+            Object.defineProperty(exports, "__esModule", {
+                value: !0
+            });
+            exports.isRegex = isRegex;
+            exports.noop = noop;
+        },
+        "./src/utils.js": function(module, exports, __webpack_require__) {
+            "use strict";
             function isFileProtocol() {
                 return (arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : window).location.protocol === CONSTANTS.FILE_PROTOCOL;
             }
@@ -589,18 +628,6 @@
                 ABOUT_PROTOCOL: "about:",
                 WILDCARD: "*"
             }, IE_WIN_ACCESS_ERROR = "Call was rejected by callee.\r\n", iframeWindows = [], iframeFrames = [];
-        },
-        "./src/util.js": function(module, exports, __webpack_require__) {
-            "use strict";
-            function isRegex(item) {
-                return "[object RegExp]" === Object.prototype.toString.call(item);
-            }
-            function noop() {}
-            Object.defineProperty(exports, "__esModule", {
-                value: !0
-            });
-            exports.isRegex = isRegex;
-            exports.noop = noop;
         }
     });
 });
