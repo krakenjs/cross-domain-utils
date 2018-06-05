@@ -87,7 +87,7 @@ export function getActualDomain(win : SameDomainWindowType) : string {
     if (protocol === CONSTANTS.ABOUT_PROTOCOL) {
 
         let parent = getParent(win);
-        if (parent && canReadFromWindow(win)) {
+        if (parent && canReadFromWindow(parent)) {
             // $FlowFixMe
             return getActualDomain(parent);
         }
