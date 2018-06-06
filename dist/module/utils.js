@@ -1,8 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
+exports.__esModule = true;
 exports.isFileProtocol = isFileProtocol;
 exports.isAboutProtocol = isAboutProtocol;
 exports.getParent = getParent;
@@ -135,7 +133,7 @@ function getActualDomain(win) {
     if (protocol === CONSTANTS.ABOUT_PROTOCOL) {
 
         var parent = getParent(win);
-        if (parent && canReadFromWindow(win)) {
+        if (parent && canReadFromWindow(parent)) {
             // $FlowFixMe
             return getActualDomain(parent);
         }
