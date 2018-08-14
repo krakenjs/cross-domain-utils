@@ -1,8 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
+exports.__esModule = true;
 exports.isFileProtocol = isFileProtocol;
 exports.isAboutProtocol = isAboutProtocol;
 exports.getParent = getParent;
@@ -115,6 +113,8 @@ function canReadFromWindow(win) {
 }
 
 function getActualDomain(win) {
+
+    win = win || window;
 
     var location = win.location;
 
