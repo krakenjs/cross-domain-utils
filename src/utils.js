@@ -66,7 +66,9 @@ export function canReadFromWindow(win : CrossDomainWindowType | SameDomainWindow
     return false;
 }
 
-export function getActualDomain(win : SameDomainWindowType) : string {
+export function getActualDomain(win : ?SameDomainWindowType) : string {
+
+    win = win || window;
 
     let location = win.location;
 
