@@ -373,8 +373,12 @@ export function getTop(win : CrossDomainWindowType) : ?CrossDomainWindowType {
 
 export function getAllFramesInWindow(win : CrossDomainWindowType) : Array<CrossDomainWindowType> {
     let top = getTop(win);
-    // $FlowFixMe
-    return getAllChildFrames(top).concat(top);
+
+    if (!top) {
+        throw new Error(`Can not determine top window`);
+    }
+
+    return [ ...getAllChildFrames(top), top ];
 }
 
 export function isTop(win : CrossDomainWindowType) : boolean {
