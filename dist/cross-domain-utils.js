@@ -38,80 +38,187 @@
         __webpack_require__.p = "";
         return __webpack_require__(__webpack_require__.s = "./src/index.js");
     }({
-        "./src/index.js": function(module, exports, __webpack_require__) {
+        "./src/index.js": function(module, __webpack_exports__, __webpack_require__) {
             "use strict";
-            exports.__esModule = !0;
-            var _utils = __webpack_require__("./src/utils.js");
-            Object.keys(_utils).forEach(function(key) {
-                "default" !== key && "__esModule" !== key && Object.defineProperty(exports, key, {
-                    enumerable: !0,
-                    get: function() {
-                        return _utils[key];
-                    }
-                });
+            Object.defineProperty(__webpack_exports__, "__esModule", {
+                value: !0
             });
-            var _types = __webpack_require__("./src/types.js");
-            Object.keys(_types).forEach(function(key) {
-                "default" !== key && "__esModule" !== key && Object.defineProperty(exports, key, {
-                    enumerable: !0,
-                    get: function() {
-                        return _types[key];
-                    }
-                });
+            var __WEBPACK_IMPORTED_MODULE_0__utils__ = __webpack_require__("./src/utils.js");
+            __webpack_require__.d(__webpack_exports__, "isFileProtocol", function() {
+                return __WEBPACK_IMPORTED_MODULE_0__utils__.z;
             });
+            __webpack_require__.d(__webpack_exports__, "isAboutProtocol", function() {
+                return __WEBPACK_IMPORTED_MODULE_0__utils__.u;
+            });
+            __webpack_require__.d(__webpack_exports__, "getParent", function() {
+                return __WEBPACK_IMPORTED_MODULE_0__utils__.q;
+            });
+            __webpack_require__.d(__webpack_exports__, "getOpener", function() {
+                return __WEBPACK_IMPORTED_MODULE_0__utils__.p;
+            });
+            __webpack_require__.d(__webpack_exports__, "canReadFromWindow", function() {
+                return __WEBPACK_IMPORTED_MODULE_0__utils__.a;
+            });
+            __webpack_require__.d(__webpack_exports__, "getActualDomain", function() {
+                return __WEBPACK_IMPORTED_MODULE_0__utils__.d;
+            });
+            __webpack_require__.d(__webpack_exports__, "getDomain", function() {
+                return __WEBPACK_IMPORTED_MODULE_0__utils__.j;
+            });
+            __webpack_require__.d(__webpack_exports__, "isBlankDomain", function() {
+                return __WEBPACK_IMPORTED_MODULE_0__utils__.y;
+            });
+            __webpack_require__.d(__webpack_exports__, "isActuallySameDomain", function() {
+                return __WEBPACK_IMPORTED_MODULE_0__utils__.v;
+            });
+            __webpack_require__.d(__webpack_exports__, "isSameDomain", function() {
+                return __WEBPACK_IMPORTED_MODULE_0__utils__.G;
+            });
+            __webpack_require__.d(__webpack_exports__, "getParents", function() {
+                return __WEBPACK_IMPORTED_MODULE_0__utils__.r;
+            });
+            __webpack_require__.d(__webpack_exports__, "isAncestorParent", function() {
+                return __WEBPACK_IMPORTED_MODULE_0__utils__.x;
+            });
+            __webpack_require__.d(__webpack_exports__, "getFrames", function() {
+                return __WEBPACK_IMPORTED_MODULE_0__utils__.m;
+            });
+            __webpack_require__.d(__webpack_exports__, "getAllChildFrames", function() {
+                return __WEBPACK_IMPORTED_MODULE_0__utils__.e;
+            });
+            __webpack_require__.d(__webpack_exports__, "getTop", function() {
+                return __WEBPACK_IMPORTED_MODULE_0__utils__.s;
+            });
+            __webpack_require__.d(__webpack_exports__, "getAllFramesInWindow", function() {
+                return __WEBPACK_IMPORTED_MODULE_0__utils__.f;
+            });
+            __webpack_require__.d(__webpack_exports__, "isTop", function() {
+                return __WEBPACK_IMPORTED_MODULE_0__utils__.I;
+            });
+            __webpack_require__.d(__webpack_exports__, "isFrameWindowClosed", function() {
+                return __WEBPACK_IMPORTED_MODULE_0__utils__.A;
+            });
+            __webpack_require__.d(__webpack_exports__, "isWindowClosed", function() {
+                return __WEBPACK_IMPORTED_MODULE_0__utils__.K;
+            });
+            __webpack_require__.d(__webpack_exports__, "linkFrameWindow", function() {
+                return __WEBPACK_IMPORTED_MODULE_0__utils__.L;
+            });
+            __webpack_require__.d(__webpack_exports__, "getUserAgent", function() {
+                return __WEBPACK_IMPORTED_MODULE_0__utils__.t;
+            });
+            __webpack_require__.d(__webpack_exports__, "getFrameByName", function() {
+                return __WEBPACK_IMPORTED_MODULE_0__utils__.l;
+            });
+            __webpack_require__.d(__webpack_exports__, "findChildFrameByName", function() {
+                return __WEBPACK_IMPORTED_MODULE_0__utils__.b;
+            });
+            __webpack_require__.d(__webpack_exports__, "findFrameByName", function() {
+                return __WEBPACK_IMPORTED_MODULE_0__utils__.c;
+            });
+            __webpack_require__.d(__webpack_exports__, "isParent", function() {
+                return __WEBPACK_IMPORTED_MODULE_0__utils__.E;
+            });
+            __webpack_require__.d(__webpack_exports__, "isOpener", function() {
+                return __WEBPACK_IMPORTED_MODULE_0__utils__.D;
+            });
+            __webpack_require__.d(__webpack_exports__, "getAncestor", function() {
+                return __WEBPACK_IMPORTED_MODULE_0__utils__.g;
+            });
+            __webpack_require__.d(__webpack_exports__, "getAncestors", function() {
+                return __WEBPACK_IMPORTED_MODULE_0__utils__.h;
+            });
+            __webpack_require__.d(__webpack_exports__, "isAncestor", function() {
+                return __WEBPACK_IMPORTED_MODULE_0__utils__.w;
+            });
+            __webpack_require__.d(__webpack_exports__, "isPopup", function() {
+                return __WEBPACK_IMPORTED_MODULE_0__utils__.F;
+            });
+            __webpack_require__.d(__webpack_exports__, "isIframe", function() {
+                return __WEBPACK_IMPORTED_MODULE_0__utils__.C;
+            });
+            __webpack_require__.d(__webpack_exports__, "isFullpage", function() {
+                return __WEBPACK_IMPORTED_MODULE_0__utils__.B;
+            });
+            __webpack_require__.d(__webpack_exports__, "getDistanceFromTop", function() {
+                return __WEBPACK_IMPORTED_MODULE_0__utils__.i;
+            });
+            __webpack_require__.d(__webpack_exports__, "getNthParent", function() {
+                return __WEBPACK_IMPORTED_MODULE_0__utils__.n;
+            });
+            __webpack_require__.d(__webpack_exports__, "getNthParentFromTop", function() {
+                return __WEBPACK_IMPORTED_MODULE_0__utils__.o;
+            });
+            __webpack_require__.d(__webpack_exports__, "isSameTopWindow", function() {
+                return __WEBPACK_IMPORTED_MODULE_0__utils__.H;
+            });
+            __webpack_require__.d(__webpack_exports__, "matchDomain", function() {
+                return __WEBPACK_IMPORTED_MODULE_0__utils__.M;
+            });
+            __webpack_require__.d(__webpack_exports__, "stringifyDomainPattern", function() {
+                return __WEBPACK_IMPORTED_MODULE_0__utils__.O;
+            });
+            __webpack_require__.d(__webpack_exports__, "getDomainFromUrl", function() {
+                return __WEBPACK_IMPORTED_MODULE_0__utils__.k;
+            });
+            __webpack_require__.d(__webpack_exports__, "onCloseWindow", function() {
+                return __WEBPACK_IMPORTED_MODULE_0__utils__.N;
+            });
+            __webpack_require__.d(__webpack_exports__, "isWindow", function() {
+                return __WEBPACK_IMPORTED_MODULE_0__utils__.J;
+            });
+            var __WEBPACK_IMPORTED_MODULE_1__types__ = __webpack_require__("./src/types.js");
+            __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__types__);
+            for (var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_1__types__) [ "isFileProtocol", "isAboutProtocol", "getParent", "getOpener", "canReadFromWindow", "getActualDomain", "getDomain", "isBlankDomain", "isActuallySameDomain", "isSameDomain", "getParents", "isAncestorParent", "getFrames", "getAllChildFrames", "getTop", "getAllFramesInWindow", "isTop", "isFrameWindowClosed", "isWindowClosed", "linkFrameWindow", "getUserAgent", "getFrameByName", "findChildFrameByName", "findFrameByName", "isParent", "isOpener", "getAncestor", "getAncestors", "isAncestor", "isPopup", "isIframe", "isFullpage", "getDistanceFromTop", "getNthParent", "getNthParentFromTop", "isSameTopWindow", "matchDomain", "stringifyDomainPattern", "getDomainFromUrl", "onCloseWindow", "isWindow", "default" ].indexOf(__WEBPACK_IMPORT_KEY__) < 0 && function(key) {
+                __webpack_require__.d(__webpack_exports__, key, function() {
+                    return __WEBPACK_IMPORTED_MODULE_1__types__[key];
+                });
+            }(__WEBPACK_IMPORT_KEY__);
         },
-        "./src/types.js": function(module, exports, __webpack_require__) {
+        "./src/types.js": function(module, exports) {},
+        "./src/utils.js": function(module, __webpack_exports__, __webpack_require__) {
             "use strict";
-        },
-        "./src/util.js": function(module, exports, __webpack_require__) {
-            "use strict";
-            exports.__esModule = !0;
-            exports.isRegex = function(item) {
+            function isRegex(item) {
                 return "[object RegExp]" === Object.prototype.toString.call(item);
-            };
-            exports.noop = function() {};
-        },
-        "./src/utils.js": function(module, exports, __webpack_require__) {
-            "use strict";
-            exports.__esModule = !0;
-            exports.isFileProtocol = function() {
+            }
+            __webpack_exports__.z = function() {
                 return (arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : window).location.protocol === CONSTANTS.FILE_PROTOCOL;
             };
-            exports.isAboutProtocol = isAboutProtocol;
-            exports.getParent = getParent;
-            exports.getOpener = getOpener;
-            exports.canReadFromWindow = canReadFromWindow;
-            exports.getActualDomain = getActualDomain;
-            exports.getDomain = getDomain;
-            exports.isBlankDomain = function(win) {
+            __webpack_exports__.u = isAboutProtocol;
+            __webpack_exports__.q = getParent;
+            __webpack_exports__.p = getOpener;
+            __webpack_exports__.a = canReadFromWindow;
+            __webpack_exports__.d = getActualDomain;
+            __webpack_exports__.j = getDomain;
+            __webpack_exports__.y = function(win) {
                 try {
                     if (!win.location.href) return !0;
                     if ("about:blank" === win.location.href) return !0;
                 } catch (err) {}
                 return !1;
             };
-            exports.isActuallySameDomain = isActuallySameDomain;
-            exports.isSameDomain = isSameDomain;
-            exports.getParents = getParents;
-            exports.isAncestorParent = isAncestorParent;
-            exports.getFrames = getFrames;
-            exports.getAllChildFrames = getAllChildFrames;
-            exports.getTop = getTop;
-            exports.getAllFramesInWindow = getAllFramesInWindow;
-            exports.isTop = function(win) {
+            __webpack_exports__.v = isActuallySameDomain;
+            __webpack_exports__.G = isSameDomain;
+            __webpack_exports__.r = getParents;
+            __webpack_exports__.x = isAncestorParent;
+            __webpack_exports__.m = getFrames;
+            __webpack_exports__.e = getAllChildFrames;
+            __webpack_exports__.s = getTop;
+            __webpack_exports__.f = getAllFramesInWindow;
+            __webpack_exports__.I = function(win) {
                 return win === getTop(win);
             };
-            exports.isFrameWindowClosed = isFrameWindowClosed;
-            exports.isWindowClosed = isWindowClosed;
-            exports.linkFrameWindow = function(frame) {
+            __webpack_exports__.A = isFrameWindowClosed;
+            __webpack_exports__.K = isWindowClosed;
+            __webpack_exports__.L = function(frame) {
                 !function() {
                     for (var i = 0; i < iframeFrames.length; i++) if (isFrameWindowClosed(iframeFrames[i])) {
                         iframeFrames.splice(i, 1);
                         iframeWindows.splice(i, 1);
                     }
-                    for (var _i5 = 0; _i5 < iframeWindows.length; _i5++) if (isWindowClosed(iframeWindows[_i5])) {
-                        iframeFrames.splice(_i5, 1);
-                        iframeWindows.splice(_i5, 1);
+                    for (var _i8 = 0; _i8 < iframeWindows.length; _i8++) if (isWindowClosed(iframeWindows[_i8])) {
+                        iframeFrames.splice(_i8, 1);
+                        iframeWindows.splice(_i8, 1);
                     }
                 }();
                 if (frame && frame.contentWindow) try {
@@ -119,73 +226,49 @@
                     iframeFrames.push(frame);
                 } catch (err) {}
             };
-            exports.getUserAgent = function(win) {
+            __webpack_exports__.t = function(win) {
                 return (win = win || window).navigator.mockUserAgent || win.navigator.userAgent;
             };
-            exports.getFrameByName = getFrameByName;
-            exports.findChildFrameByName = findChildFrameByName;
-            exports.findFrameByName = function(win, name) {
-                var frame = void 0;
-                if (frame = getFrameByName(win, name)) return frame;
-                return findChildFrameByName(getTop(win) || win, name);
+            __webpack_exports__.l = getFrameByName;
+            __webpack_exports__.b = findChildFrameByName;
+            __webpack_exports__.c = function(win, name) {
+                var frame;
+                return (frame = getFrameByName(win, name)) ? frame : findChildFrameByName(getTop(win) || win, name);
             };
-            exports.isParent = function(win, frame) {
+            __webpack_exports__.E = function(win, frame) {
                 var frameParent = getParent(frame);
                 if (frameParent) return frameParent === win;
-                for (var _iterator6 = getFrames(win), _isArray6 = Array.isArray(_iterator6), _i8 = 0, _iterator6 = _isArray6 ? _iterator6 : _iterator6[Symbol.iterator](); ;) {
-                    var _ref6;
-                    if (_isArray6) {
-                        if (_i8 >= _iterator6.length) break;
-                        _ref6 = _iterator6[_i8++];
-                    } else {
-                        if ((_i8 = _iterator6.next()).done) break;
-                        _ref6 = _i8.value;
-                    }
-                    var childFrame = _ref6;
-                    if (childFrame === frame) return !0;
-                }
+                for (var _i14 = 0, _getFrames6 = getFrames(win), _length12 = null == _getFrames6 ? 0 : _getFrames6.length; _i14 < _length12; _i14++) if (_getFrames6[_i14] === frame) return !0;
                 return !1;
             };
-            exports.isOpener = function(parent, child) {
+            __webpack_exports__.D = function(parent, child) {
                 return parent === getOpener(child);
             };
-            exports.getAncestor = getAncestor;
-            exports.getAncestors = function(win) {
-                var results = [], ancestor = win;
-                for (;ancestor; ) (ancestor = getAncestor(ancestor)) && results.push(ancestor);
+            __webpack_exports__.g = getAncestor;
+            __webpack_exports__.h = function(win) {
+                for (var results = [], ancestor = win; ancestor; ) (ancestor = getAncestor(ancestor)) && results.push(ancestor);
                 return results;
             };
-            exports.isAncestor = function(parent, child) {
+            __webpack_exports__.w = function(parent, child) {
                 var actualParent = getAncestor(child);
                 if (actualParent) return actualParent === parent;
                 if (child === parent) return !1;
                 if (getTop(child) === child) return !1;
-                for (var _iterator7 = getFrames(parent), _isArray7 = Array.isArray(_iterator7), _i9 = 0, _iterator7 = _isArray7 ? _iterator7 : _iterator7[Symbol.iterator](); ;) {
-                    var _ref7;
-                    if (_isArray7) {
-                        if (_i9 >= _iterator7.length) break;
-                        _ref7 = _iterator7[_i9++];
-                    } else {
-                        if ((_i9 = _iterator7.next()).done) break;
-                        _ref7 = _i9.value;
-                    }
-                    var frame = _ref7;
-                    if (frame === child) return !0;
-                }
+                for (var _i16 = 0, _getFrames8 = getFrames(parent), _length14 = null == _getFrames8 ? 0 : _getFrames8.length; _i16 < _length14; _i16++) if (_getFrames8[_i16] === child) return !0;
                 return !1;
             };
-            exports.isPopup = isPopup;
-            exports.isIframe = isIframe;
-            exports.isFullpage = function() {
+            __webpack_exports__.F = isPopup;
+            __webpack_exports__.C = isIframe;
+            __webpack_exports__.B = function() {
                 return Boolean(!isIframe() && !isPopup());
             };
-            exports.getDistanceFromTop = getDistanceFromTop;
-            exports.getNthParent = getNthParent;
-            exports.getNthParentFromTop = function(win) {
+            __webpack_exports__.i = getDistanceFromTop;
+            __webpack_exports__.n = getNthParent;
+            __webpack_exports__.o = function(win) {
                 var n = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : 1;
                 return getNthParent(win, getDistanceFromTop(win) - n);
             };
-            exports.isSameTopWindow = function(win1, win2) {
+            __webpack_exports__.H = function(win1, win2) {
                 var top1 = getTop(win1) || win1, top2 = getTop(win2) || win2;
                 try {
                     if (top1 && top2) return top1 === top2;
@@ -193,33 +276,26 @@
                 var allFrames1 = getAllFramesInWindow(win1), allFrames2 = getAllFramesInWindow(win2);
                 if (anyMatch(allFrames1, allFrames2)) return !0;
                 var opener1 = getOpener(top1), opener2 = getOpener(top2);
-                if (opener1 && anyMatch(getAllFramesInWindow(opener1), allFrames2)) return !1;
-                if (opener2 && anyMatch(getAllFramesInWindow(opener2), allFrames1)) return !1;
-                return !1;
+                return !(opener1 && anyMatch(getAllFramesInWindow(opener1), allFrames2) || (opener2 && anyMatch(getAllFramesInWindow(opener2), allFrames1), 
+                1));
             };
-            exports.matchDomain = function matchDomain(pattern, origin) {
+            __webpack_exports__.M = function matchDomain(pattern, origin) {
                 if ("string" == typeof pattern) {
                     if ("string" == typeof origin) return pattern === CONSTANTS.WILDCARD || origin === pattern;
-                    if ((0, _util.isRegex)(origin)) return !1;
+                    if (isRegex(origin)) return !1;
                     if (Array.isArray(origin)) return !1;
                 }
-                if ((0, _util.isRegex)(pattern)) return (0, _util.isRegex)(origin) ? pattern.toString() === origin.toString() : !Array.isArray(origin) && Boolean(origin.match(pattern));
-                if (Array.isArray(pattern)) return Array.isArray(origin) ? JSON.stringify(pattern) === JSON.stringify(origin) : !(0, 
-                _util.isRegex)(origin) && pattern.some(function(subpattern) {
+                return isRegex(pattern) ? isRegex(origin) ? pattern.toString() === origin.toString() : !Array.isArray(origin) && Boolean(origin.match(pattern)) : !!Array.isArray(pattern) && (Array.isArray(origin) ? JSON.stringify(pattern) === JSON.stringify(origin) : !isRegex(origin) && pattern.some(function(subpattern) {
                     return matchDomain(subpattern, origin);
-                });
-                return !1;
+                }));
             };
-            exports.stringifyDomainPattern = function(pattern) {
-                return Array.isArray(pattern) ? "(" + pattern.join(" | ") + ")" : (0, _util.isRegex)(pattern) ? "RegExp(" + pattern.toString() : pattern.toString();
+            __webpack_exports__.O = function(pattern) {
+                return Array.isArray(pattern) ? "(" + pattern.join(" | ") + ")" : isRegex(pattern) ? "RegExp(" + pattern.toString() : pattern.toString();
             };
-            exports.getDomainFromUrl = function(url) {
-                var domain = void 0;
-                if (!url.match(/^(https?|mock|file):\/\//)) return getDomain();
-                domain = url;
-                return domain = domain.split("/").slice(0, 3).join("/");
+            __webpack_exports__.k = function(url) {
+                return url.match(/^(https?|mock|file):\/\//) ? url.split("/").slice(0, 3).join("/") : getDomain();
             };
-            exports.onCloseWindow = function(win, callback) {
+            __webpack_exports__.N = function(win, callback) {
                 var delay = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : 1e3, maxtime = arguments.length > 3 && void 0 !== arguments[3] ? arguments[3] : 1 / 0, timeout = void 0;
                 !function check() {
                     if (isWindowClosed(win)) {
@@ -237,7 +313,7 @@
                     }
                 };
             };
-            exports.isWindow = function(obj) {
+            __webpack_exports__.J = function(obj) {
                 try {
                     if (obj === window) return !0;
                 } catch (err) {
@@ -269,18 +345,13 @@
                     if (err && err.message === IE_WIN_ACCESS_ERROR) return !0;
                 }
                 try {
-                    (0, _util.noop)(obj == obj);
-                } catch (err) {
-                    return !0;
-                }
-                try {
-                    (0, _util.noop)(obj && obj.__cross_domain_utils_window_check__);
+                    obj && obj.__cross_domain_utils_window_check__;
                 } catch (err) {
                     return !0;
                 }
                 return !1;
             };
-            var _util = __webpack_require__("./src/util.js"), CONSTANTS = {
+            var CONSTANTS = {
                 MOCK_PROTOCOL: "mock:",
                 FILE_PROTOCOL: "file:",
                 ABOUT_PROTOCOL: "about:",
@@ -301,7 +372,7 @@
             }
             function canReadFromWindow(win) {
                 try {
-                    (0, _util.noop)(win && win.location && win.location.href);
+                    win && win.location && win.location.href;
                     return !0;
                 } catch (err) {}
                 return !1;
@@ -401,29 +472,11 @@
                 return result;
             }
             function getAllChildFrames(win) {
-                var result = [], _iterator = getFrames(win), _isArray = Array.isArray(_iterator), _i2 = 0;
-                for (_iterator = _isArray ? _iterator : _iterator[Symbol.iterator](); ;) {
-                    var _ref;
-                    if (_isArray) {
-                        if (_i2 >= _iterator.length) break;
-                        _ref = _iterator[_i2++];
-                    } else {
-                        if ((_i2 = _iterator.next()).done) break;
-                        _ref = _i2.value;
-                    }
-                    var frame = _ref;
+                for (var result = [], _i3 = 0, _getFrames2 = getFrames(win), _length2 = null == _getFrames2 ? 0 : _getFrames2.length; _i3 < _length2; _i3++) {
+                    var frame = _getFrames2[_i3];
                     result.push(frame);
-                    var _iterator2 = getAllChildFrames(frame), _isArray2 = Array.isArray(_iterator2), _i3 = 0;
-                    for (_iterator2 = _isArray2 ? _iterator2 : _iterator2[Symbol.iterator](); ;) {
-                        var _ref2;
-                        if (_isArray2) {
-                            if (_i3 >= _iterator2.length) break;
-                            _ref2 = _iterator2[_i3++];
-                        } else {
-                            if ((_i3 = _iterator2.next()).done) break;
-                            _ref2 = _i3.value;
-                        }
-                        var childFrame = _ref2;
+                    for (var _i5 = 0, _getAllChildFrames2 = getAllChildFrames(frame), _length4 = null == _getAllChildFrames2 ? 0 : _getAllChildFrames2.length; _i5 < _length4; _i5++) {
+                        var childFrame = _getAllChildFrames2[_i5];
                         result.push(childFrame);
                     }
                 }
@@ -441,17 +494,8 @@
                     try {
                         if (isAncestorParent(win, window) && window.top) return window.top;
                     } catch (err) {}
-                    var _iterator3 = getAllChildFrames(win), _isArray3 = Array.isArray(_iterator3), _i4 = 0;
-                    for (_iterator3 = _isArray3 ? _iterator3 : _iterator3[Symbol.iterator](); ;) {
-                        var _ref3;
-                        if (_isArray3) {
-                            if (_i4 >= _iterator3.length) break;
-                            _ref3 = _iterator3[_i4++];
-                        } else {
-                            if ((_i4 = _iterator3.next()).done) break;
-                            _ref3 = _i4.value;
-                        }
-                        var frame = _ref3;
+                    for (var _i7 = 0, _getAllChildFrames4 = getAllChildFrames(win), _length6 = null == _getAllChildFrames4 ? 0 : _getAllChildFrames4.length; _i7 < _length6; _i7++) {
+                        var frame = _getAllChildFrames4[_i7];
                         try {
                             if (frame.top) return frame.top;
                         } catch (err) {}
@@ -461,7 +505,8 @@
             }
             function getAllFramesInWindow(win) {
                 var top = getTop(win);
-                return getAllChildFrames(top).concat(top);
+                if (!top) throw new Error("Can not determine top window");
+                return [].concat(getAllChildFrames(top), [ top ]);
             }
             function isFrameWindowClosed(frame) {
                 if (!frame.contentWindow) return !0;
@@ -493,11 +538,6 @@
                 try {
                     if (!win.parent || !win.top) return !0;
                 } catch (err) {}
-                try {
-                    (0, _util.noop)(win == win);
-                } catch (err) {
-                    return !0;
-                }
                 var iframeIndex = function(collection, item) {
                     for (var i = 0; i < collection.length; i++) try {
                         if (collection[i] === item) return i;
@@ -511,17 +551,8 @@
                 return !1;
             }
             function getFrameByName(win, name) {
-                var winFrames = getFrames(win), _iterator4 = winFrames, _isArray4 = Array.isArray(_iterator4), _i6 = 0;
-                for (_iterator4 = _isArray4 ? _iterator4 : _iterator4[Symbol.iterator](); ;) {
-                    var _ref4;
-                    if (_isArray4) {
-                        if (_i6 >= _iterator4.length) break;
-                        _ref4 = _iterator4[_i6++];
-                    } else {
-                        if ((_i6 = _iterator4.next()).done) break;
-                        _ref4 = _i6.value;
-                    }
-                    var childFrame = _ref4;
+                for (var winFrames = getFrames(win), _i10 = 0, _length8 = null == winFrames ? 0 : winFrames.length; _i10 < _length8; _i10++) {
+                    var childFrame = winFrames[_i10];
                     try {
                         if (isSameDomain(childFrame) && childFrame.name === name && -1 !== winFrames.indexOf(childFrame)) return childFrame;
                     } catch (err) {}
@@ -536,25 +567,13 @@
             function findChildFrameByName(win, name) {
                 var frame = getFrameByName(win, name);
                 if (frame) return frame;
-                var _iterator5 = getFrames(win), _isArray5 = Array.isArray(_iterator5), _i7 = 0;
-                for (_iterator5 = _isArray5 ? _iterator5 : _iterator5[Symbol.iterator](); ;) {
-                    var _ref5;
-                    if (_isArray5) {
-                        if (_i7 >= _iterator5.length) break;
-                        _ref5 = _iterator5[_i7++];
-                    } else {
-                        if ((_i7 = _iterator5.next()).done) break;
-                        _ref5 = _i7.value;
-                    }
-                    var namedFrame = findChildFrameByName(_ref5, name);
+                for (var _i12 = 0, _getFrames4 = getFrames(win), _length10 = null == _getFrames4 ? 0 : _getFrames4.length; _i12 < _length10; _i12++) {
+                    var namedFrame = findChildFrameByName(_getFrames4[_i12], name);
                     if (namedFrame) return namedFrame;
                 }
             }
             function getAncestor(win) {
-                var opener = getOpener(win = win || window);
-                if (opener) return opener;
-                var parent = getParent(win);
-                return parent || void 0;
+                return getOpener(win = win || window) || getParent(win) || void 0;
             }
             function isPopup() {
                 return Boolean(getOpener(window));
@@ -563,29 +582,7 @@
                 return Boolean(getParent(window));
             }
             function anyMatch(collection1, collection2) {
-                var _iterator8 = collection1, _isArray8 = Array.isArray(_iterator8), _i10 = 0;
-                for (_iterator8 = _isArray8 ? _iterator8 : _iterator8[Symbol.iterator](); ;) {
-                    var _ref8;
-                    if (_isArray8) {
-                        if (_i10 >= _iterator8.length) break;
-                        _ref8 = _iterator8[_i10++];
-                    } else {
-                        if ((_i10 = _iterator8.next()).done) break;
-                        _ref8 = _i10.value;
-                    }
-                    var item1 = _ref8, _iterator9 = collection2, _isArray9 = Array.isArray(_iterator9), _i11 = 0;
-                    for (_iterator9 = _isArray9 ? _iterator9 : _iterator9[Symbol.iterator](); ;) {
-                        var _ref9;
-                        if (_isArray9) {
-                            if (_i11 >= _iterator9.length) break;
-                            _ref9 = _iterator9[_i11++];
-                        } else {
-                            if ((_i11 = _iterator9.next()).done) break;
-                            _ref9 = _i11.value;
-                        }
-                        if (item1 === _ref9) return !0;
-                    }
-                }
+                for (var _i18 = 0, _length16 = null == collection1 ? 0 : collection1.length; _i18 < _length16; _i18++) for (var item1 = collection1[_i18], _i20 = 0, _length18 = null == collection2 ? 0 : collection2.length; _i20 < _length18; _i20++) if (item1 === collection2[_i20]) return !0;
                 return !1;
             }
             function getDistanceFromTop() {

@@ -1,49 +1,8 @@
-'use strict';
 
-exports.__esModule = true;
-exports.isFileProtocol = isFileProtocol;
-exports.isAboutProtocol = isAboutProtocol;
-exports.getParent = getParent;
-exports.getOpener = getOpener;
-exports.canReadFromWindow = canReadFromWindow;
-exports.getActualDomain = getActualDomain;
-exports.getDomain = getDomain;
-exports.isBlankDomain = isBlankDomain;
-exports.isActuallySameDomain = isActuallySameDomain;
-exports.isSameDomain = isSameDomain;
-exports.getParents = getParents;
-exports.isAncestorParent = isAncestorParent;
-exports.getFrames = getFrames;
-exports.getAllChildFrames = getAllChildFrames;
-exports.getTop = getTop;
-exports.getAllFramesInWindow = getAllFramesInWindow;
-exports.isTop = isTop;
-exports.isFrameWindowClosed = isFrameWindowClosed;
-exports.isWindowClosed = isWindowClosed;
-exports.linkFrameWindow = linkFrameWindow;
-exports.getUserAgent = getUserAgent;
-exports.getFrameByName = getFrameByName;
-exports.findChildFrameByName = findChildFrameByName;
-exports.findFrameByName = findFrameByName;
-exports.isParent = isParent;
-exports.isOpener = isOpener;
-exports.getAncestor = getAncestor;
-exports.getAncestors = getAncestors;
-exports.isAncestor = isAncestor;
-exports.isPopup = isPopup;
-exports.isIframe = isIframe;
-exports.isFullpage = isFullpage;
-exports.getDistanceFromTop = getDistanceFromTop;
-exports.getNthParent = getNthParent;
-exports.getNthParentFromTop = getNthParentFromTop;
-exports.isSameTopWindow = isSameTopWindow;
-exports.matchDomain = matchDomain;
-exports.stringifyDomainPattern = stringifyDomainPattern;
-exports.getDomainFromUrl = getDomainFromUrl;
-exports.onCloseWindow = onCloseWindow;
-exports.isWindow = isWindow;
+/* eslint max-lines: 0 */
 
-var _util = require('./util');
+import { isRegex, noop } from './util';
+
 
 var CONSTANTS = {
     MOCK_PROTOCOL: 'mock:',
@@ -51,23 +10,22 @@ var CONSTANTS = {
     ABOUT_PROTOCOL: 'about:',
     WILDCARD: '*'
 };
-/* eslint max-lines: 0 */
 
 var IE_WIN_ACCESS_ERROR = 'Call was rejected by callee.\r\n';
 
-function isFileProtocol() {
+export function isFileProtocol() {
     var win = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : window;
 
     return win.location.protocol === CONSTANTS.FILE_PROTOCOL;
 }
 
-function isAboutProtocol() {
+export function isAboutProtocol() {
     var win = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : window;
 
     return win.location.protocol === CONSTANTS.ABOUT_PROTOCOL;
 }
 
-function getParent(win) {
+export function getParent(win) {
 
     if (!win) {
         return;
@@ -82,7 +40,7 @@ function getParent(win) {
     }
 }
 
-function getOpener(win) {
+export function getOpener(win) {
 
     if (!win) {
         return;
@@ -100,10 +58,10 @@ function getOpener(win) {
     }
 }
 
-function canReadFromWindow(win) {
+export function canReadFromWindow(win) {
     try {
         // $FlowFixMe
-        (0, _util.noop)(win && win.location && win.location.href);
+        noop(win && win.location && win.location.href);
         return true;
     } catch (err) {
         // pass
@@ -112,7 +70,7 @@ function canReadFromWindow(win) {
     return false;
 }
 
-function getActualDomain(win) {
+export function getActualDomain(win) {
 
     win = win || window;
 
@@ -152,7 +110,7 @@ function getActualDomain(win) {
     return protocol + '//' + host;
 }
 
-function getDomain(win) {
+export function getDomain(win) {
 
     win = win || window;
 
@@ -165,7 +123,7 @@ function getDomain(win) {
     return domain;
 }
 
-function isBlankDomain(win) {
+export function isBlankDomain(win) {
     try {
         if (!win.location.href) {
             return true;
@@ -181,7 +139,7 @@ function isBlankDomain(win) {
     return false;
 }
 
-function isActuallySameDomain(win) {
+export function isActuallySameDomain(win) {
 
     try {
         if (win === window) {
@@ -222,7 +180,7 @@ function isActuallySameDomain(win) {
     return false;
 }
 
-function isSameDomain(win) {
+export function isSameDomain(win) {
 
     if (!isActuallySameDomain(win)) {
         return false;
@@ -250,7 +208,7 @@ function isSameDomain(win) {
     return false;
 }
 
-function getParents(win) {
+export function getParents(win) {
 
     var result = [];
 
@@ -267,7 +225,7 @@ function getParents(win) {
     return result;
 }
 
-function isAncestorParent(parent, child) {
+export function isAncestorParent(parent, child) {
 
     if (!parent || !child) {
         return false;
@@ -286,7 +244,7 @@ function isAncestorParent(parent, child) {
     return false;
 }
 
-function getFrames(win) {
+export function getFrames(win) {
 
     var result = [];
 
@@ -346,40 +304,16 @@ function getFrames(win) {
     return result;
 }
 
-function getAllChildFrames(win) {
+export function getAllChildFrames(win) {
 
     var result = [];
 
-    for (var _iterator = getFrames(win), _isArray = Array.isArray(_iterator), _i2 = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
-        var _ref;
-
-        if (_isArray) {
-            if (_i2 >= _iterator.length) break;
-            _ref = _iterator[_i2++];
-        } else {
-            _i2 = _iterator.next();
-            if (_i2.done) break;
-            _ref = _i2.value;
-        }
-
-        var frame = _ref;
-
+    for (var _i3 = 0, _getFrames2 = getFrames(win), _length2 = _getFrames2 == null ? 0 : _getFrames2.length; _i3 < _length2; _i3++) {
+        var frame = _getFrames2[_i3];
         result.push(frame);
 
-        for (var _iterator2 = getAllChildFrames(frame), _isArray2 = Array.isArray(_iterator2), _i3 = 0, _iterator2 = _isArray2 ? _iterator2 : _iterator2[Symbol.iterator]();;) {
-            var _ref2;
-
-            if (_isArray2) {
-                if (_i3 >= _iterator2.length) break;
-                _ref2 = _iterator2[_i3++];
-            } else {
-                _i3 = _iterator2.next();
-                if (_i3.done) break;
-                _ref2 = _i3.value;
-            }
-
-            var childFrame = _ref2;
-
+        for (var _i5 = 0, _getAllChildFrames2 = getAllChildFrames(frame), _length4 = _getAllChildFrames2 == null ? 0 : _getAllChildFrames2.length; _i5 < _length4; _i5++) {
+            var childFrame = _getAllChildFrames2[_i5];
             result.push(childFrame);
         }
     }
@@ -387,7 +321,7 @@ function getAllChildFrames(win) {
     return result;
 }
 
-function getTop(win) {
+export function getTop(win) {
 
     if (!win) {
         return;
@@ -421,20 +355,8 @@ function getTop(win) {
         // pass
     }
 
-    for (var _iterator3 = getAllChildFrames(win), _isArray3 = Array.isArray(_iterator3), _i4 = 0, _iterator3 = _isArray3 ? _iterator3 : _iterator3[Symbol.iterator]();;) {
-        var _ref3;
-
-        if (_isArray3) {
-            if (_i4 >= _iterator3.length) break;
-            _ref3 = _iterator3[_i4++];
-        } else {
-            _i4 = _iterator3.next();
-            if (_i4.done) break;
-            _ref3 = _i4.value;
-        }
-
-        var frame = _ref3;
-
+    for (var _i7 = 0, _getAllChildFrames4 = getAllChildFrames(win), _length6 = _getAllChildFrames4 == null ? 0 : _getAllChildFrames4.length; _i7 < _length6; _i7++) {
+        var frame = _getAllChildFrames4[_i7];
         try {
             if (frame.top) {
                 return frame.top;
@@ -449,17 +371,21 @@ function getTop(win) {
     }
 }
 
-function getAllFramesInWindow(win) {
+export function getAllFramesInWindow(win) {
     var top = getTop(win);
-    // $FlowFixMe
-    return getAllChildFrames(top).concat(top);
+
+    if (!top) {
+        throw new Error('Can not determine top window');
+    }
+
+    return [].concat(getAllChildFrames(top), [top]);
 }
 
-function isTop(win) {
+export function isTop(win) {
     return win === getTop(win);
 }
 
-function isFrameWindowClosed(frame) {
+export function isFrameWindowClosed(frame) {
 
     if (!frame.contentWindow) {
         return true;
@@ -496,7 +422,7 @@ function safeIndexOf(collection, item) {
 var iframeWindows = [];
 var iframeFrames = [];
 
-function isWindowClosed(win) {
+export function isWindowClosed(win) {
     var allowMock = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
 
 
@@ -556,7 +482,7 @@ function isWindowClosed(win) {
     // is from an iframe, and the iframe was removed from the page.
 
     try {
-        (0, _util.noop)(win === win); // eslint-disable-line no-self-compare
+        noop(win === win); // eslint-disable-line no-self-compare
     } catch (err) {
         return true;
     }
@@ -585,15 +511,15 @@ function cleanIframes() {
         }
     }
 
-    for (var _i5 = 0; _i5 < iframeWindows.length; _i5++) {
-        if (isWindowClosed(iframeWindows[_i5])) {
-            iframeFrames.splice(_i5, 1);
-            iframeWindows.splice(_i5, 1);
+    for (var _i8 = 0; _i8 < iframeWindows.length; _i8++) {
+        if (isWindowClosed(iframeWindows[_i8])) {
+            iframeFrames.splice(_i8, 1);
+            iframeWindows.splice(_i8, 1);
         }
     }
 }
 
-function linkFrameWindow(frame) {
+export function linkFrameWindow(frame) {
 
     cleanIframes();
 
@@ -607,29 +533,17 @@ function linkFrameWindow(frame) {
     }
 }
 
-function getUserAgent(win) {
+export function getUserAgent(win) {
     win = win || window;
     return win.navigator.mockUserAgent || win.navigator.userAgent;
 }
 
-function getFrameByName(win, name) {
+export function getFrameByName(win, name) {
 
     var winFrames = getFrames(win);
 
-    for (var _iterator4 = winFrames, _isArray4 = Array.isArray(_iterator4), _i6 = 0, _iterator4 = _isArray4 ? _iterator4 : _iterator4[Symbol.iterator]();;) {
-        var _ref4;
-
-        if (_isArray4) {
-            if (_i6 >= _iterator4.length) break;
-            _ref4 = _iterator4[_i6++];
-        } else {
-            _i6 = _iterator4.next();
-            if (_i6.done) break;
-            _ref4 = _i6.value;
-        }
-
-        var childFrame = _ref4;
-
+    for (var _i10 = 0, _length8 = winFrames == null ? 0 : winFrames.length; _i10 < _length8; _i10++) {
+        var childFrame = winFrames[_i10];
         try {
             // $FlowFixMe
             if (isSameDomain(childFrame) && childFrame.name === name && winFrames.indexOf(childFrame) !== -1) {
@@ -659,7 +573,7 @@ function getFrameByName(win, name) {
     }
 }
 
-function findChildFrameByName(win, name) {
+export function findChildFrameByName(win, name) {
 
     var frame = getFrameByName(win, name);
 
@@ -667,20 +581,8 @@ function findChildFrameByName(win, name) {
         return frame;
     }
 
-    for (var _iterator5 = getFrames(win), _isArray5 = Array.isArray(_iterator5), _i7 = 0, _iterator5 = _isArray5 ? _iterator5 : _iterator5[Symbol.iterator]();;) {
-        var _ref5;
-
-        if (_isArray5) {
-            if (_i7 >= _iterator5.length) break;
-            _ref5 = _iterator5[_i7++];
-        } else {
-            _i7 = _iterator5.next();
-            if (_i7.done) break;
-            _ref5 = _i7.value;
-        }
-
-        var childFrame = _ref5;
-
+    for (var _i12 = 0, _getFrames4 = getFrames(win), _length10 = _getFrames4 == null ? 0 : _getFrames4.length; _i12 < _length10; _i12++) {
+        var childFrame = _getFrames4[_i12];
         var namedFrame = findChildFrameByName(childFrame, name);
 
         if (namedFrame) {
@@ -689,7 +591,7 @@ function findChildFrameByName(win, name) {
     }
 }
 
-function findFrameByName(win, name) {
+export function findFrameByName(win, name) {
 
     var frame = void 0;
 
@@ -704,7 +606,7 @@ function findFrameByName(win, name) {
     return findChildFrameByName(top, name);
 }
 
-function isParent(win, frame) {
+export function isParent(win, frame) {
 
     var frameParent = getParent(frame);
 
@@ -712,20 +614,8 @@ function isParent(win, frame) {
         return frameParent === win;
     }
 
-    for (var _iterator6 = getFrames(win), _isArray6 = Array.isArray(_iterator6), _i8 = 0, _iterator6 = _isArray6 ? _iterator6 : _iterator6[Symbol.iterator]();;) {
-        var _ref6;
-
-        if (_isArray6) {
-            if (_i8 >= _iterator6.length) break;
-            _ref6 = _iterator6[_i8++];
-        } else {
-            _i8 = _iterator6.next();
-            if (_i8.done) break;
-            _ref6 = _i8.value;
-        }
-
-        var childFrame = _ref6;
-
+    for (var _i14 = 0, _getFrames6 = getFrames(win), _length12 = _getFrames6 == null ? 0 : _getFrames6.length; _i14 < _length12; _i14++) {
+        var childFrame = _getFrames6[_i14];
         if (childFrame === frame) {
             return true;
         }
@@ -734,12 +624,12 @@ function isParent(win, frame) {
     return false;
 }
 
-function isOpener(parent, child) {
+export function isOpener(parent, child) {
 
     return parent === getOpener(child);
 }
 
-function getAncestor(win) {
+export function getAncestor(win) {
     win = win || window;
 
     var opener = getOpener(win);
@@ -755,7 +645,7 @@ function getAncestor(win) {
     }
 }
 
-function getAncestors(win) {
+export function getAncestors(win) {
 
     var results = [];
 
@@ -771,7 +661,7 @@ function getAncestors(win) {
     return results;
 }
 
-function isAncestor(parent, child) {
+export function isAncestor(parent, child) {
 
     var actualParent = getAncestor(child);
 
@@ -791,20 +681,8 @@ function isAncestor(parent, child) {
         return false;
     }
 
-    for (var _iterator7 = getFrames(parent), _isArray7 = Array.isArray(_iterator7), _i9 = 0, _iterator7 = _isArray7 ? _iterator7 : _iterator7[Symbol.iterator]();;) {
-        var _ref7;
-
-        if (_isArray7) {
-            if (_i9 >= _iterator7.length) break;
-            _ref7 = _iterator7[_i9++];
-        } else {
-            _i9 = _iterator7.next();
-            if (_i9.done) break;
-            _ref7 = _i9.value;
-        }
-
-        var frame = _ref7;
-
+    for (var _i16 = 0, _getFrames8 = getFrames(parent), _length14 = _getFrames8 == null ? 0 : _getFrames8.length; _i16 < _length14; _i16++) {
+        var frame = _getFrames8[_i16];
         if (frame === child) {
             return true;
         }
@@ -813,48 +691,23 @@ function isAncestor(parent, child) {
     return false;
 }
 
-function isPopup() {
+export function isPopup() {
     return Boolean(getOpener(window));
 }
 
-function isIframe() {
+export function isIframe() {
     return Boolean(getParent(window));
 }
 
-function isFullpage() {
+export function isFullpage() {
     return Boolean(!isIframe() && !isPopup());
 }
 
 function anyMatch(collection1, collection2) {
-
-    for (var _iterator8 = collection1, _isArray8 = Array.isArray(_iterator8), _i10 = 0, _iterator8 = _isArray8 ? _iterator8 : _iterator8[Symbol.iterator]();;) {
-        var _ref8;
-
-        if (_isArray8) {
-            if (_i10 >= _iterator8.length) break;
-            _ref8 = _iterator8[_i10++];
-        } else {
-            _i10 = _iterator8.next();
-            if (_i10.done) break;
-            _ref8 = _i10.value;
-        }
-
-        var item1 = _ref8;
-
-        for (var _iterator9 = collection2, _isArray9 = Array.isArray(_iterator9), _i11 = 0, _iterator9 = _isArray9 ? _iterator9 : _iterator9[Symbol.iterator]();;) {
-            var _ref9;
-
-            if (_isArray9) {
-                if (_i11 >= _iterator9.length) break;
-                _ref9 = _iterator9[_i11++];
-            } else {
-                _i11 = _iterator9.next();
-                if (_i11.done) break;
-                _ref9 = _i11.value;
-            }
-
-            var item2 = _ref9;
-
+    for (var _i18 = 0, _length16 = collection1 == null ? 0 : collection1.length; _i18 < _length16; _i18++) {
+        var item1 = collection1[_i18];
+        for (var _i20 = 0, _length18 = collection2 == null ? 0 : collection2.length; _i20 < _length18; _i20++) {
+            var item2 = collection2[_i20];
             if (item1 === item2) {
                 return true;
             }
@@ -864,7 +717,7 @@ function anyMatch(collection1, collection2) {
     return false;
 }
 
-function getDistanceFromTop() {
+export function getDistanceFromTop() {
     var win = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : window;
 
     var distance = 0;
@@ -880,7 +733,7 @@ function getDistanceFromTop() {
     return distance;
 }
 
-function getNthParent(win) {
+export function getNthParent(win) {
     var n = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
 
     var parent = win;
@@ -896,13 +749,13 @@ function getNthParent(win) {
     return parent;
 }
 
-function getNthParentFromTop(win) {
+export function getNthParentFromTop(win) {
     var n = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
 
     return getNthParent(win, getDistanceFromTop(win) - n);
 }
 
-function isSameTopWindow(win1, win2) {
+export function isSameTopWindow(win1, win2) {
 
     var top1 = getTop(win1) || win1;
     var top2 = getTop(win2) || win2;
@@ -940,7 +793,7 @@ function isSameTopWindow(win1, win2) {
     return false;
 }
 
-function matchDomain(pattern, origin) {
+export function matchDomain(pattern, origin) {
 
     if (typeof pattern === 'string') {
 
@@ -948,7 +801,7 @@ function matchDomain(pattern, origin) {
             return pattern === CONSTANTS.WILDCARD || origin === pattern;
         }
 
-        if ((0, _util.isRegex)(origin)) {
+        if (isRegex(origin)) {
             return false;
         }
 
@@ -957,9 +810,9 @@ function matchDomain(pattern, origin) {
         }
     }
 
-    if ((0, _util.isRegex)(pattern)) {
+    if (isRegex(pattern)) {
 
-        if ((0, _util.isRegex)(origin)) {
+        if (isRegex(origin)) {
             return pattern.toString() === origin.toString();
         }
 
@@ -977,7 +830,7 @@ function matchDomain(pattern, origin) {
             return JSON.stringify(pattern) === JSON.stringify(origin);
         }
 
-        if ((0, _util.isRegex)(origin)) {
+        if (isRegex(origin)) {
             return false;
         }
 
@@ -989,17 +842,17 @@ function matchDomain(pattern, origin) {
     return false;
 }
 
-function stringifyDomainPattern(pattern) {
+export function stringifyDomainPattern(pattern) {
     if (Array.isArray(pattern)) {
         return '(' + pattern.join(' | ') + ')';
-    } else if ((0, _util.isRegex)(pattern)) {
+    } else if (isRegex(pattern)) {
         return 'RegExp(' + pattern.toString();
     } else {
         return pattern.toString();
     }
 }
 
-function getDomainFromUrl(url) {
+export function getDomainFromUrl(url) {
 
     var domain = void 0;
 
@@ -1014,7 +867,7 @@ function getDomainFromUrl(url) {
     return domain;
 }
 
-function onCloseWindow(win, callback) {
+export function onCloseWindow(win, callback) {
     var delay = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1000;
     var maxtime = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : Infinity;
 
@@ -1052,7 +905,7 @@ function onCloseWindow(win, callback) {
 }
 
 // eslint-disable-next-line complexity
-function isWindow(obj) {
+export function isWindow(obj) {
 
     try {
         if (obj === window) {
@@ -1115,13 +968,13 @@ function isWindow(obj) {
     }
 
     try {
-        (0, _util.noop)(obj === obj); // eslint-disable-line no-self-compare
+        noop(obj === obj); // eslint-disable-line no-self-compare
     } catch (err) {
         return true;
     }
 
     try {
-        (0, _util.noop)(obj && obj.__cross_domain_utils_window_check__);
+        noop(obj && obj.__cross_domain_utils_window_check__);
     } catch (err) {
         return true;
     }

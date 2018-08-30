@@ -1,13 +1,8 @@
-'use strict';
-
-exports.__esModule = true;
-exports.isRegex = isRegex;
-exports.noop = noop;
-function isRegex(item) {
+export function isRegex(item) {
     return Object.prototype.toString.call(item) === '[object RegExp]';
 }
 
 // eslint-disable-next-line no-unused-vars
-function noop() {
+export function noop() {
     // pass
 }
