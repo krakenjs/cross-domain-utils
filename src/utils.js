@@ -970,3 +970,15 @@ export function isWindow(obj : Object) : boolean {
 
     return false;
 }
+
+export function isBrowser() : boolean {
+    return (typeof window !== 'undefined');
+}
+
+export function isCurrentDomain(domain : string) : boolean {
+    if (!isBrowser()) {
+        return false;
+    }
+
+    return (getDomain() === domain);
+}
