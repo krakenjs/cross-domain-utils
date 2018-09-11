@@ -981,3 +981,15 @@ export function isWindow(obj) {
 
     return false;
 }
+
+export function isBrowser() {
+    return typeof window !== 'undefined';
+}
+
+export function isCurrentDomain(domain) {
+    if (!isBrowser()) {
+        return false;
+    }
+
+    return getDomain() === domain;
+}
