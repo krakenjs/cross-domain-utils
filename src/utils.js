@@ -972,7 +972,7 @@ export function isWindow(obj : Object) : boolean {
 }
 
 export function isBrowser() : boolean {
-    return (typeof window !== 'undefined');
+    return (typeof window !== 'undefined' && typeof window.location !== 'undefined');
 }
 
 export function isCurrentDomain(domain : string) : boolean {
