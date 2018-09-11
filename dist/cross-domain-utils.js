@@ -607,7 +607,7 @@
                 return parent;
             }
             function isBrowser() {
-                return "undefined" != typeof window;
+                return "undefined" != typeof window && void 0 !== window.location;
             }
         }
     });

@@ -983,7 +983,7 @@ export function isWindow(obj) {
 }
 
 export function isBrowser() {
-    return typeof window !== 'undefined';
+    return typeof window !== 'undefined' && typeof window.location !== 'undefined';
 }
 
 export function isCurrentDomain(domain) {
