@@ -522,7 +522,7 @@
                 if (!frame.contentWindow) return !0;
                 if (!frame.parentNode) return !0;
                 var doc = frame.ownerDocument;
-                return !(!doc || !doc.body || doc.body.contains(frame));
+                return !(!doc || !doc.documentElement || doc.documentElement.contains(frame));
             }
             var iframeWindows = [], iframeFrames = [];
             function isWindowClosed(win) {

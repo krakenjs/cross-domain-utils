@@ -397,7 +397,7 @@ export function isFrameWindowClosed(frame) {
 
     var doc = frame.ownerDocument;
 
-    if (doc && doc.body && !doc.body.contains(frame)) {
+    if (doc && doc.documentElement && !doc.documentElement.contains(frame)) {
         return true;
     }
 
