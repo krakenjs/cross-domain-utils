@@ -115,6 +115,7 @@ export function getDomain(win : ?SameDomainWindowType) : string {
 
 export function isBlankDomain(win : CrossDomainWindowType) : boolean {
     try {
+        // $FlowFixMe
         if (!win.location.href) {
             return true;
         }
