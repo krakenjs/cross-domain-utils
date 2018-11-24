@@ -51,3 +51,4 @@ jspm_packages
 flow-typed
 
 .idea
+package-lock.json
