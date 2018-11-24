@@ -3,26 +3,20 @@
 
 import { isRegex, noop } from './util';
 
-
-var CONSTANTS = {
-    MOCK_PROTOCOL: 'mock:',
-    FILE_PROTOCOL: 'file:',
-    ABOUT_PROTOCOL: 'about:',
-    WILDCARD: '*'
-};
+import { PROTOCOL, WILDCARD } from './constants';
 
 var IE_WIN_ACCESS_ERROR = 'Call was rejected by callee.\r\n';
 
 export function isFileProtocol() {
     var win = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : window;
 
-    return win.location.protocol === CONSTANTS.FILE_PROTOCOL;
+    return win.location.protocol === PROTOCOL.FILE;
 }
 
 export function isAboutProtocol() {
     var win = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : window;
 
-    return win.location.protocol === CONSTANTS.ABOUT_PROTOCOL;
+    return win.location.protocol === PROTOCOL.ABOUT;
 }
 
 export function getParent(win) {
@@ -86,11 +80,11 @@ export function getActualDomain(win) {
         throw new Error('Can not read window protocol');
     }
 
-    if (protocol === CONSTANTS.FILE_PROTOCOL) {
-        return CONSTANTS.FILE_PROTOCOL + '//';
+    if (protocol === PROTOCOL.FILE) {
+        return PROTOCOL.FILE + '//';
     }
 
-    if (protocol === CONSTANTS.ABOUT_PROTOCOL) {
+    if (protocol === PROTOCOL.ABOUT) {
 
         var parent = getParent(win);
         if (parent && canReadFromWindow(parent)) {
@@ -98,7 +92,7 @@ export function getActualDomain(win) {
             return getActualDomain(parent);
         }
 
-        return CONSTANTS.ABOUT_PROTOCOL + '//';
+        return PROTOCOL.ABOUT + '//';
     }
 
     var host = location.host;
@@ -116,7 +110,7 @@ export function getDomain(win) {
 
     var domain = getActualDomain(win);
 
-    if (domain && win.mockDomain && win.mockDomain.indexOf(CONSTANTS.MOCK_PROTOCOL) === 0) {
+    if (domain && win.mockDomain && win.mockDomain.indexOf(PROTOCOL.MOCK) === 0) {
         return win.mockDomain;
     }
 
@@ -125,6 +119,7 @@ export function getDomain(win) {
 
 export function isBlankDomain(win) {
     try {
+        // $FlowFixMe
         if (!win.location.href) {
             return true;
         }
@@ -371,6 +366,24 @@ export function getTop(win) {
     }
 }
 
+export function getNextOpener() {
+    var win = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : window;
+
+    return getOpener(getTop(win) || win);
+}
+
+export function getUltimateTop() {
+    var win = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : window;
+
+    var opener = getNextOpener(win);
+
+    if (opener) {
+        return getUltimateTop(opener);
+    }
+
+    return top;
+}
+
 export function getAllFramesInWindow(win) {
     var top = getTop(win);
 
@@ -379,6 +392,19 @@ export function getAllFramesInWindow(win) {
     }
 
     return [].concat(getAllChildFrames(top), [top]);
+}
+
+export function getAllWindows() {
+    var win = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : window;
+
+    var frames = getAllFramesInWindow(win);
+    var opener = getNextOpener(win);
+
+    if (opener) {
+        return [].concat(getAllWindows(opener), frames);
+    } else {
+        return frames;
+    }
 }
 
 export function isTop(win) {
@@ -798,7 +824,7 @@ export function matchDomain(pattern, origin) {
     if (typeof pattern === 'string') {
 
         if (typeof origin === 'string') {
-            return pattern === CONSTANTS.WILDCARD || origin === pattern;
+            return pattern === WILDCARD || origin === pattern;
         }
 
         if (isRegex(origin)) {
