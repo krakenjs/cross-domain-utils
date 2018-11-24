@@ -1,7 +1,11 @@
 /* @flow */
 
+export type CrossDomainLocationType = {|
+
+|};
+
 export type CrossDomainWindowType = {|
-    location : string | Object,
+    location : string | CrossDomainLocationType,
     self : CrossDomainWindowType,
     closed : boolean,
     open : (string, string, string) => CrossDomainWindowType,
