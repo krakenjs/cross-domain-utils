@@ -365,9 +365,12 @@ export function getTop(win : CrossDomainWindowType) : ?CrossDomainWindowType {
     }
 }
 
+export function getNextOpener(win? : CrossDomainWindowType = window) : ?CrossDomainWindowType {
+    return getOpener(getTop(win) || win);
+}
+
 export function getUltimateTop(win? : CrossDomainWindowType = window) : CrossDomainWindowType {
-    let top = getTop(win) || win;
-    let opener = getOpener(top);
+    let opener = getNextOpener(win);
 
     if (opener) {
         return getUltimateTop(opener);
@@ -384,6 +387,17 @@ export function getAllFramesInWindow(win : CrossDomainWindowType) : Array<CrossD
     }
 
     return [ ...getAllChildFrames(top), top ];
+}
+
+export function getAllWindows(win? : CrossDomainWindowType = window) : $ReadOnlyArray<CrossDomainWindowType> {
+    let frames = getAllFramesInWindow(win);
+    let opener = getNextOpener(win);
+
+    if (opener) {
+        return [ ...getAllWindows(opener), ...frames ];
+    } else {
+        return frames;
+    }
 }
 
 export function isTop(win : CrossDomainWindowType) : boolean {
