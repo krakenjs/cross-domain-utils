@@ -365,6 +365,17 @@ export function getTop(win : CrossDomainWindowType) : ?CrossDomainWindowType {
     }
 }
 
+export function getUltimateTop(win? : CrossDomainWindowType = window) : CrossDomainWindowType {
+    let top = getTop(win) || win;
+    let opener = getOpener(top);
+
+    if (opener) {
+        return getUltimateTop(opener);
+    }
+
+    return top;
+}
+
 export function getAllFramesInWindow(win : CrossDomainWindowType) : Array<CrossDomainWindowType> {
     let top = getTop(win);
 
