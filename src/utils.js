@@ -204,6 +204,15 @@ export function isSameDomain(win : CrossDomainWindowType | SameDomainWindowType)
 }
 
 
+export function assertSameDomain(win : CrossDomainWindowType | SameDomainWindowType) : SameDomainWindowType {
+    if (!isSameDomain(win)) {
+        throw new Error(`Expected window to be same domain`);
+    }
+
+    // $FlowFixMe
+    return win;
+}
+
 export function getParents(win : CrossDomainWindowType) : Array<CrossDomainWindowType> {
 
     let result = [];
