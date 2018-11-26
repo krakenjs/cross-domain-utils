@@ -203,6 +203,15 @@ export function isSameDomain(win) {
     return false;
 }
 
+export function assertSameDomain(win) {
+    if (!isSameDomain(win)) {
+        throw new Error('Expected window to be same domain');
+    }
+
+    // $FlowFixMe
+    return win;
+}
+
 export function getParents(win) {
 
     var result = [];
