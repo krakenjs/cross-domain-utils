@@ -33,3 +33,5 @@ export type SameDomainWindowType = Object & {
         mockUserAgent? : string
     }
 };
+
+export type DomainMatcher = string | Array<string> | RegExp;

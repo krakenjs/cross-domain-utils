@@ -2,7 +2,7 @@
 /* eslint max-lines: 0 */
 
 import { isRegex, noop } from './util';
-import type { CrossDomainWindowType, SameDomainWindowType } from './types';
+import type { CrossDomainWindowType, SameDomainWindowType, DomainMatcher } from './types';
 import { PROTOCOL, WILDCARD } from './constants';
 
 let IE_WIN_ACCESS_ERROR = 'Call was rejected by callee.\r\n';
@@ -814,7 +814,7 @@ export function isSameTopWindow(win1 : CrossDomainWindowType, win2 : CrossDomain
     return false;
 }
 
-export function matchDomain(pattern : (string | Array<string> | RegExp), origin : (string | Array<string> | RegExp)) : boolean {
+export function matchDomain(pattern : DomainMatcher, origin : DomainMatcher) : boolean {
 
     if (typeof pattern === 'string') {
 
@@ -861,7 +861,7 @@ export function matchDomain(pattern : (string | Array<string> | RegExp), origin 
     return false;
 }
 
-export function stringifyDomainPattern(pattern : (string | Array<string> | RegExp)) : string {
+export function stringifyDomainPattern(pattern : DomainMatcher) : string {
     if (Array.isArray(pattern)) {
         return `(${ pattern.join(' | ') })`;
     } else if (isRegex(pattern)) {
