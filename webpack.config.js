@@ -8,7 +8,11 @@ let MODULE_NAME = 'crossDomainUtils';
 
 export let WEBPACK_CONFIG = getWebpackConfig({
     filename:   `${ FILE_NAME }.js`,
-    modulename: MODULE_NAME
+    modulename: MODULE_NAME,
+    vars:       {
+        __MIN__:  false,
+        __TEST__: false
+    }
 });
 
 export let WEBPACK_CONFIG_MIN = getWebpackConfig({
@@ -16,7 +20,8 @@ export let WEBPACK_CONFIG_MIN = getWebpackConfig({
     modulename: MODULE_NAME,
     minify:     true,
     vars:       {
-        __MIN__: true
+        __MIN__:  true,
+        __TEST__: false
     }
 });
 
