@@ -1028,3 +1028,19 @@ export function isCurrentDomain(domain) {
 
     return getDomain() === domain;
 }
+
+export function isMockDomain(domain) {
+    return domain.indexOf(PROTOCOL.MOCK) === 0;
+}
+
+export function normalizeMockUrl(url) {
+    if (!isMockDomain(getDomainFromUrl(url))) {
+        return url;
+    }
+
+    if (!__TEST__) {
+        throw new Error('Mock urls not supported out of test mode');
+    }
+
+    return url.replace(/^mock:\/\/[^/]+/, getActualDomain(window));
+}
