@@ -533,14 +533,6 @@ export function isWindowClosed(win : CrossDomainWindowType, allowMock : boolean 
 }
 
 function cleanIframes() {
-
-    for (let i = 0; i < iframeFrames.length; i++) {
-        if (isFrameWindowClosed(iframeFrames[i])) {
-            iframeFrames.splice(i, 1);
-            iframeWindows.splice(i, 1);
-        }
-    }
-
     for (let i = 0; i < iframeWindows.length; i++) {
         if (isWindowClosed(iframeWindows[i])) {
             iframeFrames.splice(i, 1);
