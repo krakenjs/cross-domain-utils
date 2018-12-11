@@ -538,18 +538,10 @@ export function isWindowClosed(win) {
 }
 
 function cleanIframes() {
-
-    for (var i = 0; i < iframeFrames.length; i++) {
-        if (isFrameWindowClosed(iframeFrames[i])) {
+    for (var i = 0; i < iframeWindows.length; i++) {
+        if (isWindowClosed(iframeWindows[i])) {
             iframeFrames.splice(i, 1);
             iframeWindows.splice(i, 1);
-        }
-    }
-
-    for (var _i8 = 0; _i8 < iframeWindows.length; _i8++) {
-        if (isWindowClosed(iframeWindows[_i8])) {
-            iframeFrames.splice(_i8, 1);
-            iframeWindows.splice(_i8, 1);
         }
     }
 }
@@ -577,8 +569,8 @@ export function getFrameByName(win, name) {
 
     var winFrames = getFrames(win);
 
-    for (var _i10 = 0, _length8 = winFrames == null ? 0 : winFrames.length; _i10 < _length8; _i10++) {
-        var childFrame = winFrames[_i10];
+    for (var _i9 = 0, _length8 = winFrames == null ? 0 : winFrames.length; _i9 < _length8; _i9++) {
+        var childFrame = winFrames[_i9];
         try {
             // $FlowFixMe
             if (isSameDomain(childFrame) && childFrame.name === name && winFrames.indexOf(childFrame) !== -1) {
@@ -616,8 +608,8 @@ export function findChildFrameByName(win, name) {
         return frame;
     }
 
-    for (var _i12 = 0, _getFrames4 = getFrames(win), _length10 = _getFrames4 == null ? 0 : _getFrames4.length; _i12 < _length10; _i12++) {
-        var childFrame = _getFrames4[_i12];
+    for (var _i11 = 0, _getFrames4 = getFrames(win), _length10 = _getFrames4 == null ? 0 : _getFrames4.length; _i11 < _length10; _i11++) {
+        var childFrame = _getFrames4[_i11];
         var namedFrame = findChildFrameByName(childFrame, name);
 
         if (namedFrame) {
@@ -649,8 +641,8 @@ export function isParent(win, frame) {
         return frameParent === win;
     }
 
-    for (var _i14 = 0, _getFrames6 = getFrames(win), _length12 = _getFrames6 == null ? 0 : _getFrames6.length; _i14 < _length12; _i14++) {
-        var childFrame = _getFrames6[_i14];
+    for (var _i13 = 0, _getFrames6 = getFrames(win), _length12 = _getFrames6 == null ? 0 : _getFrames6.length; _i13 < _length12; _i13++) {
+        var childFrame = _getFrames6[_i13];
         if (childFrame === frame) {
             return true;
         }
@@ -716,8 +708,8 @@ export function isAncestor(parent, child) {
         return false;
     }
 
-    for (var _i16 = 0, _getFrames8 = getFrames(parent), _length14 = _getFrames8 == null ? 0 : _getFrames8.length; _i16 < _length14; _i16++) {
-        var frame = _getFrames8[_i16];
+    for (var _i15 = 0, _getFrames8 = getFrames(parent), _length14 = _getFrames8 == null ? 0 : _getFrames8.length; _i15 < _length14; _i15++) {
+        var frame = _getFrames8[_i15];
         if (frame === child) {
             return true;
         }
@@ -739,10 +731,10 @@ export function isFullpage() {
 }
 
 function anyMatch(collection1, collection2) {
-    for (var _i18 = 0, _length16 = collection1 == null ? 0 : collection1.length; _i18 < _length16; _i18++) {
-        var item1 = collection1[_i18];
-        for (var _i20 = 0, _length18 = collection2 == null ? 0 : collection2.length; _i20 < _length18; _i20++) {
-            var item2 = collection2[_i20];
+    for (var _i17 = 0, _length16 = collection1 == null ? 0 : collection1.length; _i17 < _length16; _i17++) {
+        var item1 = collection1[_i17];
+        for (var _i19 = 0, _length18 = collection2 == null ? 0 : collection2.length; _i19 < _length18; _i19++) {
+            var item2 = collection2[_i19];
             if (item1 === item2) {
                 return true;
             }

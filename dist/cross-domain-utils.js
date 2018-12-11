@@ -280,13 +280,9 @@
             __webpack_exports__.R = isWindowClosed;
             __webpack_exports__.S = function(frame) {
                 !function() {
-                    for (var i = 0; i < iframeFrames.length; i++) if (isFrameWindowClosed(iframeFrames[i])) {
+                    for (var i = 0; i < iframeWindows.length; i++) if (isWindowClosed(iframeWindows[i])) {
                         iframeFrames.splice(i, 1);
                         iframeWindows.splice(i, 1);
-                    }
-                    for (var _i8 = 0; _i8 < iframeWindows.length; _i8++) if (isWindowClosed(iframeWindows[_i8])) {
-                        iframeFrames.splice(_i8, 1);
-                        iframeWindows.splice(_i8, 1);
                     }
                 }();
                 if (frame && frame.contentWindow) try {
@@ -306,7 +302,7 @@
             __webpack_exports__.L = function(win, frame) {
                 var frameParent = getParent(frame);
                 if (frameParent) return frameParent === win;
-                for (var _i14 = 0, _getFrames6 = getFrames(win), _length12 = null == _getFrames6 ? 0 : _getFrames6.length; _i14 < _length12; _i14++) if (_getFrames6[_i14] === frame) return !0;
+                for (var _i13 = 0, _getFrames6 = getFrames(win), _length12 = null == _getFrames6 ? 0 : _getFrames6.length; _i13 < _length12; _i13++) if (_getFrames6[_i13] === frame) return !0;
                 return !1;
             };
             __webpack_exports__.K = function(parent, child) {
@@ -322,7 +318,7 @@
                 if (actualParent) return actualParent === parent;
                 if (child === parent) return !1;
                 if (getTop(child) === child) return !1;
-                for (var _i16 = 0, _getFrames8 = getFrames(parent), _length14 = null == _getFrames8 ? 0 : _getFrames8.length; _i16 < _length14; _i16++) if (_getFrames8[_i16] === child) return !0;
+                for (var _i15 = 0, _getFrames8 = getFrames(parent), _length14 = null == _getFrames8 ? 0 : _getFrames8.length; _i15 < _length14; _i15++) if (_getFrames8[_i15] === child) return !0;
                 return !1;
             };
             __webpack_exports__.M = isPopup;
@@ -625,8 +621,8 @@
                 return !1;
             }
             function getFrameByName(win, name) {
-                for (var winFrames = getFrames(win), _i10 = 0, _length8 = null == winFrames ? 0 : winFrames.length; _i10 < _length8; _i10++) {
-                    var childFrame = winFrames[_i10];
+                for (var winFrames = getFrames(win), _i9 = 0, _length8 = null == winFrames ? 0 : winFrames.length; _i9 < _length8; _i9++) {
+                    var childFrame = winFrames[_i9];
                     try {
                         if (isSameDomain(childFrame) && childFrame.name === name && -1 !== winFrames.indexOf(childFrame)) return childFrame;
                     } catch (err) {}
@@ -641,8 +637,8 @@
             function findChildFrameByName(win, name) {
                 var frame = getFrameByName(win, name);
                 if (frame) return frame;
-                for (var _i12 = 0, _getFrames4 = getFrames(win), _length10 = null == _getFrames4 ? 0 : _getFrames4.length; _i12 < _length10; _i12++) {
-                    var namedFrame = findChildFrameByName(_getFrames4[_i12], name);
+                for (var _i11 = 0, _getFrames4 = getFrames(win), _length10 = null == _getFrames4 ? 0 : _getFrames4.length; _i11 < _length10; _i11++) {
+                    var namedFrame = findChildFrameByName(_getFrames4[_i11], name);
                     if (namedFrame) return namedFrame;
                 }
             }
@@ -656,7 +652,7 @@
                 return Boolean(getParent(window));
             }
             function anyMatch(collection1, collection2) {
-                for (var _i18 = 0, _length16 = null == collection1 ? 0 : collection1.length; _i18 < _length16; _i18++) for (var item1 = collection1[_i18], _i20 = 0, _length18 = null == collection2 ? 0 : collection2.length; _i20 < _length18; _i20++) if (item1 === collection2[_i20]) return !0;
+                for (var _i17 = 0, _length16 = null == collection1 ? 0 : collection1.length; _i17 < _length16; _i17++) for (var item1 = collection1[_i17], _i19 = 0, _length18 = null == collection2 ? 0 : collection2.length; _i19 < _length18; _i19++) if (item1 === collection2[_i19]) return !0;
                 return !1;
             }
             function getDistanceFromTop() {
@@ -682,4 +678,5 @@
         }
     });
 });
+//# sourceMappingURL=cross-domain-utils.js.map
 //# sourceMappingURL=cross-domain-utils.js.map
