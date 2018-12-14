@@ -280,9 +280,15 @@
             __webpack_exports__.R = isWindowClosed;
             __webpack_exports__.S = function(frame) {
                 !function() {
-                    for (var i = 0; i < iframeWindows.length; i++) if (isWindowClosed(iframeWindows[i])) {
-                        iframeFrames.splice(i, 1);
-                        iframeWindows.splice(i, 1);
+                    for (var i = 0; i < iframeWindows.length; i++) {
+                        var closed = !1;
+                        try {
+                            closed = iframeWindows[i].closed;
+                        } catch (err) {}
+                        if (closed) {
+                            iframeFrames.splice(i, 1);
+                            iframeWindows.splice(i, 1);
+                        }
                     }
                 }();
                 if (frame && frame.contentWindow) try {

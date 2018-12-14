@@ -539,7 +539,15 @@ export function isWindowClosed(win) {
 
 function cleanIframes() {
     for (var i = 0; i < iframeWindows.length; i++) {
-        if (isWindowClosed(iframeWindows[i])) {
+        var closed = false;
+
+        try {
+            closed = iframeWindows[i].closed;
+        } catch (err) {
+            // pass
+        }
+
+        if (closed) {
             iframeFrames.splice(i, 1);
             iframeWindows.splice(i, 1);
         }
