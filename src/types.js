@@ -34,4 +34,4 @@ export type SameDomainWindowType = Object & {
     }
 };
 
-export type DomainMatcher = string | Array<string> | RegExp;
+export type DomainMatcher = string | Array<string> | $ReadOnlyArray<string> | RegExp;
