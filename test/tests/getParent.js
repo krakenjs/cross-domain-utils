@@ -29,16 +29,7 @@ describe('getParent cases', () => {
             throw new Error(`Expected getParent to not return a window`);
         }
     });
-
-    it('should not get the parent window if nothing is passed', () => {
-
-        let parent = getParent();
-
-        if (parent) {
-            throw new Error(`Expected getParent to not return a window`);
-        }
-    });
-
+    
     it('should return void in case of any errors', () => {
 
         let win = getCrossDomainWindow({});
