@@ -19,7 +19,9 @@ export function isAboutProtocol() {
     return win.location.protocol === PROTOCOL.ABOUT;
 }
 
-export function getParent(win) {
+export function getParent() {
+    var win = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : window;
+
 
     if (!win) {
         return;
@@ -34,7 +36,9 @@ export function getParent(win) {
     }
 }
 
-export function getOpener(win) {
+export function getOpener() {
+    var win = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : window;
+
 
     if (!win) {
         return;
@@ -664,7 +668,9 @@ export function isOpener(parent, child) {
     return parent === getOpener(child);
 }
 
-export function getAncestor(win) {
+export function getAncestor() {
+    var win = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : window;
+
     win = win || window;
 
     var opener = getOpener(win);
@@ -1043,4 +1049,12 @@ export function normalizeMockUrl(url) {
     }
 
     return url.replace(/^mock:\/\/[^/]+/, getActualDomain(window));
+}
+
+export function closeWindow(win) {
+    try {
+        win.close();
+    } catch (err) {
+        // pass
+    }
 }

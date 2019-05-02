@@ -60,12 +60,14 @@
             function isAboutProtocol() {
                 return (arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : window).location.protocol === PROTOCOL.ABOUT;
             }
-            function getParent(win) {
+            function getParent() {
+                var win = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : window;
                 if (win) try {
                     if (win.parent && win.parent !== win) return win.parent;
                 } catch (err) {}
             }
-            function getOpener(win) {
+            function getOpener() {
+                var win = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : window;
                 if (win && !getParent(win)) try {
                     return win.opener;
                 } catch (err) {}
@@ -332,7 +334,8 @@
             function isOpener(parent, child) {
                 return parent === getOpener(child);
             }
-            function getAncestor(win) {
+            function getAncestor() {
+                var win = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : window;
                 return getOpener(win = win || window) || getParent(win) || void 0;
             }
             function getAncestors(win) {
@@ -470,6 +473,11 @@
             function normalizeMockUrl(url) {
                 if (!isMockDomain(getDomainFromUrl(url))) return url;
                 throw new Error("Mock urls not supported out of test mode");
+            }
+            function closeWindow(win) {
+                try {
+                    win.close();
+                } catch (err) {}
             }
             __webpack_require__.d(__webpack_exports__, "isFileProtocol", function() {
                 return isFileProtocol;
@@ -617,6 +625,9 @@
             });
             __webpack_require__.d(__webpack_exports__, "normalizeMockUrl", function() {
                 return normalizeMockUrl;
+            });
+            __webpack_require__.d(__webpack_exports__, "closeWindow", function() {
+                return closeWindow;
             });
             __webpack_require__.d(__webpack_exports__, "TYPES", function() {
                 return !0;
