@@ -15,7 +15,7 @@ export function isAboutProtocol(win : SameDomainWindowType = window) : boolean {
     return win.location.protocol === PROTOCOL.ABOUT;
 }
 
-export function getParent(win : ?CrossDomainWindowType) : ?CrossDomainWindowType {
+export function getParent(win? : CrossDomainWindowType = window) : ?CrossDomainWindowType {
 
     if (!win) {
         return;
@@ -30,7 +30,7 @@ export function getParent(win : ?CrossDomainWindowType) : ?CrossDomainWindowType
     }
 }
 
-export function getOpener(win : ?CrossDomainWindowType) : ?CrossDomainWindowType {
+export function getOpener(win? : CrossDomainWindowType = window) : ?CrossDomainWindowType {
 
     if (!win) {
         return;
@@ -657,7 +657,7 @@ export function isOpener(parent : CrossDomainWindowType, child : CrossDomainWind
     return parent === getOpener(child);
 }
 
-export function getAncestor(win : ?CrossDomainWindowType) : ?CrossDomainWindowType {
+export function getAncestor(win? : CrossDomainWindowType = window) : ?CrossDomainWindowType {
     win = win || window;
 
     let opener = getOpener(win);
