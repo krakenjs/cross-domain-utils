@@ -1027,3 +1027,11 @@ export function normalizeMockUrl(url : string) : string {
 
     return url.replace(/^mock:\/\/[^/]+/, getActualDomain(window));
 }
+
+export function closeWindow(win : CrossDomainWindowType) {
+    try {
+        win.close();
+    } catch (err) {
+        // pass
+    }
+}
