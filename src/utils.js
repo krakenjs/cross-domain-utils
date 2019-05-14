@@ -944,6 +944,17 @@ export function isWindow(obj : Object) : boolean {
     }
 
     try {
+        // $FlowFixMe
+        if (toString(obj) === '[object Window]') {
+            return true;
+        }
+    } catch (err) {
+        if (err && err.message === IE_WIN_ACCESS_ERROR) {
+            return true;
+        }
+    }
+
+    try {
         if (window.Window && obj instanceof window.Window) {
             return true;
         }
@@ -984,14 +995,18 @@ export function isWindow(obj : Object) : boolean {
     }
 
     try {
-        noop(obj === obj);  // eslint-disable-line no-self-compare
+        if (noop(obj === obj) === '__unlikely_value__') { // eslint-disable-line no-self-compare
+            return false;
+        }
 
     } catch (err) {
         return true;
     }
 
     try {
-        noop(obj && obj.__cross_domain_utils_window_check__);
+        if (obj && obj.__cross_domain_utils_window_check__ === '__unlikely_value__') {
+            return false;
+        }
 
     } catch (err) {
         return true;
