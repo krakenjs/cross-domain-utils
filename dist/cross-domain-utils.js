@@ -435,6 +435,11 @@
                     if (err && err.message === IE_WIN_ACCESS_ERROR) return !0;
                 }
                 try {
+                    if ("[object Window]" === toString(obj)) return !0;
+                } catch (err) {
+                    if (err && err.message === IE_WIN_ACCESS_ERROR) return !0;
+                }
+                try {
                     if (window.Window && obj instanceof window.Window) return !0;
                 } catch (err) {
                     if (err && err.message === IE_WIN_ACCESS_ERROR) return !0;
@@ -455,7 +460,7 @@
                     if (err && err.message === IE_WIN_ACCESS_ERROR) return !0;
                 }
                 try {
-                    obj && obj.__cross_domain_utils_window_check__;
+                    if (obj && "__unlikely_value__" === obj.__cross_domain_utils_window_check__) return !1;
                 } catch (err) {
                     return !0;
                 }
