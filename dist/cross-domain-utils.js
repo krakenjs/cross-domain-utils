@@ -435,11 +435,6 @@
                     if (err && err.message === IE_WIN_ACCESS_ERROR) return !0;
                 }
                 try {
-                    if ("[object Window]" === toString(obj)) return !0;
-                } catch (err) {
-                    if (err && err.message === IE_WIN_ACCESS_ERROR) return !0;
-                }
-                try {
                     if (window.Window && obj instanceof window.Window) return !0;
                 } catch (err) {
                     if (err && err.message === IE_WIN_ACCESS_ERROR) return !0;
