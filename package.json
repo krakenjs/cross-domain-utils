@@ -13,7 +13,6 @@
     "lint": "eslint src/ test/",
     "flow": "flow",
     "flow-typed": "flow-typed install",
-    "flow:build": "flow gen-flow-files ./src/index.js --out-dir ./dist/module",
     "clean": "rimraf dist coverage",
     "reinstall": "rimraf flow-typed && rimraf node_modules && npm install && flow-typed install",
     "release": "./publish.sh",
@@ -41,7 +40,7 @@
   ],
   "readmeFilename": "README.md",
   "devDependencies": {
-    "flow-bin": "^0.70.0",
+    "flow-bin": "^0.100.0",
     "grumbler-scripts": "^2.0.18",
     "mocha": "^3.4.2"
   },
