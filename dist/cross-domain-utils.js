@@ -79,8 +79,8 @@
                 } catch (err) {}
                 return !1;
             }
-            function getActualDomain(win) {
-                var location = (win = win || window).location;
+            function getActualDomain() {
+                var win = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : window, location = win.location;
                 if (!location) throw new Error("Can not read window location");
                 var protocol = location.protocol;
                 if (!protocol) throw new Error("Can not read window protocol");
@@ -93,8 +93,8 @@
                 if (!host) throw new Error("Can not read window host");
                 return protocol + "//" + host;
             }
-            function getDomain(win) {
-                var domain = getActualDomain(win = win || window);
+            function getDomain() {
+                var win = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : window, domain = getActualDomain(win);
                 return domain && win.mockDomain && 0 === win.mockDomain.indexOf(PROTOCOL.MOCK) ? win.mockDomain : domain;
             }
             function isBlankDomain(win) {
@@ -195,25 +195,24 @@
                 }
                 return result;
             }
-            function getTop(win) {
-                if (win) {
+            function getTop() {
+                var win = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : window;
+                try {
+                    if (win.top) return win.top;
+                } catch (err) {}
+                if (getParent(win) === win) return win;
+                try {
+                    if (isAncestorParent(window, win) && window.top) return window.top;
+                } catch (err) {}
+                try {
+                    if (isAncestorParent(win, window) && window.top) return window.top;
+                } catch (err) {}
+                for (var _i7 = 0, _getAllChildFrames4 = getAllChildFrames(win), _length6 = null == _getAllChildFrames4 ? 0 : _getAllChildFrames4.length; _i7 < _length6; _i7++) {
+                    var frame = _getAllChildFrames4[_i7];
                     try {
-                        if (win.top) return win.top;
+                        if (frame.top) return frame.top;
                     } catch (err) {}
-                    if (getParent(win) === win) return win;
-                    try {
-                        if (isAncestorParent(window, win) && window.top) return window.top;
-                    } catch (err) {}
-                    try {
-                        if (isAncestorParent(win, window) && window.top) return window.top;
-                    } catch (err) {}
-                    for (var _i7 = 0, _getAllChildFrames4 = getAllChildFrames(win), _length6 = null == _getAllChildFrames4 ? 0 : _getAllChildFrames4.length; _i7 < _length6; _i7++) {
-                        var frame = _getAllChildFrames4[_i7];
-                        try {
-                            if (frame.top) return frame.top;
-                        } catch (err) {}
-                        if (getParent(frame) === frame) return frame;
-                    }
+                    if (getParent(frame) === frame) return frame;
                 }
             }
             function getNextOpener() {
@@ -351,13 +350,16 @@
                 return !1;
             }
             function isPopup() {
-                return Boolean(getOpener(window));
+                var win = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : window;
+                return Boolean(getOpener(win));
             }
             function isIframe() {
-                return Boolean(getParent(window));
+                var win = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : window;
+                return Boolean(getParent(win));
             }
             function isFullpage() {
-                return Boolean(!isIframe() && !isPopup());
+                var win = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : window;
+                return Boolean(!isIframe(win) && !isPopup(win));
             }
             function anyMatch(collection1, collection2) {
                 for (var _i17 = 0, _length16 = null == collection1 ? 0 : collection1.length; _i17 < _length16; _i17++) for (var item1 = collection1[_i17], _i19 = 0, _length18 = null == collection2 ? 0 : collection2.length; _i19 < _length18; _i19++) if (item1 === collection2[_i19]) return !0;

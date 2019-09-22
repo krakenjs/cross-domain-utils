@@ -68,9 +68,9 @@ export function canReadFromWindow(win) {
     return false;
 }
 
-export function getActualDomain(win) {
+export function getActualDomain() {
+    var win = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : window;
 
-    win = win || window;
 
     var location = win.location;
 
@@ -108,9 +108,9 @@ export function getActualDomain(win) {
     return protocol + '//' + host;
 }
 
-export function getDomain(win) {
+export function getDomain() {
+    var win = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : window;
 
-    win = win || window;
 
     var domain = getActualDomain(win);
 
@@ -329,11 +329,9 @@ export function getAllChildFrames(win) {
     return result;
 }
 
-export function getTop(win) {
+export function getTop() {
+    var win = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : window;
 
-    if (!win) {
-        return;
-    }
 
     try {
         if (win.top) {
@@ -733,15 +731,21 @@ export function isAncestor(parent, child) {
 }
 
 export function isPopup() {
-    return Boolean(getOpener(window));
+    var win = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : window;
+
+    return Boolean(getOpener(win));
 }
 
 export function isIframe() {
-    return Boolean(getParent(window));
+    var win = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : window;
+
+    return Boolean(getParent(win));
 }
 
 export function isFullpage() {
-    return Boolean(!isIframe() && !isPopup());
+    var win = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : window;
+
+    return Boolean(!isIframe(win) && !isPopup(win));
 }
 
 function anyMatch(collection1, collection2) {
