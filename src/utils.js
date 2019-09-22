@@ -60,9 +60,7 @@ export function canReadFromWindow(win : CrossDomainWindowType | SameDomainWindow
     return false;
 }
 
-export function getActualDomain(win : ?SameDomainWindowType) : string {
-
-    win = win || window;
+export function getActualDomain(win? : SameDomainWindowType = window) : string {
 
     let location = win.location;
 
@@ -100,9 +98,7 @@ export function getActualDomain(win : ?SameDomainWindowType) : string {
     return `${ protocol }//${ host }`;
 }
 
-export function getDomain(win : ?SameDomainWindowType) : string {
-
-    win = win || window;
+export function getDomain(win? : SameDomainWindowType = window) : string {
 
     let domain = getActualDomain(win);
 
@@ -326,11 +322,7 @@ export function getAllChildFrames(win : CrossDomainWindowType) : Array<CrossDoma
     return result;
 }
 
-export function getTop(win : CrossDomainWindowType) : ?CrossDomainWindowType {
-
-    if (!win) {
-        return;
-    }
+export function getTop(win? : CrossDomainWindowType = window) : ?CrossDomainWindowType {
 
     try {
         if (win.top) {
@@ -719,16 +711,16 @@ export function isAncestor(parent : CrossDomainWindowType, child : CrossDomainWi
     return false;
 }
 
-export function isPopup() : boolean {
-    return Boolean(getOpener(window));
+export function isPopup(win? : CrossDomainWindowType = window) : boolean {
+    return Boolean(getOpener(win));
 }
 
-export function isIframe() : boolean {
-    return Boolean(getParent(window));
+export function isIframe(win? : CrossDomainWindowType = window) : boolean {
+    return Boolean(getParent(win));
 }
 
-export function isFullpage() : boolean {
-    return Boolean(!isIframe() && !isPopup());
+export function isFullpage(win? : CrossDomainWindowType = window) : boolean {
+    return Boolean(!isIframe(win) && !isPopup(win));
 }
 
 function anyMatch(collection1, collection2) : boolean {

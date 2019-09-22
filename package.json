@@ -12,7 +12,7 @@
     "test": "npm run lint && npm run flow-typed && npm run flow && npm run karma",
     "lint": "eslint src/ test/",
     "flow": "flow",
-    "flow-typed": "flow-typed install",
+    "flow-typed": "rm -rf ./flow-typed && flow-typed install",
     "clean": "rimraf dist coverage",
     "reinstall": "rimraf flow-typed && rimraf node_modules && npm install && flow-typed install",
     "release": "./publish.sh",
