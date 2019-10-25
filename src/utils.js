@@ -1031,3 +1031,15 @@ export function closeWindow(win : CrossDomainWindowType) {
         // pass
     }
 }
+
+export function getFrameForWindow(win : CrossDomainWindowType) : ?HTMLElement {
+    if (isSameDomain(win)) {
+        return assertSameDomain(win).frameElement;
+    }
+
+    for (const frame of document.querySelectorAll('iframe')) {
+        if (frame && frame.contentWindow && frame.contentWindow === win) {
+            return frame;
+        }
+    }
+}
