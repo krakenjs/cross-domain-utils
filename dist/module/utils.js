@@ -1067,3 +1067,16 @@ export function closeWindow(win) {
         // pass
     }
 }
+
+export function getFrameForWindow(win) {
+    if (isSameDomain(win)) {
+        return assertSameDomain(win).frameElement;
+    }
+
+    for (var _i21 = 0, _document$querySelect2 = document.querySelectorAll('iframe'), _length20 = _document$querySelect2 == null ? 0 : _document$querySelect2.length; _i21 < _length20; _i21++) {
+        var frame = _document$querySelect2[_i21];
+        if (frame && frame.contentWindow && frame.contentWindow === win) {
+            return frame;
+        }
+    }
+}
