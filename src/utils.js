@@ -381,14 +381,21 @@ export function getUltimateTop(win? : CrossDomainWindowType = window) : CrossDom
     return top;
 }
 
-export function getAllFramesInWindow(win : CrossDomainWindowType) : Array<CrossDomainWindowType> {
+export function getAllFramesInWindow(win : CrossDomainWindowType) : $ReadOnlyArray<CrossDomainWindowType> {
     let top = getTop(win);
 
     if (!top) {
         throw new Error(`Can not determine top window`);
     }
 
-    return [ ...getAllChildFrames(top), top ];
+    let result = [ ...getAllChildFrames(top), top ];
+
+    // Win may be in shadow dom
+    if (result.indexOf(win) === -1) {
+        result = [ ...result, win, ...getAllChildFrames(win) ];
+    }
+
+    return result;
 }
 
 export function getAllWindows(win? : CrossDomainWindowType = window) : $ReadOnlyArray<CrossDomainWindowType> {
