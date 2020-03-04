@@ -240,7 +240,7 @@
                 if (!frame.parentNode) return !0;
                 var doc = frame.ownerDocument;
                 if (doc && doc.documentElement && !doc.documentElement.contains(frame)) {
-                    for (var parent = frame; frame.parentNode && frame.parentNode !== frame; ) parent = frame.parentNode;
+                    for (var parent = frame; parent.parentNode && parent.parentNode !== parent; ) parent = parent.parentNode;
                     if (!parent.host || !doc.documentElement.contains(parent.host)) return !0;
                 }
                 return !1;
