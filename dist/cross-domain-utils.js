@@ -226,7 +226,9 @@
             function getAllFramesInWindow(win) {
                 var top = getTop(win);
                 if (!top) throw new Error("Can not determine top window");
-                return [].concat(getAllChildFrames(top), [ top ]);
+                var result = [].concat(getAllChildFrames(top), [ top ]);
+                -1 === result.indexOf(win) && (result = [].concat(result, [ win ], getAllChildFrames(win)));
+                return result;
             }
             function getAllWindows() {
                 var win = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : window, frames = getAllFramesInWindow(win), opener = getNextOpener(win);

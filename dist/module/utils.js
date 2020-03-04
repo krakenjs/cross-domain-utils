@@ -402,7 +402,14 @@ export function getAllFramesInWindow(win) {
         throw new Error('Can not determine top window');
     }
 
-    return [].concat(getAllChildFrames(top), [top]);
+    var result = [].concat(getAllChildFrames(top), [top]);
+
+    // Win may be in shadow dom
+    if (result.indexOf(win) === -1) {
+        result = [].concat(result, [win], getAllChildFrames(win));
+    }
+
+    return result;
 }
 
 export function getAllWindows() {
