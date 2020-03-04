@@ -435,7 +435,16 @@ export function isFrameWindowClosed(frame) {
     var doc = frame.ownerDocument;
 
     if (doc && doc.documentElement && !doc.documentElement.contains(frame)) {
-        return true;
+        var parent = frame;
+
+        while (frame.parentNode && frame.parentNode !== frame) {
+            parent = frame.parentNode;
+        }
+
+        // $FlowFixMe
+        if (!parent.host || !doc.documentElement.contains(parent.host)) {
+            return true;
+        }
     }
 
     return false;
