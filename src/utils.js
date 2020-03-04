@@ -421,8 +421,8 @@ export function isFrameWindowClosed(frame : HTMLIFrameElement) : boolean {
     if (doc && doc.documentElement && !doc.documentElement.contains(frame)) {
         let parent = frame;
 
-        while (frame.parentNode && frame.parentNode !== frame) {
-            parent = frame.parentNode;
+        while (parent.parentNode && parent.parentNode !== parent) {
+            parent = parent.parentNode;
         }
 
         // $FlowFixMe
