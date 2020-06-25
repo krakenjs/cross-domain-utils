@@ -10,5 +10,6 @@ export const WILDCARD = '*';
 
 export const WINDOW_TYPE = {
     IFRAME: ('iframe' : 'iframe'),
-    POPUP:  ('popup' : 'popup')
+    POPUP:  ('popup' : 'popup'),
+    CLOSED: ('closed' : 'closed')
 };
