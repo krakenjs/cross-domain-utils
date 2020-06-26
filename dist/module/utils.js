@@ -1045,6 +1045,14 @@ export function isWindow(obj) {
         return true;
     }
 
+    try {
+        if ('postMessage' in obj && 'self' in obj && 'location' in obj) {
+            return true;
+        }
+    } catch (err) {
+        // pass
+    }
+
     return false;
 }
 

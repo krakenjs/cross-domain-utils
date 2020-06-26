@@ -467,6 +467,9 @@
                 } catch (err) {
                     return !0;
                 }
+                try {
+                    if ("postMessage" in obj && "self" in obj && "location" in obj) return !0;
+                } catch (err) {}
                 return !1;
             }
             function isBrowser() {
