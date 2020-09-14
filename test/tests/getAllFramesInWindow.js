@@ -42,4 +42,20 @@ describe('getAllFramesInWindow cases', () => {
             }
         }
     });
+
+    it('should get a mock frame defined in window.frames', () => {
+        const frames = window.frames;
+
+        const mockFrame = {};
+
+        window.frames = [ mockFrame ];
+
+        const foundFrames = getAllFramesInWindow(window);
+
+        if (foundFrames.indexOf(mockFrame) === -1) {
+            throw new Error(`getAllFramesInWindow expected to find mock frame in window.frames`);
+        }
+
+        window.frames = frames;
+    });
 });
