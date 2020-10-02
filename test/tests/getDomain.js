@@ -7,8 +7,8 @@ describe('getDomain cases', () => {
 
     it('should get the domain for the current window', () => {
 
-        let domain = getDomain();
-        let expectedDomain = `${ window.location.protocol }//${ window.location.host }`;
+        const domain = getDomain();
+        const expectedDomain = `${ window.location.protocol }//${ window.location.host }`;
 
         if (domain !== expectedDomain) {
             throw new Error(`Expected domain to be "${ expectedDomain }", got "${ domain }"`);
@@ -17,15 +17,15 @@ describe('getDomain cases', () => {
 
     it('should get the domain for a specific window', () => {
 
-        let win = getSameDomainWindow({
+        const win = getSameDomainWindow({
             location: {
                 protocol: 'https:',
                 host:     'foo.com:8087'
             }
         });
 
-        let domain = getDomain(win);
-        let expectedDomain = `${ win.location.protocol }//${ win.location.host }`;
+        const domain = getDomain(win);
+        const expectedDomain = `${ win.location.protocol }//${ win.location.host }`;
 
         if (domain !== expectedDomain) {
             throw new Error(`Expected domain to be "${ expectedDomain }", got "${ domain }"`);
@@ -34,7 +34,7 @@ describe('getDomain cases', () => {
 
     it('should get the mock domain for a specific window', () => {
 
-        let win = getSameDomainWindow({
+        const win = getSameDomainWindow({
             location: {
                 protocol: 'https:',
                 host:     'foo.com:8087'
@@ -42,8 +42,8 @@ describe('getDomain cases', () => {
             mockDomain: 'mock://zomg.com:3456'
         });
 
-        let domain = getDomain(win);
-        let expectedDomain = 'mock://zomg.com:3456';
+        const domain = getDomain(win);
+        const expectedDomain = 'mock://zomg.com:3456';
 
         if (domain !== expectedDomain) {
             throw new Error(`Expected domain to be "${ expectedDomain }", got "${ domain }"`);
@@ -52,7 +52,7 @@ describe('getDomain cases', () => {
 
     it('should get the actual domain for a specific window when mock domain is not mock://', () => {
 
-        let win = getSameDomainWindow({
+        const win = getSameDomainWindow({
             location: {
                 protocol: 'https:',
                 host:     'foo.com:8087'
@@ -60,8 +60,8 @@ describe('getDomain cases', () => {
             mockDomain: 'mocc://zomg.com:3456'
         });
 
-        let domain = getDomain(win);
-        let expectedDomain = `${ win.location.protocol }//${ win.location.host }`;
+        const domain = getDomain(win);
+        const expectedDomain = `${ win.location.protocol }//${ win.location.host }`;
 
         if (domain !== expectedDomain) {
             throw new Error(`Expected domain to be "${ expectedDomain }", got "${ domain }"`);
@@ -70,7 +70,7 @@ describe('getDomain cases', () => {
 
     it('should throw errors when the window does not have a location', () => {
 
-        let win = getSameDomainWindow({
+        const win = getSameDomainWindow({
             location:   null,
             mockDomain: 'mocc://zomg.com:3456'
         });
@@ -90,7 +90,7 @@ describe('getDomain cases', () => {
 
     it('should throw errors when the window does not have a protocol', () => {
 
-        let win = getSameDomainWindow({
+        const win = getSameDomainWindow({
             location: {
                 protocol: null,
                 host:     'foo.com:8087'
@@ -113,7 +113,7 @@ describe('getDomain cases', () => {
 
     it('should throw errors when the window does not have a host', () => {
 
-        let win = getSameDomainWindow({
+        const win = getSameDomainWindow({
             location: {
                 protocol: 'https:',
                 host:     null
@@ -136,14 +136,14 @@ describe('getDomain cases', () => {
 
     it('should get the domain for a specific window when its protocol is file:// even with no host', () => {
 
-        let win = getSameDomainWindow({
+        const win = getSameDomainWindow({
             location: {
                 protocol: 'file:'
             }
         });
 
-        let domain = getDomain(win);
-        let expectedDomain = `${ win.location.protocol }//`;
+        const domain = getDomain(win);
+        const expectedDomain = `${ win.location.protocol }//`;
 
         if (domain !== expectedDomain) {
             throw new Error(`Expected domain to be "${ expectedDomain }", got "${ domain }"`);

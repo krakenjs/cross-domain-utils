@@ -15,14 +15,14 @@ export type CrossDomainWindowType = {|
     close : () => void,
     focus : () => void,
     top : CrossDomainWindowType,
-    frames : Array<CrossDomainWindowType>,
+    frames : $ReadOnlyArray<CrossDomainWindowType>,
     opener ? : CrossDomainWindowType,
     parent : CrossDomainWindowType,
     length : number,
     postMessage : (string, string) => void
 |};
 
-export type SameDomainWindowType = Object & {
+export type SameDomainWindowType = Object & {|
     location : string | Object,
     self : CrossDomainWindowType,
     closed : boolean,
@@ -31,10 +31,10 @@ export type SameDomainWindowType = Object & {
     focus : () => void,
     XMLHttpRequest : typeof XMLHttpRequest,
     document : Document,
-    navigator : {
+    navigator : {|
         userAgent : string,
         mockUserAgent? : string
-    }
-};
+    |}
+|};
 
-export type DomainMatcher = string | Array<string> | $ReadOnlyArray<string> | RegExp;
+export type DomainMatcher = string | $ReadOnlyArray<string> | $ReadOnlyArray<string> | RegExp;

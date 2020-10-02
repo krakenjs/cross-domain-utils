@@ -5,6 +5,6 @@ export function isRegex(item : mixed) : boolean {
 }
 
 // eslint-disable-next-line no-unused-vars
-export function noop(...args : Array<mixed>) {
+export function noop(...args : $ReadOnlyArray<mixed>) {
     // pass
 }

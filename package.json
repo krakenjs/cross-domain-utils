@@ -8,7 +8,7 @@
     "build": "npm run test && npm run babel && npm run webpack",
     "webpack": "cross-env NODE_ENV=production babel-node --plugins=transform-es2015-modules-commonjs ./node_modules/.bin/webpack --progress --output-path dist",
     "babel": "cross-env NODE_ENV=production babel src/ --out-dir dist/module",
-    "karma": "cross-env NODE_ENV=test babel-node ./node_modules/.bin/karma start",
+    "karma": "cross-env NODE_ENV=test babel-node --plugins=transform-es2015-modules-commonjs ./node_modules/.bin/karma start",
     "test": "npm run lint && npm run flow-typed && npm run flow && npm run karma",
     "lint": "eslint src/ test/",
     "flow": "flow",
@@ -40,9 +40,10 @@
   ],
   "readmeFilename": "README.md",
   "devDependencies": {
-    "flow-bin": "^0.100.0",
-    "grumbler-scripts": "^2.0.18",
-    "mocha": "^3.4.2"
+    "chai": "^4.2.0",
+    "flow-bin": "^0.135.0",
+    "grumbler-scripts": "^3",
+    "mocha": "^4"
   },
   "dependencies": {
     "zalgo-promise": "^1.0.11"

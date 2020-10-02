@@ -7,15 +7,15 @@ describe('isSameDomain cases', () => {
 
     it('should give a positive result for isSameDomain', () => {
 
-        let win = getSameDomainWindow({
+        const win = getSameDomainWindow({
             location: {
                 protocol: window.location.protocol,
                 host:     window.location.host
             }
         });
 
-        let result = isSameDomain(win);
-        let expectedResult = true;
+        const result = isSameDomain(win);
+        const expectedResult = true;
 
         if (result !== expectedResult) {
             throw new Error(`Expected isSameDomain result to be "${ expectedResult.toString() }", got "${ result.toString() }"`);
@@ -24,7 +24,7 @@ describe('isSameDomain cases', () => {
 
     it('should give a negative result for isSameDomain with a different protocol', () => {
 
-        let win = getSameDomainWindow({
+        const win = getSameDomainWindow({
             location: {
                 protocol: 'https:',
                 host:     window.location.host
@@ -38,8 +38,8 @@ describe('isSameDomain cases', () => {
             }
         });
 
-        let result = isSameDomain(win);
-        let expectedResult = false;
+        const result = isSameDomain(win);
+        const expectedResult = false;
 
         if (result !== expectedResult) {
             throw new Error(`Expected isSameDomain result to be "${ expectedResult.toString() }", got "${ result.toString() }"`);
@@ -48,7 +48,7 @@ describe('isSameDomain cases', () => {
 
     it('should give a negative result for isSameDomain with a different host', () => {
 
-        let win = getSameDomainWindow({
+        const win = getSameDomainWindow({
             location: {
                 protocol: window.location.protocol,
                 host:     'foobar.com:12345'
@@ -62,8 +62,8 @@ describe('isSameDomain cases', () => {
             }
         });
 
-        let result = isSameDomain(win);
-        let expectedResult = false;
+        const result = isSameDomain(win);
+        const expectedResult = false;
 
         if (result !== expectedResult) {
             throw new Error(`Expected isSameDomain result to be "${ expectedResult.toString() }", got "${ result.toString() }"`);
@@ -72,7 +72,7 @@ describe('isSameDomain cases', () => {
 
     it('should give a negative result for isSameDomain with a different protocol and host', () => {
 
-        let win = getSameDomainWindow({
+        const win = getSameDomainWindow({
             location: {
                 protocol: 'https:',
                 host:     'foobar.com:12345'
@@ -86,8 +86,8 @@ describe('isSameDomain cases', () => {
             }
         });
 
-        let result = isSameDomain(win);
-        let expectedResult = false;
+        const result = isSameDomain(win);
+        const expectedResult = false;
 
         if (result !== expectedResult) {
             throw new Error(`Expected isSameDomain result to be "${ expectedResult.toString() }", got "${ result.toString() }"`);
@@ -96,7 +96,7 @@ describe('isSameDomain cases', () => {
 
     it('should give a negative result for isSameDomain when an error is thrown on protocol', () => {
 
-        let win = getSameDomainWindow({
+        const win = getSameDomainWindow({
             location: {
                 get protocol() { throw new Error('error'); },
                 host: window.location.host
@@ -110,8 +110,8 @@ describe('isSameDomain cases', () => {
             }
         });
 
-        let result = isSameDomain(win);
-        let expectedResult = false;
+        const result = isSameDomain(win);
+        const expectedResult = false;
 
         if (result !== expectedResult) {
             throw new Error(`Expected isSameDomain result to be "${ expectedResult.toString() }", got "${ result.toString() }"`);
@@ -120,7 +120,7 @@ describe('isSameDomain cases', () => {
 
     it('should give a negative result for isSameDomain when an error is thrown on host', () => {
 
-        let win = getSameDomainWindow({
+        const win = getSameDomainWindow({
             location: {
                 protocol: window.location.protocol,
                 get host() { throw new Error('error'); }
@@ -134,8 +134,8 @@ describe('isSameDomain cases', () => {
             }
         });
 
-        let result = isSameDomain(win);
-        let expectedResult = false;
+        const result = isSameDomain(win);
+        const expectedResult = false;
 
         if (result !== expectedResult) {
             throw new Error(`Expected isSameDomain result to be "${ expectedResult.toString() }", got "${ result.toString() }"`);
@@ -144,7 +144,7 @@ describe('isSameDomain cases', () => {
 
     it('should give a negative result for isSameDomain when location is non-enumerable', () => {
 
-        let win = getSameDomainWindow({});
+        const win = getSameDomainWindow({});
 
         Object.defineProperty(win, 'location', {
             value: {
@@ -161,8 +161,8 @@ describe('isSameDomain cases', () => {
             }
         });
 
-        let result = isSameDomain(win);
-        let expectedResult = false;
+        const result = isSameDomain(win);
+        const expectedResult = false;
 
         if (result !== expectedResult) {
             throw new Error(`Expected isSameDomain result to be "${ expectedResult.toString() }", got "${ result.toString() }"`);
@@ -173,7 +173,7 @@ describe('isSameDomain cases', () => {
 
         window.mockDomain = 'mock://foobar.com:12345';
 
-        let win = getSameDomainWindow({
+        const win = getSameDomainWindow({
             location: {
                 protocol: window.location.protocol,
                 host:     window.location.host
@@ -188,8 +188,8 @@ describe('isSameDomain cases', () => {
             }
         });
 
-        let result = isSameDomain(win);
-        let expectedResult = true;
+        const result = isSameDomain(win);
+        const expectedResult = true;
 
         if (result !== expectedResult) {
             throw new Error(`Expected isSameDomain result to be "${ expectedResult.toString() }", got "${ result.toString() }"`);
@@ -202,7 +202,7 @@ describe('isSameDomain cases', () => {
 
         window.mockDomain = 'mock://fizzbuzz.com:345';
 
-        let win = getSameDomainWindow({
+        const win = getSameDomainWindow({
             location: {
                 protocol: window.location.protocol,
                 host:     window.location.host
@@ -217,8 +217,8 @@ describe('isSameDomain cases', () => {
             }
         });
 
-        let result = isSameDomain(win);
-        let expectedResult = false;
+        const result = isSameDomain(win);
+        const expectedResult = false;
 
         if (result !== expectedResult) {
             throw new Error(`Expected isSameDomain result to be "${ expectedResult.toString() }", got "${ result.toString() }"`);

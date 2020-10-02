@@ -5,7 +5,7 @@ import { isRegex, noop } from './util';
 import type { CrossDomainWindowType, SameDomainWindowType, DomainMatcher } from './types';
 import { PROTOCOL, WILDCARD } from './constants';
 
-let IE_WIN_ACCESS_ERROR = 'Call was rejected by callee.\r\n';
+const IE_WIN_ACCESS_ERROR = 'Call was rejected by callee.\r\n';
 
 export function isFileProtocol(win : SameDomainWindowType = window) : boolean {
     return win.location.protocol === PROTOCOL.FILE;
@@ -62,13 +62,13 @@ export function canReadFromWindow(win : CrossDomainWindowType | SameDomainWindow
 
 export function getActualDomain(win? : SameDomainWindowType = window) : string {
 
-    let location = win.location;
+    const location = win.location;
 
     if (!location) {
         throw new Error(`Can not read window location`);
     }
 
-    let protocol = location.protocol;
+    const protocol = location.protocol;
 
     if (!protocol) {
         throw new Error(`Can not read window protocol`);
@@ -80,7 +80,7 @@ export function getActualDomain(win? : SameDomainWindowType = window) : string {
 
     if (protocol === PROTOCOL.ABOUT) {
 
-        let parent = getParent(win);
+        const parent = getParent(win);
         if (parent && canReadFromWindow(parent)) {
             // $FlowFixMe
             return getActualDomain(parent);
@@ -89,7 +89,7 @@ export function getActualDomain(win? : SameDomainWindowType = window) : string {
         return `${ PROTOCOL.ABOUT }//`;
     }
 
-    let host = location.host;
+    const host = location.host;
 
     if (!host) {
         throw new Error(`Can not read window host`);
@@ -100,7 +100,7 @@ export function getActualDomain(win? : SameDomainWindowType = window) : string {
 
 export function getDomain(win? : SameDomainWindowType = window) : string {
 
-    let domain = getActualDomain(win);
+    const domain = getActualDomain(win);
 
     if (domain && win.mockDomain && win.mockDomain.indexOf(PROTOCOL.MOCK) === 0) {
         return win.mockDomain;
@@ -138,7 +138,7 @@ export function isActuallySameDomain(win : CrossDomainWindowType) : boolean {
     }
 
     try {
-        let desc = Object.getOwnPropertyDescriptor(win, 'location');
+        const desc = Object.getOwnPropertyDescriptor(win, 'location');
 
         if (desc && desc.enumerable === false) {
             return false;
@@ -209,9 +209,9 @@ export function assertSameDomain(win : CrossDomainWindowType | SameDomainWindowT
     return win;
 }
 
-export function getParents(win : CrossDomainWindowType) : Array<CrossDomainWindowType> {
+export function getParents(win : CrossDomainWindowType) : $ReadOnlyArray<CrossDomainWindowType> {
 
-    let result = [];
+    const result = [];
 
     try {
 
@@ -233,7 +233,7 @@ export function isAncestorParent(parent : CrossDomainWindowType, child : CrossDo
         return false;
     }
 
-    let childParent = getParent(child);
+    const childParent = getParent(child);
 
     if (childParent) {
         return childParent === parent;
@@ -246,9 +246,9 @@ export function isAncestorParent(parent : CrossDomainWindowType, child : CrossDo
     return false;
 }
 
-export function getFrames(win : CrossDomainWindowType) : Array<CrossDomainWindowType> {
+export function getFrames(win : CrossDomainWindowType) : $ReadOnlyArray<CrossDomainWindowType> {
 
-    let result = [];
+    const result = [];
 
     let frames;
 
@@ -307,14 +307,14 @@ export function getFrames(win : CrossDomainWindowType) : Array<CrossDomainWindow
 }
 
 
-export function getAllChildFrames(win : CrossDomainWindowType) : Array<CrossDomainWindowType> {
+export function getAllChildFrames(win : CrossDomainWindowType) : $ReadOnlyArray<CrossDomainWindowType> {
 
-    let result = [];
+    const result = [];
 
-    for (let frame of getFrames(win)) {
+    for (const frame of getFrames(win)) {
         result.push(frame);
 
-        for (let childFrame of getAllChildFrames(frame)) {
+        for (const childFrame of getAllChildFrames(frame)) {
             result.push(childFrame);
         }
     }
@@ -352,7 +352,7 @@ export function getTop(win? : CrossDomainWindowType = window) : ?CrossDomainWind
         // pass
     }
 
-    for (let frame of getAllChildFrames(win)) {
+    for (const frame of getAllChildFrames(win)) {
         try {
             if (frame.top) {
                 return frame.top;
@@ -372,7 +372,7 @@ export function getNextOpener(win? : CrossDomainWindowType = window) : ?CrossDom
 }
 
 export function getUltimateTop(win? : CrossDomainWindowType = window) : CrossDomainWindowType {
-    let opener = getNextOpener(win);
+    const opener = getNextOpener(win);
 
     if (opener) {
         return getUltimateTop(opener);
@@ -382,7 +382,7 @@ export function getUltimateTop(win? : CrossDomainWindowType = window) : CrossDom
 }
 
 export function getAllFramesInWindow(win : CrossDomainWindowType) : $ReadOnlyArray<CrossDomainWindowType> {
-    let top = getTop(win);
+    const top = getTop(win);
 
     if (!top) {
         throw new Error(`Can not determine top window`);
@@ -399,8 +399,8 @@ export function getAllFramesInWindow(win : CrossDomainWindowType) : $ReadOnlyArr
 }
 
 export function getAllWindows(win? : CrossDomainWindowType = window) : $ReadOnlyArray<CrossDomainWindowType> {
-    let frames = getAllFramesInWindow(win);
-    let opener = getNextOpener(win);
+    const frames = getAllFramesInWindow(win);
+    const opener = getNextOpener(win);
 
     if (opener) {
         return [ ...getAllWindows(opener), ...frames ];
@@ -423,7 +423,7 @@ export function isFrameWindowClosed(frame : HTMLIFrameElement) : boolean {
         return true;
     }
 
-    let doc = frame.ownerDocument;
+    const doc = frame.ownerDocument;
 
     if (doc && doc.documentElement && !doc.documentElement.contains(frame)) {
         let parent = frame;
@@ -441,7 +441,7 @@ export function isFrameWindowClosed(frame : HTMLIFrameElement) : boolean {
     return false;
 }
 
-function safeIndexOf<T>(collection : Array<T>, item : T) : number {
+function safeIndexOf<T>(collection : $ReadOnlyArray<T>, item : T) : number {
     for (let i = 0; i < collection.length; i++) {
 
         try {
@@ -456,8 +456,8 @@ function safeIndexOf<T>(collection : Array<T>, item : T) : number {
     return -1;
 }
 
-let iframeWindows = [];
-let iframeFrames = [];
+const iframeWindows = [];
+const iframeFrames = [];
 
 export function isWindowClosed(win : CrossDomainWindowType, allowMock : boolean = true) : boolean {
 
@@ -527,10 +527,10 @@ export function isWindowClosed(win : CrossDomainWindowType, allowMock : boolean 
 
     // IE orphaned frame
 
-    let iframeIndex = safeIndexOf(iframeWindows, win);
+    const iframeIndex = safeIndexOf(iframeWindows, win);
 
     if (iframeIndex !== -1) {
-        let frame = iframeFrames[iframeIndex];
+        const frame = iframeFrames[iframeIndex];
 
         if (frame && isFrameWindowClosed(frame)) {
             return true;
@@ -579,9 +579,9 @@ export function getUserAgent(win : ?SameDomainWindowType) : string {
 
 export function getFrameByName(win : CrossDomainWindowType, name : string) : ?CrossDomainWindowType {
 
-    let winFrames = getFrames(win);
+    const winFrames = getFrames(win);
 
-    for (let childFrame of winFrames) {
+    for (const childFrame of winFrames) {
         try {
             // $FlowFixMe
             if (isSameDomain(childFrame) && childFrame.name === name && winFrames.indexOf(childFrame) !== -1) {
@@ -613,14 +613,14 @@ export function getFrameByName(win : CrossDomainWindowType, name : string) : ?Cr
 
 export function findChildFrameByName(win : CrossDomainWindowType, name : string) : ?CrossDomainWindowType {
 
-    let frame = getFrameByName(win, name);
+    const frame = getFrameByName(win, name);
 
     if (frame) {
         return frame;
     }
 
-    for (let childFrame of getFrames(win)) {
-        let namedFrame = findChildFrameByName(childFrame, name);
+    for (const childFrame of getFrames(win)) {
+        const namedFrame = findChildFrameByName(childFrame, name);
 
         if (namedFrame) {
             return namedFrame;
@@ -629,29 +629,26 @@ export function findChildFrameByName(win : CrossDomainWindowType, name : string)
 }
 
 export function findFrameByName(win : CrossDomainWindowType, name : string) : ?CrossDomainWindowType {
-
-    let frame;
-
-    frame = getFrameByName(win, name);
+    const frame = getFrameByName(win, name);
 
     if (frame) {
         return frame;
     }
 
-    let top = getTop(win) || win;
+    const top = getTop(win) || win;
 
     return findChildFrameByName(top, name);
 }
 
 export function isParent(win : CrossDomainWindowType, frame : CrossDomainWindowType) : boolean {
 
-    let frameParent = getParent(frame);
+    const frameParent = getParent(frame);
 
     if (frameParent) {
         return frameParent === win;
     }
 
-    for (let childFrame of getFrames(win)) {
+    for (const childFrame of getFrames(win)) {
         if (childFrame === frame) {
             return true;
         }
@@ -668,22 +665,22 @@ export function isOpener(parent : CrossDomainWindowType, child : CrossDomainWind
 export function getAncestor(win? : CrossDomainWindowType = window) : ?CrossDomainWindowType {
     win = win || window;
 
-    let opener = getOpener(win);
+    const opener = getOpener(win);
 
     if (opener) {
         return opener;
     }
 
-    let parent = getParent(win);
+    const parent = getParent(win);
 
     if (parent) {
         return parent;
     }
 }
 
-export function getAncestors(win : CrossDomainWindowType) : Array<CrossDomainWindowType> {
+export function getAncestors(win : CrossDomainWindowType) : $ReadOnlyArray<CrossDomainWindowType> {
 
-    let results = [];
+    const results = [];
 
     let ancestor = win;
 
@@ -700,7 +697,7 @@ export function getAncestors(win : CrossDomainWindowType) : Array<CrossDomainWin
 
 export function isAncestor(parent : CrossDomainWindowType, child : CrossDomainWindowType) : boolean {
 
-    let actualParent = getAncestor(child);
+    const actualParent = getAncestor(child);
 
     if (actualParent) {
         if (actualParent === parent) {
@@ -718,7 +715,7 @@ export function isAncestor(parent : CrossDomainWindowType, child : CrossDomainWi
         return false;
     }
 
-    for (let frame of getFrames(parent)) {
+    for (const frame of getFrames(parent)) {
         if (frame === child) {
             return true;
         }
@@ -741,8 +738,8 @@ export function isFullpage(win? : CrossDomainWindowType = window) : boolean {
 
 function anyMatch(collection1, collection2) : boolean {
 
-    for (let item1 of collection1) {
-        for (let item2 of collection2) {
+    for (const item1 of collection1) {
+        for (const item2 of collection2) {
             if (item1 === item2) {
                 return true;
             }
@@ -786,8 +783,8 @@ export function getNthParentFromTop(win : CrossDomainWindowType, n : number = 1)
 
 export function isSameTopWindow(win1 : CrossDomainWindowType, win2 : CrossDomainWindowType) : boolean {
 
-    let top1 = getTop(win1) || win1;
-    let top2 = getTop(win2) || win2;
+    const top1 = getTop(win1) || win1;
+    const top2 = getTop(win2) || win2;
 
     try {
         if (top1 && top2) {
@@ -801,15 +798,15 @@ export function isSameTopWindow(win1 : CrossDomainWindowType, win2 : CrossDomain
         // pass
     }
 
-    let allFrames1 = getAllFramesInWindow(win1);
-    let allFrames2 = getAllFramesInWindow(win2);
+    const allFrames1 = getAllFramesInWindow(win1);
+    const allFrames2 = getAllFramesInWindow(win2);
 
     if (anyMatch(allFrames1, allFrames2)) {
         return true;
     }
 
-    let opener1 = getOpener(top1);
-    let opener2 = getOpener(top2);
+    const opener1 = getOpener(top1);
+    const opener2 = getOpener(top2);
 
     if (opener1 && anyMatch(getAllFramesInWindow(opener1), allFrames2)) {
         return false;
@@ -894,11 +891,11 @@ export function getDomainFromUrl(url : string) : string {
     return domain;
 }
 
-export function onCloseWindow(win : CrossDomainWindowType, callback : Function, delay : number = 1000, maxtime : number = Infinity) : { cancel : () => void } {
+export function onCloseWindow(win : CrossDomainWindowType, callback : Function, delay : number = 1000, maxtime : number = Infinity) : {| cancel : () => void |} {
 
     let timeout;
 
-    let check = () => {
+    const check = () => {
 
         if (isWindowClosed(win)) {
 

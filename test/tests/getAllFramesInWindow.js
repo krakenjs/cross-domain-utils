@@ -6,13 +6,13 @@ describe('getAllFramesInWindow cases', () => {
 
     it('should get all of the frames', () => {
 
-        let x : Object = { name: 'x' };
-        let y : Object = { name: 'y', frames: [ x ] };
+        const x : Object = { name: 'x' };
+        const y : Object = { name: 'y', frames: [ x ] };
 
-        let a : Object = { name: 'a' };
-        let b : Object = { name: 'b', frames: [ a ] };
+        const a : Object = { name: 'a' };
+        const b : Object = { name: 'b', frames: [ a ] };
 
-        let z : Object = { name: 'z', frames: [ b, y ] };
+        const z : Object = { name: 'z', frames: [ b, y ] };
 
         x.top = z;
         x.parent = y;
@@ -29,14 +29,14 @@ describe('getAllFramesInWindow cases', () => {
         z.top = z;
         z.parent = z;
 
-        let allFrames   = [ a, b, x, y, z ];
-        let foundFrames = getAllFramesInWindow(x);
+        const allFrames   = [ a, b, x, y, z ];
+        const foundFrames = getAllFramesInWindow(x);
 
         if (foundFrames.length !== allFrames.length) {
             throw new Error(`Expected to find ${ allFrames.length }, but found ${ foundFrames.length }`);
         }
 
-        for (let frame of allFrames) {
+        for (const frame of allFrames) {
             if (foundFrames.indexOf(frame) === -1) {
                 throw new Error(`Did not find frame ${ frame.name }`);
             }

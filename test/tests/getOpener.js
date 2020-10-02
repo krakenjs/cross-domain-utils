@@ -7,11 +7,11 @@ describe('getOpener cases', () => {
 
     it('should get the opener window if there is one', () => {
 
-        let win = getCrossDomainWindow({
+        const win = getCrossDomainWindow({
             opener: {}
         });
 
-        let opener = getOpener(win);
+        const opener = getOpener(win);
 
         if (opener !== win.opener) {
             throw new Error(`Expected getOpener to return opener window`);
@@ -20,12 +20,12 @@ describe('getOpener cases', () => {
 
     it('should not get the opener window if the window has a parent', () => {
 
-        let win = getCrossDomainWindow({
+        const win = getCrossDomainWindow({
             parent: {},
             opener: {}
         });
 
-        let opener = getOpener(win);
+        const opener = getOpener(win);
 
         if (opener) {
             throw new Error(`Expected getOpener to not return a window`);
@@ -34,7 +34,7 @@ describe('getOpener cases', () => {
 
     it('should not get the opener window if nothing is passed', () => {
 
-        let opener = getOpener();
+        const opener = getOpener();
 
         if (opener) {
             throw new Error(`Expected getOpener to not return a window`);
@@ -43,7 +43,7 @@ describe('getOpener cases', () => {
 
     it('should return void in case of any errors', () => {
 
-        let win = getCrossDomainWindow({});
+        const win = getCrossDomainWindow({});
 
         // $FlowFixMe
         Object.defineProperty(win, 'opener', {
@@ -52,7 +52,7 @@ describe('getOpener cases', () => {
             }
         });
 
-        let opener = getOpener(win);
+        const opener = getOpener(win);
 
         if (opener) {
             throw new Error(`Expected getOpener to not return a window`);

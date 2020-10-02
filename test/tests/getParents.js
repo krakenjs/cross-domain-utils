@@ -7,7 +7,7 @@ describe('getParents cases', () => {
 
     it('should get all of a windows parents', () => {
 
-        let win = getCrossDomainWindow({
+        const win = getCrossDomainWindow({
             parent: {
                 parent: {
                     parent: {
@@ -19,7 +19,7 @@ describe('getParents cases', () => {
 
         win.parent.parent.parent.parent = win.parent.parent.parent;
 
-        let parents = getParents(win);
+        const parents = getParents(win);
 
         if (parents.length !== 3) {
             throw new Error(`Expected to get 3 parents, got ${ parents.length }`);
