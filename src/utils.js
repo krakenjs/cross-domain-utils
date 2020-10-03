@@ -870,7 +870,7 @@ export function stringifyDomainPattern(pattern : DomainMatcher) : string {
     if (Array.isArray(pattern)) {
         return `(${ pattern.join(' | ') })`;
     } else if (isRegex(pattern)) {
-        return `RegExp(${ pattern.toString() }`;
+        return `RegExp(${ pattern.toString() })`;
     } else {
         return pattern.toString();
     }
