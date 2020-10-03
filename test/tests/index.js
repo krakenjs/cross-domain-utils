@@ -9,3 +9,4 @@ import './getOpener';
 import './getParents';
 import './getAllFramesInWindow';
 import './getUserAgent';
+import './stringifyDomainPattern';
