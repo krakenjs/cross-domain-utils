@@ -868,7 +868,7 @@ export function matchDomain(pattern : DomainMatcher, origin : DomainMatcher) : b
 
 export function stringifyDomainPattern(pattern : DomainMatcher) : string {
     if (Array.isArray(pattern)) {
-        return `(${ pattern.join(' | ') })`;
+        return `RegExp(${ pattern.join(' | ') })`;
     } else if (isRegex(pattern)) {
         return `RegExp(${ pattern.toString() })`;
     } else {
