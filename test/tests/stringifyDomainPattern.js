@@ -29,7 +29,7 @@ describe('stringifyDomainPattern test cases ', () => {
 
         const domainPatternsArrayStringified = stringifyDomainPattern(domainPatternsArray);
         
-        const expected = `RegExp(${ p1 } | ${ p2 })`;
+        const expected = `(${ p1 } | ${ p2 })`;
 
         expect(domainPatternsArrayStringified).to.equal(expected);
     });
