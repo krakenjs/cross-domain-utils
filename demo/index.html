@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html class="no-js" lang="">
+  <head>
+    <meta charset="utf-8" />
+    <title>Top Level Window</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+      crossorigin="anonymous"
+    />
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="row justify-content-md-center">
+        <div class="col-md-4 col-md-offset-4">
+          <br /><br />
+
+          <!-- PASSWORD FIELD IFRAME -->
+          <iframe
+            frameborder="0"
+            cellspacing="0"
+            style="
+              border-style: none; 
+              width: 100%; 
+              height: 70px
+            "
+            src="/iframe-password.html"
+            title="Password"
+          >
+          </iframe>
+
+          <!-- VALIDATION FIELDS IFRAME -->
+          <iframe
+            id="validation-fields-iframe"
+            frameborder="0"
+            cellspacing="0"
+            style="
+              border-style: none;
+              width: 100%;
+              height: 200px;
+              display: none;
+            "
+            src="/iframe-validation-fields.html"
+            title="Password Validation Errors"
+          >
+          </iframe>
+
+          <button
+            type="button"
+            class="btn btn-light btn-lg btn-block"
+            id="submit-btn"
+          >
+            Submit
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/cross-domain-utils/dist/cross-domain-utils.js"></script>
+
+    <script>
+      const { getAllFramesInWindow, isSameDomain } = crossDomainUtils;
+
+      function getFrameExportsById(id) {
+        const frames = getAllFramesInWindow(window);
+
+        for (const win of frames) {
+          if (isSameDomain(win) && win.exports && win.exports.id === id) {
+            return win.exports;
+          }
+        }
+      }
+
+      document
+        .getElementById("submit-btn")
+        .addEventListener("click", () => {
+
+          const { getValidationFields, getPayload } = getFrameExportsById("password-field");
+
+          const { setValidationFields } = getFrameExportsById(
+            "validation-fields"
+          );
+
+          const validationFields = getValidationFields();
+
+          setValidationFields(validationFields);
+
+          const isValid = validationFields.every((err) => err.valid);
+
+          if (!isValid) {
+            document.getElementById("validation-fields-iframe").style.display =
+              "block";
+            return;
+          }
+
+          const payload = getPayload();
+
+          alert(JSON.stringify(payload, null, 2));
+        });
+    </script>
+  </body>
+</html>
