@@ -10,3 +10,4 @@ import './getParents';
 import './getAllFramesInWindow';
 import './getUserAgent';
 import './stringifyDomainPattern';
+import './getDomainFromUrl';
