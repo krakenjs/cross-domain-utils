@@ -10,6 +10,7 @@ import './getParents';
 import './getAllFramesInWindow';
 import './getUserAgent';
 import './stringifyDomainPattern';
+import './getDomainFromUrl';
 import './isBlankDomain';
 import './closeWindow';
 import './isFileProtocol';
