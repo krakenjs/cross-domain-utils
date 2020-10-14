@@ -866,11 +866,11 @@ export function matchDomain(pattern : DomainMatcher, origin : DomainMatcher) : b
     return false;
 }
 
-export function childFrameOfParentWindow(parentWindow : CrossDomainWindowType) : boolean {
+export function isChildFrame(currentWindow : CrossDomainWindowType) : boolean {
     const allIframes = [ ...document.querySelectorAll('iframe') ];
 
     const isChild = allIframes.some(iframeElement => (
-        iframeElement.contentWindow === parentWindow
+        iframeElement.contentWindow === currentWindow
     ));
 
     return isChild;
