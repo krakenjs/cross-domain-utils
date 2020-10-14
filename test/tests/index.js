@@ -14,3 +14,4 @@ import './getDomainFromUrl';
 import './isBlankDomain';
 import './closeWindow';
 import './isFileProtocol';
+import './childFrameOfParentWindow';

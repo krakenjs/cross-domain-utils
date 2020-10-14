@@ -866,6 +866,16 @@ export function matchDomain(pattern : DomainMatcher, origin : DomainMatcher) : b
     return false;
 }
 
+export function childFrameOfParentWindow(parentWindow : CrossDomainWindowType) : boolean {
+    const allIframes = [ ...document.querySelectorAll('iframe') ];
+
+    const isChild = allIframes.some(iframeElement => (
+        iframeElement.contentWindow === parentWindow
+    ));
+
+    return isChild;
+}
+
 export function stringifyDomainPattern(pattern : DomainMatcher) : string {
     if (Array.isArray(pattern)) {
         return `(${ pattern.join(' | ') })`;
