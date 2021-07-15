@@ -939,6 +939,7 @@ export function isWindow(obj : Object) : boolean {
     }
 
     try {
+        // $FlowFixMe method-unbinding
         if (Object.prototype.toString.call(obj) === '[object Window]') {
             return true;
         }
