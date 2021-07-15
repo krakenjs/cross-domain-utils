@@ -841,7 +841,7 @@ export function stringifyDomainPattern(pattern) {
   if (Array.isArray(pattern)) {
     return "(" + pattern.join(' | ') + ")";
   } else if (isRegex(pattern)) {
-    return "RegExp(" + pattern.toString();
+    return "RegExp(" + pattern.toString() + ")";
   } else {
     return pattern.toString();
   }
@@ -908,6 +908,7 @@ export function isWindow(obj) {
   }
 
   try {
+    // $FlowFixMe method-unbinding
     if (Object.prototype.toString.call(obj) === '[object Window]') {
       return true;
     }
