@@ -209,11 +209,11 @@
         __webpack_require__.d(__webpack_exports__, "normalizeMockUrl", (function() {
             return normalizeMockUrl;
         }));
-        __webpack_require__.d(__webpack_exports__, "closeWindow", (function() {
-            return closeWindow;
-        }));
         __webpack_require__.d(__webpack_exports__, "getFrameForWindow", (function() {
             return getFrameForWindow;
+        }));
+        __webpack_require__.d(__webpack_exports__, "closeWindow", (function() {
+            return closeWindow;
         }));
         __webpack_require__.d(__webpack_exports__, "TYPES", (function() {
             return TYPES;
@@ -694,17 +694,24 @@
             if (!isMockDomain(getDomainFromUrl(url))) return url;
             throw new Error("Mock urls not supported out of test mode");
         }
-        function closeWindow(win) {
-            try {
-                win.close();
-            } catch (err) {}
-        }
         function getFrameForWindow(win) {
             if (isSameDomain(win)) return assertSameDomain(win).frameElement;
             for (var _i21 = 0, _document$querySelect2 = document.querySelectorAll("iframe"); _i21 < _document$querySelect2.length; _i21++) {
                 var frame = _document$querySelect2[_i21];
                 if (frame && frame.contentWindow && frame.contentWindow === win) return frame;
             }
+        }
+        function closeWindow(win) {
+            if (isIframe(win)) {
+                var frame = getFrameForWindow(win);
+                if (frame && frame.parentElement) {
+                    frame.parentElement.removeChild(frame);
+                    return;
+                }
+            }
+            try {
+                win.close();
+            } catch (err) {}
         }
         var TYPES = !0;
     } ]);

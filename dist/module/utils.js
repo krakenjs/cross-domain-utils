@@ -1008,12 +1008,6 @@ export function normalizeMockUrl(url) {
 
   return url.replace(/^mock:\/\/[^/]+/, getActualDomain(window));
 }
-export function closeWindow(win) {
-  try {
-    win.close();
-  } catch (err) {// pass
-  }
-}
 export function getFrameForWindow(win) {
   if (isSameDomain(win)) {
     return assertSameDomain(win).frameElement;
@@ -1025,5 +1019,20 @@ export function getFrameForWindow(win) {
     if (frame && frame.contentWindow && frame.contentWindow === win) {
       return frame;
     }
+  }
+}
+export function closeWindow(win) {
+  if (isIframe(win)) {
+    var frame = getFrameForWindow(win);
+
+    if (frame && frame.parentElement) {
+      frame.parentElement.removeChild(frame);
+      return;
+    }
+  }
+
+  try {
+    win.close();
+  } catch (err) {// pass
   }
 }
