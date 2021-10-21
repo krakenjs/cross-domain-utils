@@ -7,12 +7,32 @@ import { PROTOCOL, WILDCARD } from './constants';
 
 const IE_WIN_ACCESS_ERROR = 'Call was rejected by callee.\r\n';
 
+export function getActualProtocol(win : SameDomainWindowType = window) : ?string {
+    return win.location.protocol;
+}
+
+export function getProtocol(win : SameDomainWindowType = window) : ?string {
+    if (win.mockDomain) {
+        const protocol = win.mockDomain.split('//')[0];
+
+        if (protocol) {
+            return protocol;
+        }
+    }
+
+    return getActualProtocol(win);
+}
+
 export function isFileProtocol(win : SameDomainWindowType = window) : boolean {
-    return win.location.protocol === PROTOCOL.FILE;
+    return getProtocol(win) === PROTOCOL.FILE;
 }
 
 export function isAboutProtocol(win : SameDomainWindowType = window) : boolean {
-    return win.location.protocol === PROTOCOL.ABOUT;
+    return getProtocol(win) === PROTOCOL.ABOUT;
+}
+
+export function isMockProtocol(win : SameDomainWindowType = window) : boolean {
+    return getProtocol(win) === PROTOCOL.MOCK;
 }
 
 export function getParent(win? : CrossDomainWindowType = window) : ?CrossDomainWindowType {
@@ -68,7 +88,7 @@ export function getActualDomain(win? : SameDomainWindowType = window) : string {
         throw new Error(`Can not read window location`);
     }
 
-    const protocol = location.protocol;
+    const protocol = getActualProtocol(win);
 
     if (!protocol) {
         throw new Error(`Can not read window protocol`);
@@ -159,6 +179,15 @@ export function isActuallySameDomain(win : CrossDomainWindowType) : boolean {
 
     try {
         // $FlowFixMe
+        if (isMockProtocol(win) && canReadFromWindow(win)) {
+            return true;
+        }
+    } catch (err) {
+        // pass
+    }
+
+    try {
+        // $FlowFixMe
         if (getActualDomain(win) === getActualDomain(window)) {
             return true;
         }
@@ -177,11 +206,10 @@ export function isSameDomain(win : CrossDomainWindowType | SameDomainWindowType)
     }
 
     try {
-
         if (win === window) {
             return true;
         }
-
+        
         // $FlowFixMe
         if (isAboutProtocol(win) && canReadFromWindow(win)) {
             return true;
