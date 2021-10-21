@@ -2,19 +2,48 @@
 import { isRegex, noop } from './util';
 import { PROTOCOL, WILDCARD } from './constants';
 var IE_WIN_ACCESS_ERROR = 'Call was rejected by callee.\r\n';
+export function getActualProtocol(win) {
+  if (win === void 0) {
+    win = window;
+  }
+
+  return win.location.protocol;
+}
+export function getProtocol(win) {
+  if (win === void 0) {
+    win = window;
+  }
+
+  if (win.mockDomain) {
+    var protocol = win.mockDomain.split('//')[0];
+
+    if (protocol) {
+      return protocol;
+    }
+  }
+
+  return getActualProtocol(win);
+}
 export function isFileProtocol(win) {
   if (win === void 0) {
     win = window;
   }
 
-  return win.location.protocol === PROTOCOL.FILE;
+  return getProtocol(win) === PROTOCOL.FILE;
 }
 export function isAboutProtocol(win) {
   if (win === void 0) {
     win = window;
   }
 
-  return win.location.protocol === PROTOCOL.ABOUT;
+  return getProtocol(win) === PROTOCOL.ABOUT;
+}
+export function isMockProtocol(win) {
+  if (win === void 0) {
+    win = window;
+  }
+
+  return getProtocol(win) === PROTOCOL.MOCK;
 }
 export function getParent(win) {
   if (win === void 0) {
@@ -72,7 +101,7 @@ export function getActualDomain(win) {
     throw new Error("Can not read window location");
   }
 
-  var protocol = location.protocol;
+  var protocol = getActualProtocol(win);
 
   if (!protocol) {
     throw new Error("Can not read window protocol");
@@ -149,6 +178,14 @@ export function isActuallySameDomain(win) {
   try {
     // $FlowFixMe
     if (isAboutProtocol(win) && canReadFromWindow(win)) {
+      return true;
+    }
+  } catch (err) {// pass
+  }
+
+  try {
+    // $FlowFixMe
+    if (isMockProtocol(win) && canReadFromWindow(win)) {
       return true;
     }
   } catch (err) {// pass

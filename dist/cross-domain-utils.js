@@ -62,11 +62,20 @@
     }([ function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
+        __webpack_require__.d(__webpack_exports__, "getActualProtocol", (function() {
+            return getActualProtocol;
+        }));
+        __webpack_require__.d(__webpack_exports__, "getProtocol", (function() {
+            return getProtocol;
+        }));
         __webpack_require__.d(__webpack_exports__, "isFileProtocol", (function() {
             return isFileProtocol;
         }));
         __webpack_require__.d(__webpack_exports__, "isAboutProtocol", (function() {
             return isAboutProtocol;
+        }));
+        __webpack_require__.d(__webpack_exports__, "isMockProtocol", (function() {
+            return isMockProtocol;
         }));
         __webpack_require__.d(__webpack_exports__, "getParent", (function() {
             return getParent;
@@ -241,13 +250,29 @@
             POPUP: "popup"
         };
         var IE_WIN_ACCESS_ERROR = "Call was rejected by callee.\r\n";
+        function getActualProtocol(win) {
+            void 0 === win && (win = window);
+            return win.location.protocol;
+        }
+        function getProtocol(win) {
+            void 0 === win && (win = window);
+            if (win.mockDomain) {
+                var protocol = win.mockDomain.split("//")[0];
+                if (protocol) return protocol;
+            }
+            return getActualProtocol(win);
+        }
         function isFileProtocol(win) {
             void 0 === win && (win = window);
-            return win.location.protocol === PROTOCOL.FILE;
+            return getProtocol(win) === PROTOCOL.FILE;
         }
         function isAboutProtocol(win) {
             void 0 === win && (win = window);
-            return win.location.protocol === PROTOCOL.ABOUT;
+            return getProtocol(win) === PROTOCOL.ABOUT;
+        }
+        function isMockProtocol(win) {
+            void 0 === win && (win = window);
+            return getProtocol(win) === PROTOCOL.MOCK;
         }
         function getParent(win) {
             void 0 === win && (win = window);
@@ -271,7 +296,7 @@
             void 0 === win && (win = window);
             var location = win.location;
             if (!location) throw new Error("Can not read window location");
-            var protocol = location.protocol;
+            var protocol = getActualProtocol(win);
             if (!protocol) throw new Error("Can not read window protocol");
             if (protocol === PROTOCOL.FILE) return PROTOCOL.FILE + "//";
             if (protocol === PROTOCOL.ABOUT) {
@@ -304,6 +329,9 @@
             } catch (err) {}
             try {
                 if (isAboutProtocol(win) && canReadFromWindow()) return !0;
+            } catch (err) {}
+            try {
+                if (isMockProtocol(win) && canReadFromWindow()) return !0;
             } catch (err) {}
             try {
                 if (getActualDomain(win) === getActualDomain(window)) return !0;
