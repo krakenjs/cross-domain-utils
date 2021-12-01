@@ -1,11 +1,10 @@
-/* @flow */
-
 import { assert } from 'chai';
 
 import { matchDomain } from '../../src';
 
 describe('match domain', () => {
     describe('returns true when', () => {
+
         it('domain is a string and origin is a string', () => {
             assert.isTrue(matchDomain([ 'http://domain' ], 'http://domain'));
         });

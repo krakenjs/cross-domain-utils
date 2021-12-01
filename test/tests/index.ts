@@ -1,5 +1,3 @@
-/* @flow */
-
 import './getActualDomain';
 import './getDomain';
 import './isSameDomain';
