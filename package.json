@@ -1,6 +1,6 @@
 {
   "name": "@krakenjs/cross-domain-utils",
-  "version": "2.0.38",
+  "version": "2.0.39",
   "description": "Javascript module template.",
   "main": "dist/cross-domain-utils.js",
   "module": "dist/module/index.js",
