@@ -3,6 +3,14 @@ Cross Domain Utils
 
 A set of utilities for dealing with cross-domain windows
 
+## Installation
+
+As of version 3 this package will be published under the `@krakenjs` scope.
+
+```
+npm install @krakenjs/cross-domain-utils
+```
+
 ## Public methods
 
 ### `getDomain(win : Window) => string`
@@ -14,7 +22,7 @@ Get the full domain of the specified window, as a string.
 
 ### `getDomainFromUrl(url : string) => string`
 
-Get the full domain from the specified url, as a string. 
+Get the full domain from the specified url, as a string.
 
 - it will try to extract the domain from the url string if it starts with well known protocols (`http://`, `https://`, `file://`, and additionally `mock://` urls)
 - if url string does not contain a known protocol, it will try to extract the domain calling `getDomain` using the current window as input
@@ -186,7 +194,7 @@ Returns true if the specified domain matches the pattern. The pattern can be one
 
 All of the tasks are listed in the package.json file under the scripts section
 
-| Command        | Description  |          
+| Command        | Description  |
 | ------------- |:-------------:|
 | npm run build | Builds the dist files |
 | npm test      | Runs the test suite.  Lint + Type + Karma  |
