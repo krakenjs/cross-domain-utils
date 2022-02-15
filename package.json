@@ -20,7 +20,8 @@
     "postrelease": "git push && git push --follow-tags && npm publish",
     "debug": "cross-env NODE_ENV=debug",
     "prepublishOnly": "pinst --disable",
-    "postpublish": "pinst --enable"
+    "postpublish": "pinst --enable",
+    "postinstall": "husky install"
   },
   "repository": {
     "type": "git",
