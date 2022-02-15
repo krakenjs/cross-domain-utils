@@ -5,7 +5,7 @@
   "main": "dist/cross-domain-utils.js",
   "module": "dist/module/index.js",
   "scripts": {
-    "build": "npm run test && npm run babel && npm run webpack",
+    "build": "npm run babel && npm run webpack",
     "webpack": "cross-env NODE_ENV=production babel-node --plugins=transform-es2015-modules-commonjs ./node_modules/.bin/webpack --progress --output-path dist",
     "babel": "cross-env NODE_ENV=production babel src/ --out-dir dist/module",
     "karma": "cross-env NODE_ENV=test babel-node --plugins=transform-es2015-modules-commonjs ./node_modules/.bin/karma start",
@@ -15,11 +15,12 @@
     "flow-typed": "rm -rf ./flow-typed && flow-typed install",
     "clean": "rimraf dist coverage",
     "reinstall": "rimraf flow-typed && rimraf node_modules && npm install && flow-typed install",
-    "release": "./publish.sh",
-    "release:patch": "./publish.sh patch",
-    "release:minor": "./publish.sh minor",
-    "release:major": "./publish.sh major",
-    "debug": "cross-env NODE_ENV=debug"
+    "prerelease": "npm run clean && npm run test && npm run build",
+    "release": "standard-version",
+    "postrelease": "git push && git push --follow-tags && npm publish",
+    "debug": "cross-env NODE_ENV=debug",
+    "prepublishOnly": "pinst --disable",
+    "postpublish": "pinst --enable"
   },
   "repository": {
     "type": "git",
@@ -40,10 +41,15 @@
   ],
   "readmeFilename": "README.md",
   "devDependencies": {
+    "@commitlint/cli": "^16.2.1",
+    "@commitlint/config-conventional": "^16.2.1",
     "chai": "^4.2.0",
     "flow-bin": "0.155.0",
     "grumbler-scripts": "^3",
-    "mocha": "^4"
+    "husky": "^7.0.4",
+    "mocha": "^4",
+    "pinst": "^2.1.6",
+    "standard-version": "^9.3.2"
   },
   "dependencies": {
     "zalgo-promise": "^1.0.11"
