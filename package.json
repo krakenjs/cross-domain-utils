@@ -46,8 +46,5 @@
     "mocha": "^4",
     "pinst": "^2.1.6",
     "standard-version": "^9.3.2"
-  },
-  "dependencies": {
-    "zalgo-promise": "^1.0.11"
   }
 }
