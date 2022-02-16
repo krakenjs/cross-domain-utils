@@ -11,9 +11,11 @@ jobs:
                   fetch-depth: 0
 
             - name: ⎔ Setup node
+              # sets up the .npmrc file to publish to npm
               uses: actions/setup-node@v2
               with:
-                  node-version: '14'
+                  node-version: "14"
+                  registry-url: "https://registry.npmjs.org"
 
             - name: 📥 Download deps
               uses: bahmutov/npm-install@v1
