@@ -1,6 +1,17 @@
 Cross Domain Utils
 ------------------
 
+[![build status][build-badge]][build]
+[![npm version][version-badge]][package]
+[![apache license][license-badge]][license]
+
+[build-badge]: https://img.shields.io/github/workflow/status/krakenjs/cross-domain-utils/build?logo=github&style=flat-square
+[build]: https://github.com/krakenjs/cross-domain-utils/actions?query=workflow%3Abuild
+[version-badge]: https://img.shields.io/npm/v/@krakenjs/cross-domain-utils.svg?style=flat-square
+[package]: https://www.npmjs.com/package/@krakenjs/cross-domain-utils
+[license-badge]: https://img.shields.io/npm/l/@krakenjs/cross-domain-utils.svg?style=flat-square
+[license]: https://github.com/krakenjs/cross-domain-utils/blob/main/LICENSE
+
 A set of utilities for dealing with cross-domain windows
 
 ## Installation
