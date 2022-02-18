@@ -8,6 +8,8 @@ Cross Domain Utils
 [build-badge]: https://img.shields.io/github/workflow/status/krakenjs/cross-domain-utils/build?logo=github&style=flat-square
 [build]: https://github.com/krakenjs/cross-domain-utils/actions?query=workflow%3Abuild
 [version-badge]: https://img.shields.io/npm/v/@krakenjs/cross-domain-utils.svg?style=flat-square
+[coverage-badge]: https://img.shields.io/codecov/c/github/krakenjs/cross-domain-utils.svg?style=flat-square
+[coverage]: https://codecov.io/github/krakenjs/cross-domain-utils
 [package]: https://www.npmjs.com/package/@krakenjs/cross-domain-utils
 [license-badge]: https://img.shields.io/npm/l/@krakenjs/cross-domain-utils.svg?style=flat-square
 [license]: https://github.com/krakenjs/cross-domain-utils/blob/main/LICENSE

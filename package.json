@@ -43,6 +43,8 @@
     "flow-bin": "0.155.0",
     "grumbler-scripts": "^5",
     "husky": "^7.0.4",
+    "karma": "^6.3.16",
+    "karma-coverage": "^2.2.0",
     "mocha": "^4",
     "pinst": "^2.1.6",
     "standard-version": "^9.3.2"
