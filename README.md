@@ -7,7 +7,7 @@ Cross Domain Utils
 [![apache license][license-badge]][license]
 
 [build-badge]: https://img.shields.io/github/workflow/status/krakenjs/cross-domain-utils/build?logo=github&style=flat-square
-[build]: https://github.com/krakenjs/cross-domain-utils/actions?query=workflow%3Abuild
+[build]: https://github.com/krakenjs/cross-domain-utils/actions/workflows/main.yml?query=workflow:build
 [coverage-badge]: https://img.shields.io/codecov/c/github/krakenjs/cross-domain-utils.svg?style=flat-square
 [coverage]: https://codecov.io/github/krakenjs/cross-domain-utils
 [version-badge]: https://img.shields.io/npm/v/@krakenjs/cross-domain-utils.svg?style=flat-square
