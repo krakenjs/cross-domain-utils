@@ -1,7 +1,7 @@
 {
   "name": "@krakenjs/cross-domain-utils",
   "version": "3.0.2",
-  "description": "Javascript module template.",
+  "description": "Utilities for dealing with cross-domain windows.",
   "main": "dist/cross-domain-utils.js",
   "module": "dist/module/index.js",
   "scripts": {
