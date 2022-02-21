@@ -15,7 +15,7 @@
     "flow-typed": "rm -rf ./flow-typed && flow-typed install",
     "clean": "rimraf dist coverage",
     "reinstall": "rimraf flow-typed && rimraf node_modules && npm install && flow-typed install",
-    "prerelease": "npm run clean && npm run test && npm run build",
+    "prerelease": "npm run clean && npm run build && git add dist && git commit -m 'ci: check in dist folder' || echo 'Nothing to distribute'",
     "release": "standard-version",
     "postrelease": "git push && git push --follow-tags && npm publish",
     "debug": "cross-env NODE_ENV=debug",
@@ -34,7 +34,8 @@
       {"type": "style", "hidden": false},
       {"type": "refactor", "hidden": false},
       {"type": "perf", "hidden": false},
-      {"type": "test", "hidden": false}
+      {"type": "test", "hidden": false},
+      {"type": "ci", "hidden": true}
     ]
   },
   "keywords": [
