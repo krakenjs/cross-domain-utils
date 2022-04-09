@@ -1,8 +1,8 @@
 /* @flow */
 /* eslint import/no-nodejs-modules: off */
 
-import type { WebpackConfig } from 'grumbler-scripts/config/types';
-import { getWebpackConfig } from 'grumbler-scripts/config/webpack.config';
+import type { WebpackConfig } from '@krakenjs/grumbler-scripts/config/types';
+import { getWebpackConfig } from '@krakenjs/grumbler-scripts/config/webpack.config';
 
 let FILE_NAME = 'cross-domain-utils';
 let MODULE_NAME = 'crossDomainUtils';
