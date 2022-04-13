@@ -28,8 +28,7 @@
     "postrelease": "git push && git push --follow-tags && npm publish",
     "debug": "cross-env NODE_ENV=debug",
     "prepare": "husky install",
-    "vitest": "vitest --dom",
-    "vite": "vite build"
+    "vitest": "vitest run --dom --coverage"
   },
   "repository": {
     "type": "git",
@@ -88,15 +87,15 @@
     "@commitlint/config-conventional": "^16.2.1",
     "@krakenjs/grumbler-scripts": "^6.0.2",
     "@types/webpack": "^5.28.0",
-    "@typescript-eslint/eslint-plugin": "^5.11.0",
-    "@typescript-eslint/parser": "^5.11.0",
+    "@typescript-eslint/eslint-plugin": "^5.19.0",
+    "@typescript-eslint/parser": "^5.19.0",
+    "c8": "^7.11.0",
     "flowgen": "^1.16.0",
     "happy-dom": "^2.55.0",
     "husky": "^7.0.4",
     "standard-version": "^9.3.2",
     "ts-node": "^10.5.0",
     "typescript": "4.5.5",
-    "vite": "^2.9.1",
     "vitest": "^0.9.3"
   }
 }
