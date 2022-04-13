@@ -22,7 +22,8 @@
     "release": "standard-version",
     "postrelease": "git push && git push --follow-tags && npm publish",
     "debug": "cross-env NODE_ENV=debug",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "vitest": "vitest --dom"
   },
   "repository": {
     "type": "git",
@@ -88,10 +89,13 @@
     "chai": "^4.3.6",
     "flow-bin": "0.155.0",
     "flowgen": "^1.16.0",
+    "happy-dom": "^2.55.0",
     "husky": "^7.0.4",
     "mocha": "^4",
     "standard-version": "^9.3.2",
     "ts-node": "^10.5.0",
-    "typescript": "4.5.5"
+    "typescript": "4.5.5",
+    "vite": "^2.9.1",
+    "vitest": "^0.9.3"
   }
 }
