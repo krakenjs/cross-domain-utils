@@ -30,7 +30,7 @@ test('isSameDomain should give a negative result for isSameDomain with a differe
             host:     window.location.host
         }
     });
-        // $FlowFixMe
+
     Object.defineProperty(win.location, 'href', {
         get() : string {
             return `${ win.location.protocol }//${ win.location.host }`;

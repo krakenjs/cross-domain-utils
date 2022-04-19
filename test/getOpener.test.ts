@@ -33,7 +33,7 @@ test('getOpener should not get the opener window if nothing is passed', () => {
 
 test('getOpener should return void in case of any errors', () => {
     const win = getCrossDomainWindow({});
-    // $FlowFixMe
+
     Object.defineProperty(win, 'opener', {
         get() {
             throw new Error('error');

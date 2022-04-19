@@ -25,7 +25,7 @@ test('getParent should not get the parent window if the parent is the same windo
 
 test('getParent should return void in case of any errors', () => {
     const win = getCrossDomainWindow({});
-    // $FlowFixMe
+
     Object.defineProperty(win, 'parent', {
         get() {
             throw new Error('error');
