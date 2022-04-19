@@ -26,7 +26,12 @@ export default defineConfig({
         }
     },
     test: {
-    /* for example, use global to avoid globals imports (describe, test, expect): */
-    // globals: true,
+        /* for example, use global to avoid globals imports (describe, test, expect): */
+        // globals: true,
+        coverage: {
+            reporter: ['text', 'json', 'html'],
+            include: ['src/**/*'],
+            exclude: [],
+        }
     }
 });
