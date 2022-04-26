@@ -1,5 +1,3 @@
-import { expect, test } from 'vitest';
-
 import { stringifyDomainPattern } from '../src';
 
 
@@ -12,7 +10,7 @@ test('should stringify a single regex expression to RegExp', () => {
         throw new TypeError(`Expected domainPattern to be string, instead got ${ typeof domainPatternStringified }`);
     }
 
-    expect(domainPatternStringified).to.equal(expected);
+    expect(domainPatternStringified).toEqual(expected);
 });
 
 test('should stringify an array of domain patterns to RegExp', () => {
@@ -22,6 +20,6 @@ test('should stringify an array of domain patterns to RegExp', () => {
     const domainPatternsArrayStringified = stringifyDomainPattern(domainPatternsArray);
     const expected = `(${ p1 } | ${ p2 })`;
 
-    expect(domainPatternsArrayStringified).to.equal(expected);
+    expect(domainPatternsArrayStringified).toEqual(expected);
 });
 

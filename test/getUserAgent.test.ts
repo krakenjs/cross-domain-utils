@@ -1,5 +1,3 @@
-import { assert, test } from 'vitest';
-
 import { getUserAgent } from '../src';
 
 import { getSameDomainWindow } from './utils';
@@ -14,8 +12,8 @@ test('getUserAgent should get the real user agent', () => {
         }
     });
     const result = getUserAgent(win);
-
-    assert(result === userAgent, `Expected getUserAgent to return ${ userAgent }, actually got ${ result }`);
+    
+    expect(result).toEqual(userAgent);
 });
 
 test('getUserAgent should get the mock user agent', () => {
@@ -28,5 +26,5 @@ test('getUserAgent should get the mock user agent', () => {
     });
     const result = getUserAgent(win);
 
-    assert(result === mockUserAgent, `Expected getUserAgent to return ${ mockUserAgent }, actually got ${ result }`);
+    expect(result).toEqual(mockUserAgent);
 });

@@ -1,5 +1,3 @@
-import { assert, test } from 'vitest';
-
 import { isSameDomain } from '../src';
 
 import { getSameDomainWindow } from './utils';
@@ -19,7 +17,7 @@ test('isSameDomain should give a positive result for isSameDomain', () => {
     const result = isSameDomain(win);
     const expectedResult = true;
 
-    assert(result === expectedResult, `Expected isSameDomain result to be "${ expectedResult.toString() }", got "${ result.toString() }"`);
+    expect(result).toEqual(expectedResult);
 
 });
 
@@ -39,7 +37,7 @@ test('isSameDomain should give a negative result for isSameDomain with a differe
     const result = isSameDomain(win);
     const expectedResult = false;
 
-    assert(result === expectedResult, `Expected isSameDomain result to be "${ expectedResult.toString() }", got "${ result.toString() }"`);
+    expect(result).toEqual(expectedResult);
 });
 
 test('isSameDomain should give a negative result for isSameDomain with a different host', () => {
@@ -58,7 +56,7 @@ test('isSameDomain should give a negative result for isSameDomain with a differe
     const result = isSameDomain(win);
     const expectedResult = false;
 
-    assert(result === expectedResult, `Expected isSameDomain result to be "${ expectedResult.toString() }", got "${ result.toString() }"`);
+    expect(result).toEqual(expectedResult);
 });
 
 test('isSameDomain should give a negative result for isSameDomain with a different protocol and host', () => {
@@ -76,7 +74,7 @@ test('isSameDomain should give a negative result for isSameDomain with a differe
     const result = isSameDomain(win);
     const expectedResult = false;
 
-    assert(result === expectedResult, `Expected isSameDomain result to be "${ expectedResult.toString() }", got "${ result.toString() }"`);
+    expect(result).toEqual(expectedResult);
 });
 
 test('isSameDomain should give a negative result for isSameDomain when an error is thrown on protocol', () => {
@@ -97,7 +95,7 @@ test('isSameDomain should give a negative result for isSameDomain when an error 
     const result = isSameDomain(win);
     const expectedResult = false;
 
-    assert(result === expectedResult, `Expected isSameDomain result to be "${ expectedResult.toString() }", got "${ result.toString() }"`);
+    expect(result).toEqual(expectedResult);
 });
 
 test('isSameDomain should give a negative result for isSameDomain when an error is thrown on host', () => {
@@ -118,7 +116,7 @@ test('isSameDomain should give a negative result for isSameDomain when an error 
     const result = isSameDomain(win);
     const expectedResult = false;
 
-    assert(result === expectedResult, `Expected isSameDomain result to be "${ expectedResult.toString() }", got "${ result.toString() }"`);
+    expect(result).toEqual(expectedResult);
 });
 
 test('isSameDomain should give a negative result for isSameDomain when location is non-enumerable', () => {
@@ -138,7 +136,7 @@ test('isSameDomain should give a negative result for isSameDomain when location 
     const result = isSameDomain(win);
     const expectedResult = false;
 
-    assert(result === expectedResult, `Expected isSameDomain result to be "${ expectedResult.toString() }", got "${ result.toString() }"`);
+    expect(result).toEqual(expectedResult);
 });
 
 test('isSameDomain should give a positive result for isSameDomain when mockDomain matches', () => {
@@ -162,7 +160,7 @@ test('isSameDomain should give a positive result for isSameDomain when mockDomai
     const result = isSameDomain(win);
     const expectedResult = true;
 
-    assert(result === expectedResult, `Expected isSameDomain result to be "${ expectedResult.toString() }", got "${ result.toString() }"`);
+    expect(result).toEqual(expectedResult);
 });
 
 test('isSameDomain should give a negative result for isSameDomain when mockDomain does not match', () => {
@@ -183,5 +181,5 @@ test('isSameDomain should give a negative result for isSameDomain when mockDomai
     const result = isSameDomain(win);
     const expectedResult = false;
 
-    assert(result === expectedResult, `Expected isSameDomain result to be "${ expectedResult.toString() }", got "${ result.toString() }"`);
+    expect(result).toEqual(expectedResult);
 });

@@ -1,8 +1,7 @@
-import { assert, test } from 'vitest';
-
 import { getAllFramesInWindow } from '../src';
 
 test('getAllFramesInWindow should get all of the frames', () => {
+
     const x : Record<string, unknown> = {
         name: 'x'
     };
@@ -32,28 +31,30 @@ test('getAllFramesInWindow should get all of the frames', () => {
     z.top = z;
     z.parent = z;
 
-    const allFrames = [ a, b, x, y, z ];
-    // @ts-ignore x is not type of window
+    const allFrames   = [ a, b, x, y, z ];
+
+    // @ts-ignore
     const foundFrames = getAllFramesInWindow(x);
 
-    assert(foundFrames.length === allFrames.length,  `Expected to find ${ allFrames.length }, but found ${ foundFrames.length }`);
+    expect(foundFrames.length).toEqual(allFrames.length);
 
-    for (const frame of allFrames) {
-        // @ts-ignore frame is not type of window
-        assert(foundFrames.includes(frame), `Did not find frame ${ frame.name }`);
-    }
+    foundFrames.forEach(currentFrame => {
+        const {name} = currentFrame;
+        const expectedFrame = allFrames.find(existingFrame => existingFrame.name === name);
+
+        expect(currentFrame).toEqual(expectedFrame);
+    });
 });
 
 test('should get a mock frame defined in window.frames', () => {
-    const frames = window.frames;
+    const mockWin = { ...window };
     const mockFrame = {};
     // @ts-ignore
-    window.frames = [ mockFrame ];
-    const foundFrames = getAllFramesInWindow(window);
+    mockWin.frames = [ mockFrame ];
 
     // @ts-ignore
-    assert(foundFrames.includes(mockFrame), `getAllFramesInWindow expected to find mock frame in window.frames`);
+    const foundFrames = getAllFramesInWindow(mockWin);
 
     // @ts-ignore
-    window.frames = frames;
+    expect(foundFrames.indexOf(mockFrame)).not.toEqual(-1);
 });

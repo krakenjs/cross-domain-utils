@@ -1,5 +1,3 @@
-import { assert, test } from 'vitest';
-
 import { getOpener } from '../src';
 
 import { getCrossDomainWindow } from './utils';
@@ -11,8 +9,7 @@ test('getOpener should get the opener window if there is one', () => {
     });
     const opener = getOpener(win);
 
-
-    assert(opener === win.opener, `Expected getOpener to return opener window`);
+    expect(opener).toEqual(win.opener);
 });
 
 test('getOpener should not get the opener window if the window has a parent', () => {
@@ -22,13 +19,13 @@ test('getOpener should not get the opener window if the window has a parent', ()
     });
     const opener = getOpener(win);
 
-    assert(!opener, `Expected getOpener to not return a window`);
+    expect(opener).toBeFalsy();
 });
 
 test('getOpener should not get the opener window if nothing is passed', () => {
     const opener = getOpener();
-
-    assert(!opener, `Expected getOpener to not return a window`);
+    
+    expect(opener).toBeFalsy();
 });
 
 test('getOpener should return void in case of any errors', () => {
@@ -41,5 +38,5 @@ test('getOpener should return void in case of any errors', () => {
     });
     const opener = getOpener(win);
 
-    assert(!opener, `Expected getOpener to not return a window`);
+    expect(opener).toBeFalsy();
 });
