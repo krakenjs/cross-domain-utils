@@ -1,5 +1,4 @@
-Cross Domain Utils
-------------------
+## Cross Domain Utils
 
 [![build status][build-badge]][build]
 [![code coverage][coverage-badge]][coverage]
@@ -208,10 +207,10 @@ Returns true if the specified domain matches the pattern. The pattern can be one
 
 All of the tasks are listed in the package.json file under the scripts section
 
-| Command        | Description  |
-| ------------- |:-------------:|
-| npm run build | Builds the dist files |
-| npm test      | Runs the test suite.  Lint + Type + Karma  |
+| Command       |               Description                |
+| ------------- | :--------------------------------------: |
+| npm run build |          Builds the dist files           |
+| npm test      | Runs the test suite. Lint + Type + Karma |
 
 # Debugging
 
