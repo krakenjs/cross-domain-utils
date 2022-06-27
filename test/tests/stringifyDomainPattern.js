@@ -1,37 +1,35 @@
 /* @flow */
 
-import { expect } from 'chai';
+import { expect } from "chai";
 
-import { stringifyDomainPattern } from '../../src';
+import { stringifyDomainPattern } from "../../src";
 
-describe('stringifyDomainPattern test cases ', () => {
+describe("stringifyDomainPattern test cases ", () => {
+  it("should stringify a single regex expression to RegExp", () => {
+    const pattern = /[a-zA-Z0-9]{1,5}/;
+    const domainPatternStringified = stringifyDomainPattern(pattern);
 
-    it('should stringify a single regex expression to RegExp', () => {
+    const expected = `RegExp(${pattern.toString()})`;
 
-        const pattern = /[a-zA-Z0-9]{1,5}/;
-        const domainPatternStringified = stringifyDomainPattern(pattern);
+    if (typeof domainPatternStringified !== "string") {
+      throw new TypeError(
+        `Expected domainPattern to be string, instead got ${typeof domainPatternStringified}`
+      );
+    }
 
-        const expected = `RegExp(${ pattern.toString() })`;
+    expect(domainPatternStringified).to.equal(expected);
+  });
 
-        if (typeof domainPatternStringified !== 'string') {
-            throw new TypeError(`Expected domainPattern to be string, instead got ${ typeof domainPatternStringified }`);
-        }
+  it("should stringify an array of domain patterns to RegExp", () => {
+    const p1 = "/[a-zA-Z0-9]{1,5}/";
+    const p2 = "/\\.[a-zA-Z]{2,}$/";
+    const domainPatternsArray = [p1, p2];
 
-        expect(domainPatternStringified).to.equal(expected);
+    const domainPatternsArrayStringified =
+      stringifyDomainPattern(domainPatternsArray);
 
-    });
+    const expected = `(${p1} | ${p2})`;
 
-    it('should stringify an array of domain patterns to RegExp', () => {
-
-        const p1 = '/[a-zA-Z0-9]{1,5}/';
-        const p2 = '/\\.[a-zA-Z]{2,}$/';
-        const domainPatternsArray = [ p1, p2 ];
-
-        const domainPatternsArrayStringified = stringifyDomainPattern(domainPatternsArray);
-        
-        const expected = `(${ p1 } | ${ p2 })`;
-
-        expect(domainPatternsArrayStringified).to.equal(expected);
-    });
-    
+    expect(domainPatternsArrayStringified).to.equal(expected);
+  });
 });

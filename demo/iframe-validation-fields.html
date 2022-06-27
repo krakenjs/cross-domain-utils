@@ -1,61 +1,65 @@
 <!DOCTYPE html>
 <html class="no-js" lang="">
-  <head>
-    <meta charset="utf-8" />
-    <title>Validation Errors</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <head>
+        <meta charset="utf-8" />
+        <title>Validation Errors</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <style>
-      html {
-        box-sizing: border-box;
-        font-family: -apple-system,BlinkMacSystemFont;
-      }
-      *,
-      *:before,
-      *:after {
-        box-sizing: inherit;
-      }
-      body {
-        margin: 0;
-      }
-    </style>
-  </head>
+        <style>
+            html {
+                box-sizing: border-box;
+                font-family: -apple-system, BlinkMacSystemFont;
+            }
+            *,
+            *:before,
+            *:after {
+                box-sizing: inherit;
+            }
+            body {
+                margin: 0;
+            }
+        </style>
+    </head>
 
-  <body>
-    <div id="root"></div>
+    <body>
+        <div id="root"></div>
 
-    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+        <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+        <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+        <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
 
-    <script type="text/babel">
-      function ValidationErrors() {
-        const [validationFields, setValidationFields] = React.useState([]);
+        <script type="text/babel">
+            function ValidationErrors() {
+                const [validationFields, setValidationFields] = React.useState(
+                    []
+                );
 
-        React.useEffect(() => {
-          // export methods and properties
-          // to the top level window
-          window.exports = {
-            id: "validation-fields",
-            setValidationFields,
-          };
-        }, []);
+                React.useEffect(() => {
+                    // export methods and properties
+                    // to the top level window
+                    window.exports = {
+                        id: "validation-fields",
+                        setValidationFields,
+                    };
+                }, []);
 
-        return (
-            <ul style={{ listStyle: "none", paddingLeft: "15px" }}>
-              {validationFields.map((field) => (
-                <li key={field.text}>
-                  <p>
-                    {field.valid ? "✅" : "❌"} {' '}
-                    {field.text}
-                  </p>
-                </li>
-              ))}
-            </ul>
-        );
-      }
+                return (
+                    <ul style={{ listStyle: "none", paddingLeft: "15px" }}>
+                        {validationFields.map((field) => (
+                            <li key={field.text}>
+                                <p>
+                                    {field.valid ? "✅" : "❌"} {field.text}
+                                </p>
+                            </li>
+                        ))}
+                    </ul>
+                );
+            }
 
-      ReactDOM.render(<ValidationErrors />, document.getElementById("root"));
-    </script>
-  </body>
+            ReactDOM.render(
+                <ValidationErrors />,
+                document.getElementById("root")
+            );
+        </script>
+    </body>
 </html>

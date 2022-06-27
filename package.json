@@ -9,7 +9,9 @@
     "webpack": "cross-env NODE_ENV=production babel-node --plugins=transform-es2015-modules-commonjs ./node_modules/.bin/webpack --progress --output-path dist",
     "babel": "cross-env NODE_ENV=production babel src/ --out-dir dist/module",
     "karma": "cross-env NODE_ENV=test babel-node --plugins=transform-es2015-modules-commonjs ./node_modules/.bin/karma start",
-    "test": "npm run lint && npm run flow-typed && npm run flow && npm run karma",
+    "format": "prettier --write --ignore-unknown .",
+    "format:check": "prettier --check .",
+    "test": "npm run format:check && npm run lint && npm run flow-typed && npm run flow && npm run karma",
     "lint": "eslint src/ test/",
     "flow": "flow",
     "flow-typed": "rm -rf ./flow-typed && flow-typed install",
@@ -77,11 +79,16 @@
   "devDependencies": {
     "@commitlint/cli": "^16.2.1",
     "@commitlint/config-conventional": "^16.2.1",
-    "@krakenjs/grumbler-scripts": "^6.0.2",
+    "@krakenjs/grumbler-scripts": "^7.0.0",
     "chai": "^4.2.0",
     "flow-bin": "0.155.0",
     "husky": "^7.0.4",
+    "lint-staged": "^13.0.3",
     "mocha": "^4",
+    "prettier": "2.7.1",
     "standard-version": "^9.3.2"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
   }
 }
