@@ -3,7 +3,7 @@
   "version": "3.0.2",
   "description": "Utilities for dealing with cross-domain windows.",
   "main": "dist/cross-domain-utils.js",
-  "module": "lib/index.js",
+  "module": "dist/index.js",
   "types": "dist/types/index.d.ts",
   "exports": {
     ".": {
