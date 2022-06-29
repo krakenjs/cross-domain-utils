@@ -131,10 +131,11 @@ export function getActualDomain(win: SameDomainWindowType = window): string {
 export function getDomain(win: SameDomainWindowType = window): string {
   const domain = getActualDomain(win);
 
-  // @ts-ignore - mockDomain
   if (
     domain &&
+    // @ts-ignore - mockDomain
     win.mockDomain &&
+    // @ts-ignore - mockDomain
     (win.mockDomain as string).indexOf(PROTOCOL.MOCK) === 0
   ) {
     // @ts-ignore - mockDomain
@@ -1079,9 +1080,9 @@ export function isWindow(obj: unknown): boolean {
   }
 
   try {
-    // @ts-ignore more shenanigans
     if (
       obj &&
+      // @ts-ignore more shenanigans
       obj.__cross_domain_utils_window_check__ === "__unlikely_value__"
     ) {
       return false;
