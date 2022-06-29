@@ -27,7 +27,8 @@
     "postrelease": "git push && git push --follow-tags && npm publish",
     "debug": "cross-env NODE_ENV=debug",
     "prepare": "husky install",
-    "vitest": "vitest run --dom --coverage"
+    "vitest": "vitest run --dom --coverage",
+    "vitest:watch": "vitest watch --dom --coverage --ui"
   },
   "repository": {
     "type": "git",
@@ -84,10 +85,11 @@
   "devDependencies": {
     "@commitlint/cli": "^16.2.1",
     "@commitlint/config-conventional": "^16.2.1",
-    "@krakenjs/grumbler-scripts": "^6.0.2-alpha.1",
+    "@krakenjs/grumbler-scripts": "^7.0.0",
     "@types/webpack": "^5.28.0",
     "@typescript-eslint/eslint-plugin": "^5.20.0",
     "@typescript-eslint/parser": "^5.20.0",
+    "@vitest/ui": "^0.16.0",
     "c8": "^7.11.0",
     "flowgen": "^1.16.0",
     "happy-dom": "^2.55.0",
@@ -95,6 +97,6 @@
     "standard-version": "^9.3.2",
     "ts-node": "^10.5.0",
     "typescript": "4.6.3",
-    "vitest": "^0.9.3"
+    "vitest": "0.16.0"
   }
 }
