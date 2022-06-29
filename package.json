@@ -24,7 +24,6 @@
     "test": "npm run format:check && npm run lint && npm run tsc --no-emit && npm run vitest",
     "lint": "eslint --ext ts,tsx,js,jsx src/ test/",
     "clean": "rimraf dist coverage",
-    "reinstall": "rimraf flow-typed && rimraf node_modules && npm install && flow-typed install",
     "prerelease": "npm run clean && npm run build && git add dist && git commit -m 'ci: check in dist folder' || echo 'Nothing to distribute'",
     "release": "standard-version",
     "postrelease": "git push && git push --follow-tags && npm publish",
@@ -82,7 +81,6 @@
   ],
   "license": "Apache-2.0",
   "files": [
-    "src/",
     "dist/"
   ],
   "readmeFilename": "README.md",
@@ -99,7 +97,6 @@
     "happy-dom": "^2.55.0",
     "husky": "^7.0.4",
     "lint-staged": "^13.0.3",
-    "mocha": "^4",
     "prettier": "2.7.1",
     "standard-version": "^9.3.2",
     "ts-node": "^10.5.0",
