@@ -3,25 +3,35 @@
   "version": "3.0.2",
   "description": "Utilities for dealing with cross-domain windows.",
   "main": "dist/cross-domain-utils.js",
-  "module": "dist/module/index.js",
+  "module": "lib/index.js",
+  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/my-component-lib.es.js",
+      "require": "./dist/my-component-lib.umd.js"
+    }
+  },
   "scripts": {
-    "build": "npm run test && npm run babel && npm run webpack",
+    "build": "npm run test && npm run babel && npm run webpack && npm run build:types",
+    "build:flow": "find ./dist -type f -not -path './node_modules/*' -name '*.d.ts' -exec sh -c 'flowgen --add-flow-header $1 -o ${1%.*.*}.js.flow' _ '{}' \\;",
+    "build:tsc": "tsc src/* --outDir ./dist/esm --declaration --emitDeclarationOnly",
+    "build:types": "npm run build:tsc && npm run build:flow",
     "webpack": "cross-env NODE_ENV=production babel-node --plugins=transform-es2015-modules-commonjs ./node_modules/.bin/webpack --progress --output-path dist",
-    "babel": "cross-env NODE_ENV=production babel src/ --out-dir dist/module",
-    "karma": "cross-env NODE_ENV=test babel-node --plugins=transform-es2015-modules-commonjs ./node_modules/.bin/karma start",
+    "babel": "cross-env NODE_ENV=production babel src/ --out-dir ./dist/esm/ --extensions .ts,.tsx",
+    "tsc": "tsc",
     "format": "prettier --write --ignore-unknown .",
     "format:check": "prettier --check .",
-    "test": "npm run format:check && npm run lint && npm run flow-typed && npm run flow && npm run karma",
-    "lint": "eslint src/ test/",
-    "flow": "flow",
-    "flow-typed": "rm -rf ./flow-typed && flow-typed install",
+    "test": "npm run format:check && npm run lint && npm run tsc --no-emit && npm run vitest",
+    "lint": "eslint --ext ts,tsx,js,jsx src/ test/",
     "clean": "rimraf dist coverage",
     "reinstall": "rimraf flow-typed && rimraf node_modules && npm install && flow-typed install",
     "prerelease": "npm run clean && npm run build && git add dist && git commit -m 'ci: check in dist folder' || echo 'Nothing to distribute'",
     "release": "standard-version",
     "postrelease": "git push && git push --follow-tags && npm publish",
     "debug": "cross-env NODE_ENV=debug",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "vitest": "vitest run --dom --coverage",
+    "vitest:watch": "vitest watch --dom --coverage --ui"
   },
   "repository": {
     "type": "git",
@@ -80,13 +90,21 @@
     "@commitlint/cli": "^16.2.1",
     "@commitlint/config-conventional": "^16.2.1",
     "@krakenjs/grumbler-scripts": "^7.0.0",
-    "chai": "^4.2.0",
-    "flow-bin": "0.155.0",
+    "@types/webpack": "^5.28.0",
+    "@typescript-eslint/eslint-plugin": "^5.20.0",
+    "@typescript-eslint/parser": "^5.20.0",
+    "@vitest/ui": "^0.16.0",
+    "c8": "^7.11.0",
+    "flowgen": "^1.16.0",
+    "happy-dom": "^2.55.0",
     "husky": "^7.0.4",
     "lint-staged": "^13.0.3",
     "mocha": "^4",
     "prettier": "2.7.1",
-    "standard-version": "^9.3.2"
+    "standard-version": "^9.3.2",
+    "ts-node": "^10.5.0",
+    "typescript": "4.6.3",
+    "vitest": "0.16.0"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"
