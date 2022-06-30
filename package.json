@@ -5,12 +5,6 @@
   "main": "dist/cross-domain-utils.js",
   "module": "dist/index.js",
   "types": "dist/types/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/my-component-lib.es.js",
-      "require": "./dist/my-component-lib.umd.js"
-    }
-  },
   "scripts": {
     "build": "npm run test && npm run babel && npm run webpack && npm run build:types",
     "build:flow": "find ./dist -type f -not -path './node_modules/*' -name '*.d.ts' -exec sh -c 'flowgen --add-flow-header $1 -o ${1%.*.*}.js.flow' _ '{}' \\;",
