@@ -1,3 +1,22 @@
 {
-  "extends": "@krakenjs/grumbler-scripts/config/tsconfig.json"
+  "exclude": ["dist/**/*"],
+  "include": ["src"],
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "commonjs",
+    "noEmit": true,
+    "declaration": false,
+    "emitDeclarationOnly": false,
+    "isolatedModules": false,
+    "strict": true,
+    "esModuleInterop": true,
+
+    "allowJs": true,
+    "skipLibCheck": true,
+
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+
+    "forceConsistentCasingInFileNames": true
+  }
 }
