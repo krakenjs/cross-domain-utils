@@ -79,9 +79,11 @@
   "devDependencies": {
     "@commitlint/cli": "^16.2.1",
     "@commitlint/config-conventional": "^16.2.1",
-    "@krakenjs/grumbler-scripts": "^7.0.0",
+    "@krakenjs/grumbler-scripts": "^8.0.5",
     "chai": "^4.2.0",
+    "cross-env": "^7.0.3",
     "flow-bin": "0.155.0",
+    "flow-typed": "^3.8.0",
     "husky": "^7.0.4",
     "lint-staged": "^13.0.3",
     "mocha": "^4",
