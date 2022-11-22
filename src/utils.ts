@@ -1,10 +1,8 @@
-/* eslint max-lines: 0, @typescript-eslint/prefer-optional-chain: 0 */
-/* global NodeJS */
 import { isRegex, noop } from "./util";
-import type {
-  CrossDomainWindowType,
-  SameDomainWindowType,
-  DomainMatcher,
+import {
+  type CrossDomainWindowType,
+  type SameDomainWindowType,
+  type DomainMatcher,
 } from "./types";
 import { PROTOCOL, WILDCARD } from "./constants";
 
