@@ -5,8 +5,9 @@ import { getDomain } from "../src";
 import { getSameDomainWindow } from "./utils";
 
 test("getDomain should get the domain for the current window", () => {
-  // @ts-ignore
-  window.location = new URL("https://www.paypal.com/sdk/js");
+  window.location = new URL(
+    "https://www.paypal.com/sdk/js"
+  ) as unknown as Location;
   const domain = getDomain();
   const expectedDomain = `${window.location.protocol}//${window.location.host}`;
 

@@ -12,7 +12,7 @@ test("closeWindow will call window.close", () => {
     },
   });
 
-  // @ts-ignore
+  // @ts-expect-error Argument of type 'Window | SameDomainWindowType' is not assignable to parameter of type 'Window'
   closeWindow(win);
 
   assert(fnCalled, `Expected window.close to be called`);

@@ -15,7 +15,7 @@ test("getParent should get the parent window if there is one", () => {
 
 test("getParent should not get the parent window if the parent is the same window", () => {
   const win = getCrossDomainWindow({});
-  // @ts-ignore
+  // @ts-expect-error window.parent is readonly
   win.parent = win;
   const parent = getParent(win);
 

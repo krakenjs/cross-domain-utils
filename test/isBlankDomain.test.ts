@@ -13,7 +13,8 @@ test("isBlankDomain returns true if window.href is falsy", () => {
       },
     })
   );
-  // @ts-ignore
+
+  // @ts-expect-error Error Argument of type '(win: Window) => boolean' is not assignable to parameter of type '(value: Window | SameDomainWindowType
   const results = windows.map(isBlankDomain);
   const expectedResult = true;
   assert(
@@ -29,7 +30,7 @@ test("isBlankDomain returns true if window.href about:blank", () => {
     },
   });
   const expectedResult = true;
-  // @ts-ignore
+  // @ts-expect-error Error Argument of type '(win: Window) => boolean' is not assignable to parameter of type '(value: Window | SameDomainWindowType
   const result = isBlankDomain(win);
   assert(
     result === expectedResult,
@@ -44,7 +45,7 @@ test("isBlankDomain should return false if window.href is truthy but not about:b
     },
   });
   const expectedResult = false;
-  // @ts-ignore
+  // @ts-expect-error Error Argument of type '(win: Window) => boolean' is not assignable to parameter of type '(value: Window | SameDomainWindowType
   const result = isBlankDomain(win);
   assert(
     result === expectedResult,

@@ -5,8 +5,9 @@ import { isSameDomain } from "../src";
 import { getSameDomainWindow } from "./utils";
 
 test("isSameDomain should give a positive result for isSameDomain", () => {
-  // @ts-ignore
-  window.location = new URL("http://www.paypal.com/sdk/js");
+  window.location = new URL(
+    "http://www.paypal.com/sdk/js"
+  ) as unknown as Location;
 
   const win = getSameDomainWindow({
     location: {
@@ -37,6 +38,7 @@ test("isSameDomain should give a negative result for isSameDomain with a differe
       return `${win.location.protocol}//${win.location.host}`;
     },
   });
+
   const result = isSameDomain(win);
   const expectedResult = false;
 
@@ -59,6 +61,7 @@ test("isSameDomain should give a negative result for isSameDomain with a differe
       return `${win.location.protocol}//${win.location.host}`;
     },
   });
+
   const result = isSameDomain(win);
   const expectedResult = false;
 
@@ -75,11 +78,13 @@ test("isSameDomain should give a negative result for isSameDomain with a differe
       host: "foobar.com:12345",
     },
   });
+
   Object.defineProperty(win.location, "href", {
     get(): string {
       return `${win.location.protocol}//${win.location.host}`;
     },
   });
+
   const result = isSameDomain(win);
   const expectedResult = false;
 
@@ -99,11 +104,13 @@ test("isSameDomain should give a negative result for isSameDomain when an error 
       host: window.location.host,
     },
   });
+
   Object.defineProperty(win.location, "href", {
     get(): string {
       return `${win.location.protocol}//${win.location.host}`;
     },
   });
+
   const result = isSameDomain(win);
   const expectedResult = false;
 
@@ -123,11 +130,13 @@ test("isSameDomain should give a negative result for isSameDomain when an error 
       },
     },
   });
+
   Object.defineProperty(win.location, "href", {
     get(): string {
       return `${win.location.protocol}//${win.location.host}`;
     },
   });
+
   const result = isSameDomain(win);
   const expectedResult = false;
 
@@ -139,6 +148,7 @@ test("isSameDomain should give a negative result for isSameDomain when an error 
 
 test("isSameDomain should give a negative result for isSameDomain when location is non-enumerable", () => {
   const win = getSameDomainWindow({});
+
   Object.defineProperty(win, "location", {
     value: {
       protocol: window.location.protocol,
@@ -146,11 +156,13 @@ test("isSameDomain should give a negative result for isSameDomain when location 
     },
     enumerable: false,
   });
+
   Object.defineProperty(win.location, "href", {
     get(): string {
       return `${win.location.protocol}//${win.location.host}`;
     },
   });
+
   const result = isSameDomain(win);
   const expectedResult = false;
 
@@ -161,10 +173,8 @@ test("isSameDomain should give a negative result for isSameDomain when location 
 });
 
 test("isSameDomain should give a positive result for isSameDomain when mockDomain matches", () => {
-  // @ts-ignore
+  // @ts-expect-error win.mockDomain is our own var
   window.mockDomain = "mock://foobar.com:12345";
-  // @ts-ignore
-  window.location = new URL("mock://foobar.com:12345");
 
   const win = getSameDomainWindow({
     location: {
@@ -173,11 +183,13 @@ test("isSameDomain should give a positive result for isSameDomain when mockDomai
     },
     mockDomain: "mock://foobar.com:12345",
   });
+
   Object.defineProperty(win.location, "href", {
     get(): string {
       return `${win.location.protocol}//${win.location.host}`;
     },
   });
+
   const result = isSameDomain(win);
   const expectedResult = true;
 
@@ -188,8 +200,9 @@ test("isSameDomain should give a positive result for isSameDomain when mockDomai
 });
 
 test("isSameDomain should give a negative result for isSameDomain when mockDomain does not match", () => {
-  // @ts-ignore
+  // @ts-expect-error win.mockDomain is our own var
   window.mockDomain = "mock://fizzbuzz.com:345";
+
   const win = getSameDomainWindow({
     location: {
       protocol: window.location.protocol,
@@ -197,11 +210,13 @@ test("isSameDomain should give a negative result for isSameDomain when mockDomai
     },
     mockDomain: "mock://foobar.com:12345",
   });
+
   Object.defineProperty(win.location, "href", {
     get(): string {
       return `${win.location.protocol}//${win.location.host}`;
     },
   });
+
   const result = isSameDomain(win);
   const expectedResult = false;
 

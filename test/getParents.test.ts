@@ -13,7 +13,7 @@ test("getParents should get all of a windows parents", () => {
     },
   });
 
-  // @ts-ignore
+  // @ts-expect-error window.parent is readonly
   win.parent.parent.parent.parent = win.parent.parent.parent;
   const parents = getParents(win);
 

@@ -33,7 +33,7 @@ test("getAllFramesInWindow should get all of the frames", () => {
   z.parent = z;
 
   const allFrames = [a, b, x, y, z];
-  // @ts-ignore x is not type of window
+  // @ts-expect-error x is not type of window
   const foundFrames = getAllFramesInWindow(x);
 
   assert(
@@ -42,24 +42,22 @@ test("getAllFramesInWindow should get all of the frames", () => {
   );
 
   for (const frame of allFrames) {
-    // @ts-ignore frame is not type of window
+    // @ts-expect-error frame is not type of window
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     assert(foundFrames.includes(frame), `Did not find frame ${frame.name}`);
   }
 });
 
 test("should get a mock frame defined in window.frames", () => {
   const frames = window.frames;
-  const mockFrame = {};
-  // @ts-ignore
-  window.frames = [mockFrame];
+  const mockFrame = {} as unknown as Window;
+  window.frames = [mockFrame] as unknown as Window;
   const foundFrames = getAllFramesInWindow(window);
 
   assert(
-    // @ts-ignore
     foundFrames.includes(mockFrame),
     `getAllFramesInWindow expected to find mock frame in window.frames`
   );
 
-  // @ts-ignore
   window.frames = frames;
 });

@@ -7,6 +7,6 @@ export type SameDomainWindowType = Omit<
 
 export type DomainMatcher =
   | string
-  | ReadonlyArray<string>
-  | ReadonlyArray<string>
+  | readonly string[]
+  | readonly string[]
   | RegExp;
