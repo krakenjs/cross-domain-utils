@@ -5,7 +5,7 @@
 [![npm version][version-badge]][package]
 [![apache license][license-badge]][license]
 
-[build-badge]: https://img.shields.io/github/workflow/status/krakenjs/cross-domain-utils/build?logo=github&style=flat-square
+[build-badge]: https://img.shields.io/github/actions/workflow/status/krakenjs/cross-domain-utils/main.yml?branch=main&logo=github&style=flat-square
 [build]: https://github.com/krakenjs/cross-domain-utils/actions/workflows/main.yml?query=workflow:build
 [coverage-badge]: https://img.shields.io/codecov/c/github/krakenjs/cross-domain-utils.svg?style=flat-square
 [coverage]: https://codecov.io/github/krakenjs/cross-domain-utils
